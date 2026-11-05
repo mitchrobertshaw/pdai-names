@@ -1,0 +1,10 @@
+# Build output
+out/
+cache/
+
+# Libraries, installed by ./install-deps.sh
+lib/
+
+# Local deploy records and secrets
+broadcast/
+.env

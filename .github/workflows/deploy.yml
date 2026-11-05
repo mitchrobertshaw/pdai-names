@@ -1,0 +1,65 @@
+name: deploy
+
+# Run by hand from the Actions tab: Actions > deploy > Run workflow.
+# Leave "broadcast" unticked for a dry run, which simulates the deployment and sends nothing.
+
+on:
+  workflow_dispatch:
+    inputs:
+      registrar:
+        description: "Address of the .pdai registrar the checkout will pay"
+        required: true
+        type: string
+      broadcast:
+        description: "Send the deployment for real (leave unticked for a dry run)"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy AnyTokenCheckout to PulseChain
+    runs-on: ubuntu-latest
+    # Settings > Environments > pulsechain lets you add a required approval and keep the key there.
+    environment: pulsechain
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Install dependencies
+        run: bash install-deps.sh
+
+      - name: Run unit tests first
+        run: forge test --no-match-path "test/fork/*"
+
+      - name: Deploy
+        env:
+          REGISTRAR: ${{ inputs.registrar }}
+          BROADCAST: ${{ inputs.broadcast }}
+          DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
+          RPC_URL: ${{ vars.PULSECHAIN_RPC_URL || 'https://rpc.pulsechain.com' }}
+        run: |
+          args=(script script/DeployAnyTokenCheckout.s.sol:DeployAnyTokenCheckout --rpc-url "$RPC_URL")
+          if [ "$BROADCAST" = "true" ]; then
+            if [ -z "$DEPLOYER_PRIVATE_KEY" ]; then
+              echo "::error::Add the DEPLOYER_PRIVATE_KEY secret before broadcasting."
+              exit 1
+            fi
+            args+=(--broadcast)
+          else
+            unset DEPLOYER_PRIVATE_KEY
+            echo "Dry run: simulating only, nothing will be sent."
+          fi
+          forge "${args[@]}"
+
+      - name: Save the deployment record
+        if: ${{ inputs.broadcast }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment
+          path: broadcast/

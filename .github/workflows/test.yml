@@ -1,0 +1,33 @@
+name: test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Install dependencies
+        run: bash install-deps.sh
+
+      - name: Build
+        run: forge build --sizes
+
+      - name: Unit tests
+        run: forge test -vvv --no-match-path "test/fork/*"
+
+      - name: Fork tests against live PulseChain
+        run: forge test -vvv --match-path "test/fork/*"
+        env:
+          PULSECHAIN_RPC_URL: ${{ vars.PULSECHAIN_RPC_URL || 'https://rpc.pulsechain.com' }}
