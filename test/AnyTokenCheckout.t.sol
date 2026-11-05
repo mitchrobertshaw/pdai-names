@@ -460,7 +460,7 @@ contract AnyTokenCheckoutTest is Test {
                 reg.label, reg.owner, reg.secret, reg.subregistry, reg.resolver, reg.duration, reg.referrer
             )
         );
-        vm.warp(block.timestamp + registrar.MIN_COMMITMENT_AGE());
+        vm.warp(vm.getBlockTimestamp() + registrar.MIN_COMMITMENT_AGE());
     }
 
     function _registerWithDai(string memory label) internal returns (uint256 tokenId) {

@@ -26,7 +26,7 @@ jobs:
     # Settings > Environments > pulsechain lets you add a required approval and keep the key there.
     environment: pulsechain
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1

@@ -9,6 +9,14 @@ import {IRegistrarLike} from "../../src/interfaces/IRegistrarLike.sol";
 import {ISwapRouterLike} from "../../src/interfaces/ISwapRouterLike.sol";
 import {MockRegistrar} from "../mocks/MockRegistrar.sol";
 
+/// @notice The PulseX router function these tests use to buy tokens with PLS.
+interface IPulseXBuy {
+    function swapETHForExactTokens(uint256 amountOut, address[] calldata path, address to, uint256 deadline)
+        external
+        payable
+        returns (uint256[] memory amounts);
+}
+
 /// @notice Runs the checkout against a live copy of PulseChain: real PulseX routers, real pools,
 ///         real tokens, and DAI bridged from Ethereum as the payment token. Only the registrar is
 ///         a stand-in, because the .pdai registrar is not deployed yet.
@@ -99,7 +107,7 @@ contract AnyTokenCheckoutForkTest is Test {
         (address router, address[] memory path, uint256 quotedIn) = _bestRoute(token, price);
 
         uint256 amountIn = quotedIn * 101 / 100;
-        deal(token, buyer, amountIn);
+        _buyWithPLS(token, amountIn);
         vm.prank(buyer);
         IERC20(token).approve(address(checkout), amountIn);
 
@@ -110,6 +118,42 @@ contract AnyTokenCheckoutForkTest is Test {
         _assertPaid(tokenId, price, change);
         assertEq(IERC20(token).balanceOf(buyer), 0, "buyer spent amountIn");
         assertEq(IERC20(token).balanceOf(address(checkout)), 0, "no input token left in checkout");
+    }
+
+    /// @dev Buys exactly `amountOut` of `token` for the buyer with PLS on PulseX, so the balance comes
+    ///      from the token's own transfer code. Writing balances straight into storage, as forge-std's
+    ///      `deal` does, breaks tokens such as PLSX that keep extra records per holder.
+    function _buyWithPLS(address token, uint256 amountOut) internal {
+        address[] memory path = new address[](2);
+        path[0] = WPLS;
+        path[1] = token;
+        (address router, uint256 plsIn) = _cheapestRouter(path, amountOut);
+        plsIn = plsIn * 101 / 100; // the router refunds whatever isn't needed
+        vm.deal(buyer, plsIn);
+        vm.prank(buyer);
+        IPulseXBuy(router).swapETHForExactTokens{value: plsIn}(
+            amountOut, path, buyer, vm.getBlockTimestamp() + 1 hours
+        );
+        assertEq(IERC20(token).balanceOf(buyer), amountOut, "buyer bought exactly amountOut");
+    }
+
+    /// @dev The PulseX router that sells `amountOut` of the last token in `path` for the least input.
+    function _cheapestRouter(address[] memory path, uint256 amountOut)
+        internal
+        view
+        returns (address best, uint256 bestIn)
+    {
+        address[2] memory routers = [PULSEX_V1_ROUTER, PULSEX_V2_ROUTER];
+        bestIn = type(uint256).max;
+        for (uint256 i = 0; i < routers.length; ++i) {
+            try ISwapRouterLike(routers[i]).getAmountsIn(amountOut, path) returns (uint256[] memory amounts) {
+                if (amounts[0] != 0 && amounts[0] < bestIn) {
+                    bestIn = amounts[0];
+                    best = routers[i];
+                }
+            } catch {}
+        }
+        require(best != address(0), "no PulseX pool for this path");
     }
 
     /// @dev Cheapest way to buy `price` of DAI with `tokenIn`, across both PulseX routers and
@@ -164,7 +208,7 @@ contract AnyTokenCheckoutForkTest is Test {
                 reg.label, reg.owner, reg.secret, reg.subregistry, reg.resolver, reg.duration, reg.referrer
             )
         );
-        vm.warp(block.timestamp + registrar.MIN_COMMITMENT_AGE());
+        vm.warp(vm.getBlockTimestamp() + registrar.MIN_COMMITMENT_AGE());
     }
 
     function _swap(address router, address[] memory path, uint256 amountOutMin)
