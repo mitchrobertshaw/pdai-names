@@ -174,7 +174,7 @@ abstract contract PdaiDeployer {
     /// @dev The app's address for a name's page, which "<label>.pdai" is added to: the app on
     ///      PulseChain, the testnet copy of the site on its testnet.
     function _appUrl(uint256 chainId) internal pure returns (string memory) {
-        return chainId == PULSECHAIN_CHAIN_ID ? "https://app.pdains.domains/" : "https://pdains-testnet.netlify.app/app/";
+        return chainId == PULSECHAIN_CHAIN_ID ? "https://app.pdai.domains/" : "https://pdai-domains-testnet.netlify.app/app/";
     }
 
     /// @dev Deploys ENSv2's naming contracts into `d`, with `pdai` registered in the root under no

@@ -77,7 +77,7 @@ type State =
   | { status: "failed"; message: string };
 
 /**
- * app.pdains.domains/referrals: what each referrer is owed, worked out from the registrar's records,
+ * app.pdai.domains/referrals: what each referrer is owed, worked out from the registrar's records,
  * and paid in one transaction. Shown only to the wallet that receives .pdai's payments. That keeps it
  * out of casual view, though everything on it can be read from the chain by anyone.
  */

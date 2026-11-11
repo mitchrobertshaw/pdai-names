@@ -1,7 +1,7 @@
 // The app's pages: "/" to search, "/alice.pdai" for a name, "/names" for the names you own, and
 // "/referrals" for the referral payout report and "/admin" for the admin's powers (neither in the menu).
 //
-// On app.pdains.domains they sit at the root; on a preview link, under /app. Anywhere else (a copy
+// On app.pdai.domains they sit at the root; on a preview link, under /app. Anywhere else (a copy
 // opened from a file, or inside another page) they go after a # instead.
 
 import { useSyncExternalStore } from "react";
@@ -23,7 +23,7 @@ export interface Place {
 /** How this copy of the app addresses its pages. */
 export function modeOf(place: Place): { base: string; hash: boolean } {
   if (place.protocol === "file:") return { base: "", hash: true };
-  if (place.hostname === "app.pdains.domains") return { base: "", hash: false };
+  if (place.hostname === "app.pdai.domains") return { base: "", hash: false };
   if (place.pathname === "/app" || place.pathname.startsWith("/app/")) return { base: "/app", hash: false };
   return { base: "", hash: true };
 }

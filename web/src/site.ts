@@ -6,7 +6,7 @@ import { captureReferral } from "./lib/referral";
 export const NETWORK: "mainnet" | "testnet" = import.meta.env.VITE_NETWORK === "testnet" ? "testnet" : "mainnet";
 
 /**
- * A page of the app, where names are bought and managed: app.pdains.domains on the live site. On a
+ * A page of the app, where names are bought and managed: app.pdai.domains on the live site. On a
  * preview link the app is the same files under /app; a copy opened from a file uses the live app.
  */
 export function appUrl(path = "/"): string {
@@ -14,6 +14,6 @@ export function appUrl(path = "/"): string {
   // A visitor who came in on a referral link keeps it on the way to the app, a separate site.
   const referrer = captureReferral();
   const withRef = referrer ? `${path}${path.includes("?") ? "&" : "?"}ref=${encodeURIComponent(referrer)}` : path;
-  if (protocol === "file:" || /(^|\.)pdains\.domains$/.test(hostname)) return `https://app.pdains.domains${withRef}`;
+  if (protocol === "file:" || /(^|\.)pdai\.domains$/.test(hostname)) return `https://app.pdai.domains${withRef}`;
   return `${origin}/app${withRef}`;
 }

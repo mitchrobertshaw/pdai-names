@@ -179,7 +179,7 @@ it. It can give up each of its powers, handing out reserved names included. Keep
 wallet used for nothing else, with its recovery phrase offline, or give these powers up once things
 are settled.
 
-The app's admin page, `app.pdains.domains/admin` (not in the menu), makes the everyday ones easy
+The app's admin page, `app.pdai.domains/admin` (not in the menu), makes the everyday ones easy
 from the admin wallet: pause and restart sales (renewals carry on), raise or lower all prices
 together, and hold names, hand them to their owners and add time to them. It opens only for a wallet
 with admin powers, and doesn't say which wallet that is
@@ -297,16 +297,16 @@ it is given the (powerless) `pdai` token.
 - Paying referrers automatically. Purchases and renewals made through a referral link record the
   referrer on-chain ([`web/README.md`](web/README.md#the-app)), and during the launch offer, the
   first 58 days after launch, referrers earn 10% of what the buyers they bring pay. The app's report
-  at app.pdains.domains/referrals, for the payments wallet only, pays them all in one transaction
+  at app.pdai.domains/referrals, for the payments wallet only, pays them all in one transaction
   when you press Pay all. It doesn't pay by itself.
-- Phone wallets by QR code (WalletConnect) in the app at app.pdains.domains. Browser wallets work.
+- Phone wallets by QR code (WalletConnect) in the app at app.pdai.domains. Browser wallets work.
 - Primary names (showing `alice.pdai` for an address).
 - Wallet support: wallets look up ENS out of the box but need adding `.pdai`, for example as a
   MetaMask Snap. What to have ready, and who to ask: [docs/WALLET_CHECKLIST.md](docs/WALLET_CHECKLIST.md).
 - Verifying the contracts on the block explorer (publishing their source code) from the deploy
   workflow.
-- The domain. The site, the app and the name cards expect `pdains.domains` and `app.pdains.domains`
-  (and `pdains-testnet.netlify.app` for the testnet copy). To use others, replace them wherever
+- The domain. The site, the app and the name cards expect `pdai.domains` and `app.pdai.domains`
+  (and `pdai-domains-testnet.netlify.app` for the testnet copy). To use others, replace them wherever
   they appear before deploying: a search of the repo finds them all, tests included. The name cards
   link to the app at the domain set when the contracts are deployed.
 - A review by someone other than the author.

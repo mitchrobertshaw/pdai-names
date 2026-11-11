@@ -1,4 +1,4 @@
-// Referral links: pdains.domains/?ref=alice or app.pdains.domains/?ref=alice, where alice is the
+// Referral links: pdai.domains/?ref=alice or app.pdai.domains/?ref=alice, where alice is the
 // referrer's .pdai name. The name is remembered for 58 days in the visitor's browser and goes with
 // their purchase to the registrar as its referral tag: keccak256 of the name, as ENSv2 ids names.
 // Referrers are paid from the registrar's records, to whoever owns the name when they're paid.
@@ -45,7 +45,7 @@ export function captureReferral(now = Date.now()): string | null {
 }
 
 /** A link that brings a visitor in on `label`'s referral. */
-export function referralLink(label: string, base = "https://pdains.domains"): string {
+export function referralLink(label: string, base = "https://pdai.domains"): string {
   return `${base}/?ref=${encodeURIComponent(label)}`;
 }
 

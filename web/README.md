@@ -1,7 +1,7 @@
 # pDAI Names website
 
-The pDAI Name Service website: the homepage at pdains.domains, made for the pDAI community, and the
-app at app.pdains.domains, where names are bought and managed. Built with Vite, React and
+The pDAI Name Service website: the homepage at pdai.domains, made for the pDAI community, and the
+app at app.pdai.domains, where names are bought and managed. Built with Vite, React and
 TypeScript.
 
 ## The app
@@ -35,10 +35,10 @@ connects wallets, and plays a purchase through as a walkthrough that sends nothi
 copy, fill in `testnet` and set `VITE_NETWORK=testnet` in a second Netlify project's environment
 variables.
 
-**Where it lives.** On Netlify, add `app.pdains.domains` as a second domain of this same site:
+**Where it lives.** On Netlify, add `app.pdai.domains` as a second domain of this same site:
 [`public/_redirects`](public/_redirects) serves the app there, and under `/app` on preview links.
 
-**Referral links.** `pdains.domains/?ref=alice` or `app.pdains.domains/?ref=alice`, where `alice` is
+**Referral links.** `pdai.domains/?ref=alice` or `app.pdai.domains/?ref=alice`, where `alice` is
 the referrer's .pdai name ([`src/lib/referral.ts`](src/lib/referral.ts)). The visitor's browser
 remembers it for 58 days, and their purchase or renewal carries it to the registrar as its referral
 tag, `keccak256("alice")`, recorded on-chain in the registrar's `NameRegistered` and `NameRenewed`
@@ -46,7 +46,7 @@ events with the amount paid. Referrers are paid from those records: during the l
 first 58 days after `launchDate` in [`src/deployment.ts`](src/deployment.ts), they earn 10% of what
 the buyers they bring pay. The owner's panel in the app says until when.
 
-**Paying referrers.** `app.pdains.domains/referrals` (not in the menu) is for the wallet that
+**Paying referrers.** `app.pdai.domains/referrals` (not in the menu) is for the wallet that
 receives .pdai's payments, the registrar's `BENEFICIARY`: it shows the report only when that wallet
 is connected. Everything on it can still be read from the chain by anyone. For the days not yet
 paid, from the day after the last payout to yesterday (PulseChain's day), kept to the launch offer,
@@ -56,7 +56,7 @@ it works out 10% of what each referrer's buyers paid, owed to whoever owns the r
 `NameRenewed` events from the deployment's start block, in the browser. Self-referrals (the buyer
 also owns the referring name) and tags that aren't a name anyone owns are set aside.
 
-**The admin page.** `app.pdains.domains/admin` (not in the menu) opens for a wallet the contracts
+**The admin page.** `app.pdai.domains/admin` (not in the menu) opens for a wallet the contracts
 give admin powers to, and shows only the powers it has, without saying which wallet it's for
 ([`src/app/AdminPage.tsx`](src/app/AdminPage.tsx), the calls in [`src/app/admin.ts`](src/app/admin.ts)):
 
@@ -100,8 +100,8 @@ and the launch: [deploy/website/README.md](../deploy/website/README.md).
 2. **Add new project > Import an existing project > GitHub**, and pick `pdai-names`.
 3. Netlify reads the settings from [`netlify.toml`](../netlify.toml) (build in `web/`, publish
    `web/dist`). Leave the branch as `main` and click **Deploy**.
-4. In **Project configuration**, change the project name to `pdains`, for `pdains.netlify.app`.
-5. Later, in **Domain management > Add a domain**, add `pdains.domains` and `app.pdains.domains`,
+4. In **Project configuration**, change the project name to `pdai-domains`, for `pdai-domains.netlify.app`.
+5. Later, in **Domain management > Add a domain**, add `pdai.domains` and `app.pdai.domains`,
    and follow Netlify's DNS steps at the place you bought the domain.
 
 Every push to `main` then redeploys the site, and every pull request gets its own preview link.

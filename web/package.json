@@ -2,7 +2,7 @@
   "name": "pdains-web",
   "version": "0.1.0",
   "private": true,
-  "description": "The pDAI Name Service website: pdains.domains.",
+  "description": "The pDAI Name Service website: pdai.domains.",
   "license": "MIT",
   "type": "module",
   "engines": {

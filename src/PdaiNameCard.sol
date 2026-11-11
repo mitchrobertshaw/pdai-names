@@ -103,7 +103,7 @@ contract PdaiNameCard is IRegistryURIRenderer {
                 " has expired. Its owner can still renew it during its 28-day grace period; after that anyone can buy it."
             );
         }
-        return string.concat(name, ": one name for a wallet, on PulseChain. pdains.domains");
+        return string.concat(name, ": one name for a wallet, on PulseChain. pDAI.domains");
     }
 
     /// @notice The card: the name on pDAI Names' gold (grey once expired), with the pDAI Names mark.

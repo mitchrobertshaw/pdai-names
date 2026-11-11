@@ -8,13 +8,13 @@ import { ReferralsPage } from "./ReferralsPage";
 import { linkProps, useRoute } from "./router";
 import { WalletButton } from "./WalletButton";
 
-/** The homepage: pdains.domains from the live app, or the same site's root on a preview link. */
+/** The homepage: pdai.domains from the live app, or the same site's root on a preview link. */
 function homeUrl(): string {
   const { hostname, protocol } = window.location;
-  return protocol === "file:" || hostname === "app.pdains.domains" ? "https://pdains.domains" : "/";
+  return protocol === "file:" || hostname === "app.pdai.domains" ? "https://pdai.domains" : "/";
 }
 
-/** app.pdains.domains: find, buy and manage .pdai names. */
+/** app.pdai.domains: find, buy and manage .pdai names. */
 export function App() {
   const route = useRoute();
   return (

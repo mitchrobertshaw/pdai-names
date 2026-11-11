@@ -1,7 +1,7 @@
 # The website, on Netlify
 
-[Netlify](https://www.netlify.com) builds the website (pdains.domains) and the app
-(app.pdains.domains) from the `web/` folder. Whenever `main` changes, it rebuilds them by itself in a
+[Netlify](https://www.netlify.com) builds the website (pdai.domains) and the app
+(app.pdai.domains) from the `web/` folder. Whenever `main` changes, it rebuilds them by itself in a
 minute or two.
 
 The website needs to know where .pdai is: the addresses of its contracts. They all go in one file,
@@ -20,20 +20,20 @@ Skip this if the site is already on Netlify.
    give Netlify access to it if it asks.
 3. Netlify reads its settings from [`netlify.toml`](../../netlify.toml), which tells it to build the
    `web/` folder. Leave the branch as `main` and click **Deploy**.
-4. In **Project configuration**, change the project's name to `pdains`, for the address
-   pdains.netlify.app.
+4. In **Project configuration**, change the project's name to `pdai-domains`, for the address
+   pdai-domains.netlify.app.
 
 ## 2. A testnet copy, for the rehearsal
 
 This is a second Netlify project, built from the same repo, that shows the testnet.
 
 1. **Add new project**, then **Import an existing project**, then **GitHub**, and pick `pdai-names`
-   again. Name it `pdains-testnet`.
+   again. Name it `pdai-domains-testnet`.
 2. In its **Project configuration**, open **Environment variables** (settings the build reads), and
    add `VITE_NETWORK` with the value `testnet`.
 3. Open **Deploys**, then **Trigger deploy**, so it rebuilds with that setting.
 
-Its app is at `https://pdains-testnet.netlify.app/app`, the address the testnet's name cards link
+Its app is at `https://pdai-domains-testnet.netlify.app/app`, the address the testnet's name cards link
 to. It won't buy anything until the `testnet` part of `deployment.ts` is filled in.
 
 ## 3. Fill in deployment.ts
@@ -86,18 +86,18 @@ until when.
    That switches on buying in the app, and the live numbers on the homepage. Set `launchDate` to
    the day you launch: the 58 days of the referral offer count from it.
 
-2. **Add the domains.** In the `pdains` project, open **Domain management**, then **Add a domain**,
-   and add `pdains.domains`, then `app.pdains.domains`. Follow Netlify's steps at the company you
+2. **Add the domains.** In the `pdai-domains` project, open **Domain management**, then **Add a domain**,
+   and add `pdai.domains`, then `app.pdai.domains`. Follow Netlify's steps at the company you
    bought the domain from (it asks you to add DNS records: the settings that point a domain at a
-   website). The app is served on `app.pdains.domains` by
+   website). The app is served on `app.pdai.domains` by
    [`web/public/_redirects`](../../web/public/_redirects). Using another domain? Change it in the
    repo first ([how](../../README.md#not-done-yet)).
 
-After launch you can delete the `pdains-testnet` project, or keep it for trying changes.
+After launch you can delete the `pdai-domains-testnet` project, or keep it for trying changes.
 
 ## The admin page
 
-The admin wallet's everyday powers have a page in the app: `app.pdains.domains/admin`, or
+The admin wallet's everyday powers have a page in the app: `app.pdai.domains/admin`, or
 `/app/admin` on the testnet copy. It isn't in the menu. Connect the admin wallet; any other wallet
 is told only that the page is private. Each change is a transaction from the admin wallet.
 
@@ -118,7 +118,7 @@ During the launch offer, referrers earn 10% of what the buyers they bring pay. Y
 wallet that receives the payments for names, `0x1027…02C6`, so the money comes straight from where
 the payments land.
 
-1. Open `app.pdains.domains/referrals` (it isn't in the menu) and connect that wallet. Any other
+1. Open `app.pdai.domains/referrals` (it isn't in the menu) and connect that wallet. Any other
    wallet is told only that the page is private.
 2. The page says what's been paid, read from the chain, and which days the next payout covers: from
    the day after the last one (at first, the launch offer's first day) to yesterday. Click **Work it

@@ -60,7 +60,7 @@ describe("referrals", () => {
     expect(referrerFrom("mi")).toBeNull(); // too short to be a name
     expect(referrerFrom("not a name")).toBeNull();
     expect(referrerFrom(null)).toBeNull();
-    expect(referralLink("mick")).toBe("https://pdains.domains/?ref=mick");
+    expect(referralLink("mick")).toBe("https://pdai.domains/?ref=mick");
   });
 
   afterEach(() => vi.unstubAllGlobals());
@@ -119,26 +119,26 @@ describe("the app's pages", () => {
     return { pathname: u.pathname, hash: u.hash, hostname: u.hostname, protocol: u.protocol };
   };
 
-  it("sit at the root of app.pdains.domains", () => {
-    expect(modeOf(at("https://app.pdains.domains/alice.pdai"))).toEqual({ base: "", hash: false });
-    expect(parse(at("https://app.pdains.domains/alice.pdai"))).toEqual({ page: "name", label: "alice" });
-    expect(parse(at("https://app.pdains.domains/names"))).toEqual({ page: "names" });
-    expect(parse(at("https://app.pdains.domains/"))).toEqual({ page: "search" });
-    expect(hrefOf({ page: "name", label: "alice" }, at("https://app.pdains.domains/"))).toBe("/alice.pdai");
+  it("sit at the root of app.pdai.domains", () => {
+    expect(modeOf(at("https://app.pdai.domains/alice.pdai"))).toEqual({ base: "", hash: false });
+    expect(parse(at("https://app.pdai.domains/alice.pdai"))).toEqual({ page: "name", label: "alice" });
+    expect(parse(at("https://app.pdai.domains/names"))).toEqual({ page: "names" });
+    expect(parse(at("https://app.pdai.domains/"))).toEqual({ page: "search" });
+    expect(hrefOf({ page: "name", label: "alice" }, at("https://app.pdai.domains/"))).toBe("/alice.pdai");
   });
 
   it("sit under /app on a preview link", () => {
-    const place = at("https://deploy-preview-5--pdains.netlify.app/app/Alice.pdai");
+    const place = at("https://deploy-preview-5--pdai-domains.netlify.app/app/Alice.pdai");
     expect(modeOf(place)).toEqual({ base: "/app", hash: false });
     expect(parse(place)).toEqual({ page: "name", label: "alice" });
     expect(hrefOf({ page: "names" }, place)).toBe("/app/names");
   });
 
   it("include the referral payout report at /referrals, which isn't a name", () => {
-    expect(parse(at("https://app.pdains.domains/referrals"))).toEqual({ page: "referrals" });
-    expect(parse(at("https://app.pdains.domains/referrals.pdai"))).toEqual({ page: "name", label: "referrals" });
-    expect(parse(at("https://pdains-testnet.netlify.app/app/referrals"))).toEqual({ page: "referrals" });
-    expect(hrefOf({ page: "referrals" }, at("https://pdains-testnet.netlify.app/app/"))).toBe("/app/referrals");
+    expect(parse(at("https://app.pdai.domains/referrals"))).toEqual({ page: "referrals" });
+    expect(parse(at("https://app.pdai.domains/referrals.pdai"))).toEqual({ page: "name", label: "referrals" });
+    expect(parse(at("https://pdai-domains-testnet.netlify.app/app/referrals"))).toEqual({ page: "referrals" });
+    expect(hrefOf({ page: "referrals" }, at("https://pdai-domains-testnet.netlify.app/app/"))).toBe("/app/referrals");
   });
 
   it("go after a # anywhere else, such as a copy opened from a file", () => {
@@ -339,7 +339,7 @@ describe("the admin page", () => {
   });
 
   it("sits at /admin, out of the menu", () => {
-    const place = { pathname: "/app/admin", hash: "", hostname: "pdains-testnet.netlify.app", protocol: "https:" };
+    const place = { pathname: "/app/admin", hash: "", hostname: "pdai-domains-testnet.netlify.app", protocol: "https:" };
     expect(parse(place)).toEqual({ page: "admin" });
     expect(hrefOf({ page: "admin" }, place)).toBe("/app/admin");
   });

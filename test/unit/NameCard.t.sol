@@ -37,7 +37,7 @@ contract NameCardTest is PdaiTestBase {
             string.concat("data:application/json;base64,", Base64.encode(bytes(json)))
         );
         assertEq(vm.parseJsonString(json, ".name"), "alice.pdai");
-        assertEq(vm.parseJsonString(json, ".external_url"), "https://pdains-testnet.netlify.app/app/alice.pdai");
+        assertEq(vm.parseJsonString(json, ".external_url"), "https://pdai-domains-testnet.netlify.app/app/alice.pdai");
         assertTrue(_has(vm.parseJsonString(json, ".description"), "one name for a wallet, on PulseChain"));
         assertEq(vm.parseJsonUint(json, ".attributes[0].value"), 5, "length");
         assertEq(vm.parseJsonUint(json, ".attributes[1].value"), deployed.pdaiRegistry.getExpiry(tokenId), "expiry");
@@ -60,7 +60,7 @@ contract NameCardTest is PdaiTestBase {
         assertEq(vm.parseJsonString(json, ".name"), string.concat(label, ".pdai"), "valid JSON, the name intact");
         assertEq(
             vm.parseJsonString(json, ".external_url"),
-            "https://pdains-testnet.netlify.app/app/a%22%3Cb%3E%26%5Cc%27%01.pdai"
+            "https://pdai-domains-testnet.netlify.app/app/a%22%3Cb%3E%26%5Cc%27%01.pdai"
         );
         assertTrue(_has(deployed.nameCard.svg(label, false), ">a&quot;&lt;b&gt;&amp;\\c&#39;?.pdai</text>"));
     }
@@ -73,7 +73,7 @@ contract NameCardTest is PdaiTestBase {
         assertEq(vm.parseJsonUint(json, ".attributes[0].value"), 3);
         assertEq(
             vm.parseJsonString(json, ".external_url"),
-            "https://pdains-testnet.netlify.app/app/%F0%9F%A6%84%F0%9F%A6%84%F0%9F%A6%84.pdai"
+            "https://pdai-domains-testnet.netlify.app/app/%F0%9F%A6%84%F0%9F%A6%84%F0%9F%A6%84.pdai"
         );
         assertTrue(_has(deployed.nameCard.svg(label, false), unicode">🦄🦄🦄.pdai</text>"));
     }
@@ -158,8 +158,8 @@ contract NameCardTest is PdaiTestBase {
     }
 
     function test_nameCard_linksToTheAppOnMainnetAndTheTestnetSiteOtherwise() public pure {
-        assertEq(_appUrl(369), "https://app.pdains.domains/", "PulseChain");
-        assertEq(_appUrl(943), "https://pdains-testnet.netlify.app/app/", "PulseChain's testnet");
+        assertEq(_appUrl(369), "https://app.pdai.domains/", "PulseChain");
+        assertEq(_appUrl(943), "https://pdai-domains-testnet.netlify.app/app/", "PulseChain's testnet");
     }
 
     function test_nameCard_onlyTheAdminCanRestyleThem() public {

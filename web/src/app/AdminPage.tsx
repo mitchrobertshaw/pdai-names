@@ -46,7 +46,7 @@ function pricesAt(level: bigint): string {
 }
 
 /**
- * app.pdains.domains/admin: the admin wallet's powers, made easy to use. Like the referral payouts
+ * app.pdai.domains/admin: the admin wallet's powers, made easy to use. Like the referral payouts
  * page, it's not in the menu and doesn't say which wallet opens it: it opens for a wallet the
  * contracts give admin powers to, and shows only the powers that wallet has.
  */
