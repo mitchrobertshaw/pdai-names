@@ -1,114 +1,46 @@
-/* pDAI Names: pDAI's gold, with teal for what you click, light and dark. */
+/* pDAI Name Service: pDAI's rainbow on deep navy. One theme, dark, the way the brand is drawn. */
 
 :root {
-  color-scheme: light;
-  --bg: #fffbf2;
-  --bg-tint: #fdf5e4;
-  --surface: #ffffff;
-  --surface-2: #fdf6e8;
-  --text: #142019;
-  --muted: #5b6a63;
-  --border: #ece2cc;
-  --accent: #0b7a6c;
-  --accent-hover: #086257;
-  --accent-soft: #e2f4ef;
-  --on-accent: #ffffff;
-  /* Dark ink, for words on the gold: white on it would be hard to read. */
-  --ink: #2b1d05;
-  --ok: #0a7c52;
-  --ok-soft: #e3f7ee;
-  --warn: #a65000;
-  --warn-soft: #fff0dc;
-  --bad: #c1272d;
-  --bad-soft: #ffe5e5;
-  --grad: linear-gradient(110deg, #ffd84d 0%, #f5ac37 50%, #e08a1e 100%);
-  --grad-text: linear-gradient(100deg, #c27c00 0%, #b06300 55%, #9a5200 100%);
-  --blob-1: rgb(255 207 64 / 24%);
-  --blob-2: rgb(26 171 155 / 14%);
-  --blob-3: rgb(224 138 30 / 16%);
-  --hero-1: rgb(255 207 64 / 36%);
-  --hero-2: rgb(26 171 155 / 18%);
-  --hero-3: rgb(245 172 55 / 24%);
-  --hero-sheen: rgb(255 255 255 / 70%);
-  --hero-base: #fdf2da;
-  --dots: rgb(20 32 25 / 7%);
-  --shadow-sm: 0 1px 2px rgb(30 45 35 / 6%), 0 4px 12px rgb(30 45 35 / 6%);
-  --shadow-md: 0 2px 6px rgb(30 45 35 / 6%), 0 14px 36px rgb(30 45 35 / 10%);
-  /* Rings packed like coins on a table: the texture behind the pictures and the vault. */
-  --coins: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='41.57' viewBox='0 0 24 41.57'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.2'%3E%3Ccircle cx='12' cy='10.39' r='7'/%3E%3Ccircle cx='0' cy='31.18' r='7'/%3E%3Ccircle cx='24' cy='31.18' r='7'/%3E%3C/g%3E%3C/svg%3E");
+  color-scheme: dark;
+  --bg: #08071a;
+  --bg-tint: #0c0b21;
+  --surface: #121131;
+  --surface-2: #1a1842;
+  --text: #f5f3ff;
+  --muted: #aca8d2;
+  --border: #262451;
+  /* Links, focus and small accents: pDAI's cyan, lifted so it reads on navy. */
+  --accent: #5ee2ff;
+  --accent-hover: #a3f0ff;
+  --accent-soft: rgb(94 226 255 / 12%);
+  --on-accent: #070619;
+  --ok: #4fe3a3;
+  --ok-soft: rgb(79 227 163 / 14%);
+  --warn: #ffb35c;
+  --warn-soft: rgb(255 179 92 / 14%);
+  --bad: #ff6b8b;
+  --bad-soft: rgb(255 107 139 / 15%);
+  /* pDAI's own rainbow, cyan to red, as on the token and the mark: for lines and edges. */
+  --rainbow: linear-gradient(90deg, #00eaff 0%, #0080ff 25%, #8000ff 50%, #e619e6 75%, #ff2a2a 100%);
+  /* The buttons: exactly the gradient on the pDAI token, its five colours at the same stops, running
+     the same way, from the top right to the bottom left. */
+  --grad: linear-gradient(208deg, #00eaff 0%, #0080ff 25.25%, #8000ff 49.74%, #e619e6 74.99%, #f00 99.91%);
+  /* Section labels: a soft violet from the middle of pDAI's colours. */
+  --label: #b48cff;
+  /* The rainbow lifted, for words on navy. */
+  --grad-text: linear-gradient(100deg, #38e1ff 0%, #6f8bff 34%, #b36bff 66%, #ff5fd2 100%);
+  /* Soft light from the rainbow, behind the top of the page and the big panels. */
+  --glow-cyan: rgb(0 200 255 / 16%);
+  --glow-blue: rgb(0 110 255 / 16%);
+  --glow-violet: rgb(128 0 255 / 22%);
+  --glow-magenta: rgb(230 25 230 / 15%);
+  --dots: rgb(255 255 255 / 6%);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 35%), 0 4px 12px rgb(0 0 0 / 25%);
+  --shadow-md: 0 2px 6px rgb(0 0 0 / 35%), 0 18px 40px rgb(0 0 0 / 45%);
+  /* Dai's two lines, small and repeated: the texture behind the pictures. */
+  --lines: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='20' viewBox='0 0 28 20'%3E%3Cg stroke='%23000' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M5 8.2h12M5 11.8h12'/%3E%3C/g%3E%3C/svg%3E");
   --font-body: "Inter Variable", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-display: "Space Grotesk Variable", "Inter Variable", system-ui, sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --bg: #0b1714;
-    --bg-tint: #0f1d19;
-    --surface: #12221e;
-    --surface-2: #182c27;
-    --text: #f2f8f5;
-    --muted: #a3b5ae;
-    --border: #22362f;
-    --accent: #3cc7b2;
-    --accent-hover: #6ad8c6;
-    --accent-soft: #0f3029;
-    --on-accent: #062019;
-    --ink: #2b1d05;
-    --ok: #4fd6a0;
-    --ok-soft: #10301f;
-    --warn: #ffb35c;
-    --warn-soft: #34220c;
-    --bad: #ff7a7f;
-    --bad-soft: #3b1518;
-    --grad-text: linear-gradient(100deg, #ffe07a 0%, #f5ac37 55%, #ffc35c 100%);
-    --blob-1: rgb(245 172 55 / 13%);
-    --blob-2: rgb(26 171 155 / 16%);
-    --blob-3: rgb(224 138 30 / 10%);
-    --hero-1: rgb(255 207 64 / 15%);
-    --hero-2: rgb(26 171 155 / 22%);
-    --hero-3: rgb(224 138 30 / 13%);
-    --hero-sheen: rgb(255 255 255 / 3%);
-    --hero-base: #0f1e1a;
-    --dots: rgb(255 255 255 / 6%);
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 30%), 0 4px 12px rgb(0 0 0 / 22%);
-    --shadow-md: 0 2px 6px rgb(0 0 0 / 30%), 0 14px 36px rgb(0 0 0 / 38%);
-  }
-}
-
-/* Chosen with the toggle in the nav. */
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #0b1714;
-  --bg-tint: #0f1d19;
-  --surface: #12221e;
-  --surface-2: #182c27;
-  --text: #f2f8f5;
-  --muted: #a3b5ae;
-  --border: #22362f;
-  --accent: #3cc7b2;
-  --accent-hover: #6ad8c6;
-  --accent-soft: #0f3029;
-  --on-accent: #062019;
-  --ink: #2b1d05;
-  --ok: #4fd6a0;
-  --ok-soft: #10301f;
-  --warn: #ffb35c;
-  --warn-soft: #34220c;
-  --bad: #ff7a7f;
-  --bad-soft: #3b1518;
-  --grad-text: linear-gradient(100deg, #ffe07a 0%, #f5ac37 55%, #ffc35c 100%);
-  --blob-1: rgb(245 172 55 / 13%);
-  --blob-2: rgb(26 171 155 / 16%);
-  --blob-3: rgb(224 138 30 / 10%);
-  --hero-1: rgb(255 207 64 / 15%);
-  --hero-2: rgb(26 171 155 / 22%);
-  --hero-3: rgb(224 138 30 / 13%);
-  --hero-sheen: rgb(255 255 255 / 3%);
-  --hero-base: #0f1e1a;
-  --dots: rgb(255 255 255 / 6%);
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 30%), 0 4px 12px rgb(0 0 0 / 22%);
-  --shadow-md: 0 2px 6px rgb(0 0 0 / 30%), 0 14px 36px rgb(0 0 0 / 38%);
 }
 
 /* ---------- Base ---------- */
@@ -235,22 +167,29 @@ img {
 }
 
 .button--primary {
-  background: var(--accent);
-  color: var(--on-accent);
+  background: var(--grad);
+  color: #fff;
+  /* A soft shadow under the words, so they read on the token's brightest colours at either end. */
+  text-shadow: 0 1px 2px rgb(20 0 60 / 45%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 22%),
+    0 8px 22px -8px rgb(128 0 255 / 70%);
 }
 
 .button--primary:hover:not(:disabled) {
-  background: var(--accent-hover);
+  filter: brightness(1.08) saturate(1.05);
+  transform: translateY(-1px);
 }
 
 .button--ghost {
-  background: var(--surface);
+  background: rgb(255 255 255 / 4%);
   border-color: var(--border);
   color: var(--text);
 }
 
 .button--ghost:hover {
-  border-color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  background: rgb(255 255 255 / 7%);
 }
 
 .button--small {
@@ -269,8 +208,10 @@ img {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--bg); /* solid, so nothing shows through it, even the dark band */
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  background: rgb(8 7 26 / 82%);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 1px solid rgb(255 255 255 / 7%);
 }
 
 .nav__inner {
@@ -280,41 +221,46 @@ img {
   height: 64px;
 }
 
+/* The lockup: the mark, then "pDAI Name Service" in white. The mark is 1.25 times the type size
+   tall and the gap half of it, as brand/README.md says. The size is set by Brand.tsx. */
 .brand {
   display: inline-flex;
+  flex: none;
   align-items: center;
-  gap: 7px; /* 0.35 x the wordmark's size, as brand/README.md says */
-  color: var(--text);
+  gap: 0.5em;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: var(--brand-size, 18px);
+  line-height: 1;
   text-decoration: none;
 }
 
-.brand__text {
-  display: grid;
-  gap: 3px;
-  line-height: 1;
+.brand .logo {
+  flex: none;
+  width: auto;
+  height: 1.25em;
+}
+
+/* The narrowest phones: a smaller lockup and button, so both fit beside each other. */
+@media (max-width: 379px) {
+  .nav .brand {
+    font-size: 15px;
+  }
+
+  .nav .button--small {
+    padding-inline: 12px;
+    font-size: 13.5px;
+  }
 }
 
 .brand__name {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.01em;
-}
-
-/* "pDAI Name Service", small beneath the wordmark, as in the lockup. */
-.brand__tagline {
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
-/* The smallest phones have no room for it beside the buttons. */
-@media (max-width: 359px) {
-  .brand__tagline {
-    display: none;
-  }
+.brand__name b {
+  font-weight: 700;
 }
 
 .nav__links {
@@ -341,28 +287,6 @@ img {
   margin-left: auto;
 }
 
-.theme-toggle {
-  display: inline-grid;
-  flex: none;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--text);
-  cursor: pointer;
-  transition:
-    border-color 0.15s,
-    color 0.15s;
-}
-
-.theme-toggle:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
 .nav__status {
   padding: 7px 14px;
   border-radius: 999px;
@@ -385,14 +309,11 @@ img {
 
 /* ---------- Hero ---------- */
 
-/* The top of the page fills the screen below the nav. */
+/* The top of the page fills the screen below the nav: deep navy, lit by pDAI's rainbow from the top
+   right (cyan) to the bottom left (magenta), as the mark is coloured. */
 .hero {
   --nav-height: 64px;
   --content-shift: 0px;
-  /* The bottom edge: a shallow arc, like the rim of a coin, so the page shows through at the
-     corners. Kept shallow, so it's a quiet edge rather than a feature. Nothing is drawn in those
-     corners: on wide screens they're empty, and on phones the names fade out there. */
-  --rim: 32px;
   position: relative;
   isolation: isolate;
   display: flex;
@@ -401,41 +322,39 @@ img {
   min-height: calc(100vh - var(--nav-height));
   min-height: calc(100svh - var(--nav-height));
   overflow: hidden;
-  padding: 40px 0 24px;
+  padding: 40px 0 28px;
   text-align: center;
-  background: linear-gradient(var(--bg) 35%, var(--hero-base));
-  border-radius: 0 0 50% 50% / 0 0 var(--rim) var(--rim);
+  background: var(--bg);
 }
 
-@media (min-width: 900px) {
-  .hero {
-    --rim: 56px;
-  }
-}
-
-/* A light wash of gold and teal: gold top left, teal top right, amber below, drifting slowly, and
-   fading out into the warm tint at the bottom. */
 .hero::before {
   content: "";
   position: absolute;
-  inset: -12% -8% 0;
-  z-index: -2;
+  inset: -10% -6%;
+  z-index: -3;
   background:
-    radial-gradient(42% 52% at 16% 24%, var(--hero-1), transparent 70%),
-    radial-gradient(40% 50% at 84% 18%, var(--hero-2), transparent 70%),
-    radial-gradient(56% 46% at 50% 92%, var(--hero-3), transparent 72%);
-  mask-image: linear-gradient(#000 62%, transparent);
-  -webkit-mask-image: linear-gradient(#000 62%, transparent);
+    radial-gradient(38% 46% at 82% 14%, var(--glow-cyan), transparent 70%),
+    radial-gradient(44% 52% at 60% 48%, var(--glow-violet), transparent 72%),
+    radial-gradient(40% 48% at 14% 88%, var(--glow-magenta), transparent 72%),
+    radial-gradient(30% 40% at 22% 18%, var(--glow-blue), transparent 70%);
   animation: hero-drift 26s ease-in-out infinite alternate;
 }
 
-/* A faint sheen from the top, so the wash never looks flat. */
+/* Dai's two lines again, as a fine rule along the bottom edge, fading out at the sides. */
 .hero::after {
   content: "";
   position: absolute;
-  inset: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: -1;
-  background: linear-gradient(170deg, var(--hero-sheen) 0%, transparent 45%);
+  height: 7px;
+  background:
+    var(--rainbow) top / 100% 1px no-repeat,
+    var(--rainbow) bottom / 100% 1px no-repeat;
+  opacity: 0.55;
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
 }
 
 @keyframes hero-drift {
@@ -467,9 +386,11 @@ img {
   gap: 10px;
   margin: 0;
   padding: 7px 16px 7px 13px;
-  border: 1px solid var(--border);
+  border: 1px solid transparent;
   border-radius: 999px;
-  background: var(--surface);
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(100deg, rgb(0 234 255 / 55%), rgb(128 0 255 / 45%), rgb(230 25 230 / 55%)) border-box;
   box-shadow: var(--shadow-sm);
   color: var(--muted);
   font-size: 15px;
@@ -495,8 +416,8 @@ img {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--muted);
-  opacity: 0.6;
+  background: #38e1ff;
+  box-shadow: 0 0 10px 1px rgb(56 225 255 / 70%);
 }
 
 .hero h1 {
@@ -526,22 +447,25 @@ img {
   align-items: center;
   gap: 8px;
   padding: 6px 6px 6px 18px;
-  border: 1px solid var(--border);
+  border: 1px solid transparent;
   border-radius: 999px;
-  background: var(--surface);
+  background:
+    linear-gradient(rgb(18 17 49 / 92%), rgb(18 17 49 / 92%)) padding-box,
+    linear-gradient(100deg, rgb(0 234 255 / 45%), rgb(128 0 255 / 40%), rgb(230 25 230 / 45%)) border-box;
   box-shadow:
     var(--shadow-md),
-    0 0 0 6px color-mix(in srgb, var(--accent) 6%, transparent);
-  transition:
-    border-color 0.15s,
-    box-shadow 0.15s;
+    0 0 0 6px rgb(124 44 240 / 10%);
+  transition: box-shadow 0.15s;
 }
 
 .search__form:focus-within {
-  border-color: color-mix(in srgb, var(--accent) 60%, var(--border));
+  background:
+    linear-gradient(rgb(18 17 49 / 96%), rgb(18 17 49 / 96%)) padding-box,
+    linear-gradient(100deg, #00eaff, #8000ff, #e619e6) border-box;
   box-shadow:
     var(--shadow-md),
-    0 0 0 6px color-mix(in srgb, var(--accent) 16%, transparent);
+    0 0 0 6px rgb(124 44 240 / 22%),
+    0 0 40px rgb(0 200 255 / 18%);
 }
 
 .search__icon {
@@ -606,15 +530,15 @@ img {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 0 0 rgb(34 197 94 / 55%);
+  background: var(--ok);
+  box-shadow: 0 0 0 0 rgb(79 227 163 / 55%);
   animation: live-pulse 2s ease-out infinite;
 }
 
 @keyframes live-pulse {
   70%,
   100% {
-    box-shadow: 0 0 0 7px rgb(34 197 94 / 0%);
+    box-shadow: 0 0 0 7px rgb(79 227 163 / 0%);
   }
 }
 
@@ -768,22 +692,12 @@ img {
 .pill .avatar {
   box-shadow:
     0 0 0 2px var(--surface),
-    0 4px 14px rgb(30 45 35 / 18%);
+    0 4px 14px rgb(0 0 0 / 40%);
 }
 
 /* In the colour of the person's profile picture (src/data/featured.ts), or the accent. */
 .pill__tld {
-  color: var(--tld-light, var(--accent));
-}
-
-:root[data-theme="dark"] .pill__tld {
-  color: var(--tld-dark, var(--accent));
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .pill__tld {
-    color: var(--tld-dark, var(--accent));
-  }
+  color: var(--tld, var(--accent));
 }
 
 .avatar {
@@ -856,7 +770,7 @@ img {
 .floater.is-held .avatar {
   box-shadow:
     0 0 0 2px var(--surface),
-    0 12px 26px rgb(30 45 35 / 30%);
+    0 12px 26px rgb(0 0 0 / 55%);
 }
 
 /* Each name drifts gently on its own path and pace, and leans in a little under the pointer. */
@@ -998,8 +912,8 @@ img {
 }
 
 .kicker {
-  margin: 0 0 12px;
-  color: var(--accent);
+  margin: 0 0 14px;
+  color: var(--label);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -1007,7 +921,7 @@ img {
 }
 
 .kicker--warn {
-  color: var(--warn);
+  color: var(--label);
 }
 
 .section__intro {
@@ -1020,8 +934,10 @@ img {
   padding: 28px;
   border: 1px solid var(--border);
   border-radius: 24px;
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
+  background: linear-gradient(180deg, rgb(255 255 255 / 2.5%), transparent 40%), var(--surface);
+  box-shadow:
+    var(--shadow-sm),
+    inset 0 1px 0 rgb(255 255 255 / 5%);
 }
 
 .card h3 {
@@ -1175,7 +1091,10 @@ img {
 }
 
 .try__tld {
-  color: var(--accent);
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   font-size: 18px;
   font-weight: 700;
 }
@@ -1244,7 +1163,7 @@ img {
   height: 38px;
   border-radius: 50%;
   background: var(--grad);
-  color: var(--ink);
+  color: #fff;
   font-weight: 800;
 }
 
@@ -1432,9 +1351,10 @@ img {
   place-items: center;
   width: 44px;
   height: 44px;
+  border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 14px;
-  background: var(--grad);
-  color: var(--ink);
+  background: linear-gradient(135deg, rgb(0 234 255 / 20%), rgb(128 0 255 / 26%) 55%, rgb(230 25 230 / 22%));
+  color: #fff;
 }
 
 .perk h3 {
@@ -1451,11 +1371,11 @@ img {
   content: "";
   position: absolute;
   inset: 0 0 auto;
-  height: 4px;
+  height: 7px;
 }
 
 .chain--pulsechain::before {
-  background: linear-gradient(90deg, #00eaff, #0080ff 25%, #8000ff 50%, #e619e6 75%, #f00);
+  background: var(--rainbow) top / 100% 2px no-repeat, var(--rainbow) bottom / 100% 2px no-repeat;
 }
 
 .chain__top {
@@ -1560,20 +1480,20 @@ img {
   padding: 24px 20px;
   border-bottom: 1px solid var(--border);
   background:
-    radial-gradient(70% 90% at 50% 110%, var(--blob-2), transparent 70%),
-    radial-gradient(50% 70% at 10% 0%, var(--blob-1), transparent 70%),
+    radial-gradient(70% 90% at 50% 115%, var(--glow-violet), transparent 70%),
+    radial-gradient(50% 70% at 92% 0%, var(--glow-cyan), transparent 70%),
     var(--bg-tint);
 }
 
-/* Faint coins behind each picture. */
+/* Faint pairs of lines, Dai's, behind each picture. */
 .bento__art::before {
   content: "";
   position: absolute;
   inset: 0;
   background: var(--text);
-  opacity: 0.045;
-  -webkit-mask: var(--coins) center / 24px 41.57px repeat;
-  mask: var(--coins) center / 24px 41.57px repeat;
+  opacity: 0.06;
+  -webkit-mask: var(--lines) center / 28px 20px repeat;
+  mask: var(--lines) center / 28px 20px repeat;
   pointer-events: none;
 }
 
@@ -1585,26 +1505,13 @@ img {
   padding: 22px 26px 26px;
 }
 
-/* Pay with pDAI: a pDAI coin, wired to your name, on PulseChain. */
-.art-pay .chain-logo {
-  filter: drop-shadow(0 8px 16px rgb(30 45 35 / 18%));
-}
-
+/* Pay with pDAI: the pDAI token, wired to your name, on PulseChain. */
+.art-pay .chain-logo,
 .art-pay__coin {
-  display: grid;
+  display: block;
   flex: none;
-  place-items: center;
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  background: var(--grad);
-  box-shadow:
-    inset 0 0 0 3px rgb(255 255 255 / 35%),
-    0 8px 16px rgb(224 138 30 / 28%);
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 700;
 }
 
 .art-pay__wire {
@@ -1656,10 +1563,6 @@ img {
     height: 40px;
   }
 
-  .art-pay__coin {
-    font-size: 11px;
-  }
-
   .art-pay__wire {
     min-width: 10px;
     margin: 0 6px;
@@ -1680,10 +1583,6 @@ img {
   .art-pay__coin {
     width: 32px;
     height: 32px;
-  }
-
-  .art-pay__coin {
-    font-size: 9px;
   }
 
   .art-pay__name {
@@ -1733,8 +1632,9 @@ img {
   padding: 7px 18px;
   border-radius: 999px;
   background: var(--grad);
-  box-shadow: 0 8px 20px rgb(224 138 30 / 26%);
-  color: var(--ink);
+  box-shadow: 0 8px 22px -6px rgb(128 0 255 / 65%);
+  color: #fff;
+  text-shadow: 0 1px 2px rgb(20 0 60 / 45%);
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 700;
@@ -1789,30 +1689,30 @@ img {
   gap: 4px;
   width: min(100%, 470px);
   padding: 18px 22px;
-  border: 1px solid rgb(255 255 255 / 8%);
+  border: 1px solid rgb(255 255 255 / 9%);
   border-radius: 16px;
-  background: #0e1c18;
+  background: #0a0920;
   box-shadow: var(--shadow-md);
-  color: #eef7f3;
+  color: #ece9ff;
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   font-size: 14.5px;
   line-height: 1.55;
 }
 
 .art-code__comment {
-  color: #86a097;
+  color: #8f8bb8;
 }
 
 .art-code__fn {
-  color: #6fd8c6;
+  color: #5ee2ff;
 }
 
 .art-code__str {
-  color: #ffcf6b;
+  color: #ff9be8;
 }
 
 .art-code__out {
-  color: #4fd6a0;
+  color: #4fe3a3;
 }
 
 .step__number {
@@ -1821,47 +1721,39 @@ img {
   width: 44px;
   height: 44px;
   margin-bottom: 18px;
+  border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 50%;
-  background: var(--accent-soft);
-  color: var(--accent);
+  background: linear-gradient(135deg, rgb(0 234 255 / 20%), rgb(128 0 255 / 30%) 55%, rgb(230 25 230 / 24%));
+  color: #fff;
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 700;
 }
 
-/* True ownership: a dark "vault" band in both themes, with a name card to try to take */
+/* True ownership: the darkest band of the page, with a name card to try to take. */
 
 .section--vault {
-  --bg: #07120f;
-  --text: #f2f8f5;
-  --muted: #a9bcb5;
+  --bg: #050413;
   --border: rgb(255 255 255 / 12%);
   --surface: rgb(255 255 255 / 5%);
   --surface-2: rgb(255 255 255 / 10%);
-  --accent: #f5ac37;
-  --accent-soft: rgb(245 172 55 / 20%);
-  --on-accent: #2b1d05;
-  --ok: #4fd6a0;
-  --ok-soft: rgb(79 214 160 / 16%);
-  --bad: #ff7a7f;
-  --bad-soft: rgb(255 122 127 / 16%);
   position: relative;
-  color-scheme: dark;
   background:
-    radial-gradient(45% 60% at 80% 35%, rgb(26 171 155 / 24%), transparent 70%),
-    radial-gradient(40% 50% at 8% 95%, rgb(245 172 55 / 14%), transparent 70%),
+    radial-gradient(45% 60% at 78% 40%, rgb(128 0 255 / 26%), transparent 70%),
+    radial-gradient(40% 50% at 8% 95%, rgb(230 25 230 / 13%), transparent 70%),
+    radial-gradient(30% 40% at 95% 5%, rgb(0 200 255 / 12%), transparent 70%),
     var(--bg);
   color: var(--text);
 }
 
-/* Faint coins, brightest behind the card. */
+/* Faint pairs of lines, brightest behind the card. */
 .section--vault::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(40% 55% at 76% 42%, rgb(245 172 55 / 40%), transparent 75%);
-  -webkit-mask: var(--coins) 0 0 / 24px 41.57px repeat;
-  mask: var(--coins) 0 0 / 24px 41.57px repeat;
+  background: radial-gradient(40% 55% at 76% 42%, rgb(180 120 255 / 42%), transparent 75%);
+  -webkit-mask: var(--lines) 0 0 / 28px 20px repeat;
+  mask: var(--lines) 0 0 / 28px 20px repeat;
   pointer-events: none;
 }
 
@@ -1924,16 +1816,16 @@ img {
 .vault__shield span {
   position: absolute;
   inset: 0;
-  background: linear-gradient(110deg, #ffe07a, #f5ac37 40%, #e08a1e 70%, #3cc7b2);
-  -webkit-mask: var(--coins) center / 24px 41.57px repeat;
-  mask: var(--coins) center / 24px 41.57px repeat;
+  background: var(--rainbow);
+  -webkit-mask: var(--lines) center / 28px 20px repeat;
+  mask: var(--lines) center / 28px 20px repeat;
 }
 
 .vault__glow {
   position: absolute;
   inset: 14% 4%;
   border-radius: 40px;
-  background: radial-gradient(closest-side, rgb(79 214 160 / 60%), transparent);
+  background: radial-gradient(closest-side, rgb(79 227 163 / 60%), transparent);
   filter: blur(26px);
   opacity: 0;
   pointer-events: none;
@@ -1952,11 +1844,11 @@ img {
   border-radius: 24px;
   background:
     radial-gradient(70% 70% at var(--mx, 25%) var(--my, 15%), rgb(255 255 255 / 13%), transparent 70%),
-    linear-gradient(150deg, #134a40 0%, #0b241f 52%, #2a2008 100%);
+    linear-gradient(150deg, #22185a 0%, #0d0b28 50%, #2c0b3a 100%);
   box-shadow:
     0 34px 60px -24px rgb(0 0 0 / 75%),
     inset 0 1px 0 rgb(255 255 255 / 14%);
-  color: #f2f8f5;
+  color: #f5f3ff;
   transform: perspective(1000px) translate(var(--tx, 0px), var(--ty, 0px)) rotate(var(--rz, 0deg))
     rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.2);
@@ -1988,9 +1880,9 @@ img {
   background: linear-gradient(
     115deg,
     transparent 25%,
-    rgb(255 224 122 / 22%) 40%,
-    rgb(245 172 55 / 22%) 50%,
-    rgb(60 199 178 / 20%) 60%,
+    rgb(0 234 255 / 20%) 40%,
+    rgb(128 0 255 / 24%) 50%,
+    rgb(230 25 230 / 20%) 60%,
     transparent 75%
   );
   background-position: var(--mx, 25%) var(--my, 15%);
@@ -1999,9 +1891,9 @@ img {
 }
 
 .name-card::after {
-  background: linear-gradient(200deg, rgb(255 255 255 / 9%), transparent 60%);
-  -webkit-mask: var(--coins) 0 0 / 24px 41.57px repeat;
-  mask: var(--coins) 0 0 / 24px 41.57px repeat;
+  background: linear-gradient(200deg, rgb(255 255 255 / 10%), transparent 60%);
+  -webkit-mask: var(--lines) 0 0 / 28px 20px repeat;
+  mask: var(--lines) 0 0 / 28px 20px repeat;
 }
 
 .name-card > * {
@@ -2043,7 +1935,7 @@ img {
 }
 
 .name-card__name span {
-  background: linear-gradient(100deg, #ffe07a, #f5ac37 55%, #ffc35c);
+  background: var(--grad-text);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -2086,8 +1978,8 @@ img {
 
 @keyframes changed {
   from {
-    background: rgb(79 214 160 / 40%);
-    box-shadow: 0 0 0 4px rgb(79 214 160 / 40%);
+    background: rgb(79 227 163 / 40%);
+    box-shadow: 0 0 0 4px rgb(79 227 163 / 40%);
   }
 }
 
@@ -2293,7 +2185,7 @@ img {
 .price-more summary::after {
   content: "+";
   flex: none;
-  color: var(--accent);
+  color: var(--label);
   font-size: 24px;
   font-weight: 500;
   line-height: 1;
@@ -2418,7 +2310,7 @@ img {
 .faq__item summary::after {
   content: "+";
   flex: none;
-  color: var(--accent);
+  color: var(--label);
   font-size: 24px;
   font-weight: 500;
   line-height: 1;
@@ -2443,8 +2335,9 @@ img {
   border: 1px solid var(--border);
   border-radius: 32px;
   background:
-    radial-gradient(60% 80% at 50% 0%, var(--blob-2), transparent 70%),
-    radial-gradient(50% 60% at 10% 100%, var(--blob-1), transparent 70%),
+    radial-gradient(60% 80% at 50% 0%, var(--glow-violet), transparent 70%),
+    radial-gradient(50% 60% at 6% 100%, var(--glow-magenta), transparent 70%),
+    radial-gradient(40% 60% at 96% 90%, var(--glow-cyan), transparent 70%),
     var(--surface);
   box-shadow: var(--shadow-md);
   text-align: center;
@@ -2454,8 +2347,8 @@ img {
   content: "";
   position: absolute;
   inset: 0 0 auto;
-  height: 4px;
-  background: var(--grad);
+  height: 7px;
+  background: var(--rainbow) top / 100% 2px no-repeat, var(--rainbow) bottom / 100% 2px no-repeat;
 }
 
 .cta h2 {
@@ -2511,7 +2404,7 @@ html:has(.checkout[open]) {
 }
 
 .checkout::backdrop {
-  background: rgb(5 15 12 / 55%);
+  background: rgb(4 3 16 / 62%);
   backdrop-filter: blur(4px);
 }
 

@@ -14,17 +14,17 @@ export interface FeaturedName {
   picture?: string; // a picture saved as src/assets/avatars/<picture>.jpg, for someone without an X picture
   /** The colour of the .pdai after their name, picked from their profile picture: a shade for the
    *  light theme and one for the dark, each easy to read on its background. */
-  tone?: { light: string; dark: string };
+  tone?: string;
 }
 
 export const featuredNames: FeaturedName[] = [
-  { label: "richardheart", person: "Richard Heart", x: "RichardHeartWin", tone: { light: "#c83a33", dark: "#e35c53" } },
-  { label: "yourfriendsommi", person: "Your Friend Sommi", x: "yourfriendSOMMI", tone: { light: "#1ca901", dark: "#31f70c" } },
-  { label: "cryptocoffee", person: "Crypto Coffee", x: "CryptoCoffee369", tone: { light: "#ea2286", dark: "#f23e95" } },
-  { label: "broots", person: "BRoots", x: "iambroots", tone: { light: "#a19600", dark: "#feee0c" } },
-  { label: "hexologist", person: "Hexologist", x: "Hexologist31", tone: { light: "#0da4b2", dark: "#00eaff" } },
-  { label: "dollarcostcrypto", person: "Dollar Cost Crypto", x: "dollarcostcrypt", tone: { light: "#b67e43", dark: "#b67e43" } },
-  { label: "5996", person: "5996", picture: "5996", tone: { light: "#2f97c6", dark: "#62c4ee" } },
-  { label: "matiallin", person: "Mati Allin", x: "MatiAllin", tone: { light: "#be1384", dark: "#e44ca8" } },
-  { label: "nineironcapital", person: "NineIronCapital", x: "NineIronCapital", tone: { light: "#a16907", dark: "#b77c23" } },
+  { label: "richardheart", person: "Richard Heart", x: "RichardHeartWin", tone: "#e35c53" },
+  { label: "yourfriendsommi", person: "Your Friend Sommi", x: "yourfriendSOMMI", tone: "#31f70c" },
+  { label: "cryptocoffee", person: "Crypto Coffee", x: "CryptoCoffee369", tone: "#f23e95" },
+  { label: "broots", person: "BRoots", x: "iambroots", tone: "#feee0c" },
+  { label: "hexologist", person: "Hexologist", x: "Hexologist31", tone: "#00eaff" },
+  { label: "dollarcostcrypto", person: "Dollar Cost Crypto", x: "dollarcostcrypt", tone: "#b67e43" },
+  { label: "5996", person: "5996", picture: "5996", tone: "#62c4ee" },
+  { label: "matiallin", person: "Mati Allin", x: "MatiAllin", tone: "#e44ca8" },
+  { label: "nineironcapital", person: "NineIronCapital", x: "NineIronCapital", tone: "#b77c23" },
 ];

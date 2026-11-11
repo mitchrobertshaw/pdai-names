@@ -23,7 +23,7 @@ const SLOTS: { side: "left" | "right"; x: number; y: number; scale: number }[] =
 
 function Pill({ name }: { name: FeaturedName }) {
   // The .pdai takes the colour of the person's profile picture.
-  const tone = name.tone ? ({ "--tld-light": name.tone.light, "--tld-dark": name.tone.dark } as CSSProperties) : undefined;
+  const tone = name.tone ? ({ "--tld": name.tone } as CSSProperties) : undefined;
   return (
     <span className="pill" style={tone} title={name.person ? `Reserved for ${name.person}` : undefined}>
       <Avatar label={name.label} x={name.picture ?? name.x} />

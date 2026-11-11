@@ -1,11 +1,11 @@
 {
-  "name": "pDAI Names: pDAI Name Service",
+  "name": "pDAI Name Service",
   "short_name": "pDAI Names",
   "description": "One .pdai name for your wallet on PulseChain.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0b1714",
-  "theme_color": "#0b1714",
+  "background_color": "#08071a",
+  "theme_color": "#08071a",
   "icons": [
     {
       "src": "/icon-192.png",

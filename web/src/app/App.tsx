@@ -1,5 +1,4 @@
 import { Brand } from "../components/Brand";
-import { ThemeToggle } from "../components/ThemeToggle";
 import { deployment, network } from "./network";
 import { NetworkNotice } from "./NetworkNotice";
 import { MyNamesPage, NamePage, SearchPage } from "./pages";
@@ -24,7 +23,7 @@ export function App() {
       </a>
       <header className="nav">
         <div className="container nav__inner">
-          <Brand href={homeUrl()} label="pDAI Names, pDAI Name Service: home" />
+          <Brand href={homeUrl()} label="pDAI Name Service: home" />
           <nav className="app-nav__links" aria-label="App">
             <a {...linkProps({ page: "search" })} aria-current={route.page === "search" || route.page === "name" ? "page" : undefined}>
               Search
@@ -34,7 +33,6 @@ export function App() {
             </a>
           </nav>
           <div className="nav__actions">
-            <ThemeToggle />
             <WalletButton />
           </div>
         </div>

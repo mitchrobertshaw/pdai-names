@@ -15,23 +15,32 @@ interface IHasLabelStore {
 
 /// @title PdaiNameCard
 /// @notice What wallets and NFT marketplaces show for a .pdai name, as ENS's metadata service does
-///         for .eth names: a card with the name on pDAI Names' gold, its length, when it's paid
-///         until and whether it has expired, and a link to its page in the app. Made on-chain, so
-///         nothing has to stay online for names to show properly.
+///         for .eth names: a card with the name on pDAI Name Service's navy, with the mark in pDAI's
+///         colours, its length, when it's paid until and whether it has expired, and a link to its
+///         page in the app. Made on-chain, so nothing has to stay online for names to show properly.
 /// @dev The .pdai registry's URI renderer (PermissionedRegistry.setURI). Labels are whatever was
 ///      registered, so every one is escaped for the JSON, the SVG and the link it goes into.
 contract PdaiNameCard is IRegistryURIRenderer {
     using Strings for uint256;
 
-    /// @dev The pDAI Names mark ("Coin"), as in web/src/components/Logo.tsx: a lowercase p whose
-    ///      bowl is a coin, with your name at its centre. Its box is 39.8 by 52.8, from (12.1, 5.6).
+    /// @dev The pDAI Name Service mark ("Open D"), as in web/src/components/Logo.tsx: Dai's letter
+    ///      with its upright taken away, its two lines running through the bowl and out both sides.
+    ///      Its box is 56 by 44.2, from (4, 9.9).
     string internal constant MARK_PATH =
-        "M12.1 25.5A19.9 19.9 0 1 1 51.9 25.5A19.9 19.9 0 1 1 12.1 25.5ZM17.9 25.5A14.1 14.1 0 1 0 46.1 25.5A14.1 14.1 0 1 0 17.9 25.5ZM17.9 25.5L17.9 55.5A2.9 2.9 0 0 1 12.1 55.5L12.1 25.5A2.9 2.9 0 0 1 17.9 25.5ZM24.6 25.5A7.4 7.4 0 1 1 39.4 25.5A7.4 7.4 0 1 1 24.6 25.5Z";
+        "M18.818 9.9H30.636A22.1 22.1 0 0 1 30.636 54.1H18.818A3 3 0 0 1 18.818 48.1H30.636A16.1 16.1 0 0 0 30.636 15.9H18.818A3 3 0 0 1 18.818 9.9ZM7 23.114H57A3 3 0 0 1 57 29.114H7A3 3 0 0 1 7 23.114ZM7 34.886H57A3 3 0 0 1 57 40.886H7A3 3 0 0 1 7 34.886Z";
 
-    /// @dev The ink on a live card, dark on the gold, and on an expired one, white on grey: both
-    ///      easy to read (white on gold would not be).
-    string internal constant INK = "#2B1D05";
-    string internal constant EXPIRED_INK = "#FFFFFF";
+    /// @dev pDAI's own colours, cyan to red, as gradient stops: the mark on a live card, and Dai's two
+    ///      lines along its foot.
+    string internal constant RAINBOW =
+        '<stop offset="0" stop-color="#00EAFF"/><stop offset="0.25" stop-color="#0080FF"/><stop offset="0.5" stop-color="#8000FF"/><stop offset="0.75" stop-color="#E619E6"/><stop offset="1" stop-color="#FF0000"/>';
+
+    /// @dev The words on every card: white, easy to read on the navy of a live card and on the grey
+    ///      of an expired one.
+    string internal constant INK = "#FFFFFF";
+
+    /// @dev An expired card is grey, with the mark and lines in a lighter grey instead of pDAI's colours.
+    string internal constant EXPIRED_GREY = "#4A4759";
+    string internal constant EXPIRED_MARK = "#A9A5BA";
 
     /// @dev The card's lettering: the app's own font first, then ones most devices have.
     string internal constant FONT = "Space Grotesk,Inter,Helvetica,Arial,sans-serif";
@@ -106,20 +115,25 @@ contract PdaiNameCard is IRegistryURIRenderer {
         return string.concat(name, ": one name for a wallet, on PulseChain. pDAI.domains");
     }
 
-    /// @notice The card: the name on pDAI Names' gold (grey once expired), with the pDAI Names mark.
+    /// @notice The card: the name in white on pDAI Name Service's navy (grey once expired), under the
+    ///         mark in pDAI's colours, with Dai's two lines along the foot.
     function svg(string memory label, bool expired) public pure returns (string memory) {
         (string memory shown, uint256 size) = _fit(label);
-        string memory ink = expired ? EXPIRED_INK : INK;
+        string memory art = expired ? EXPIRED_MARK : "url(#p)";
         string memory top = string.concat(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="270" height="270" viewBox="0 0 270 270">',
-            '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">',
-            '<stop offset="0" stop-color="#FFD84D"/><stop offset="0.55" stop-color="#F5AC37"/>',
-            '<stop offset="1" stop-color="#E08A1E"/></linearGradient></defs>',
+            '<svg xmlns="http://www.w3.org/2000/svg" width="270" height="270" viewBox="0 0 270 270"><defs>',
+            '<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22185A"/>',
+            '<stop offset="0.5" stop-color="#0D0B28"/><stop offset="1" stop-color="#2C0B3A"/></linearGradient>',
+            '<linearGradient id="p" gradientUnits="userSpaceOnUse" x1="56" y1="4" x2="10" y2="62">',
+            RAINBOW,
+            '</linearGradient><linearGradient id="r">',
+            RAINBOW,
+            "</linearGradient></defs>",
             expired
-                ? '<rect width="270" height="270" fill="#6E6A78"/>'
+                ? string.concat('<rect width="270" height="270" fill="', EXPIRED_GREY, '"/>')
                 : '<rect width="270" height="270" fill="url(#g)"/>',
-            '<path transform="translate(24 22) scale(0.72) translate(-12.1 -5.6)" fill="',
-            ink,
+            '<path transform="translate(24 24) scale(0.72) translate(-4 -9.9)" fill="',
+            art,
             '" d="',
             MARK_PATH,
             '"/>'
@@ -128,30 +142,38 @@ contract PdaiNameCard is IRegistryURIRenderer {
             '<text x="246" y="44" text-anchor="end" font-family="',
             FONT,
             '" font-size="12" font-weight="700" fill="',
-            ink,
-            '" fill-opacity="0.9">pDAI Names</text>',
+            INK,
+            '" fill-opacity="0.9">pDAI Name Service</text>',
             expired
                 ? string.concat(
                     '<text x="246" y="64" text-anchor="end" font-family="',
                     FONT,
                     '" font-size="11" font-weight="700" fill="',
-                    ink,
+                    INK,
                     '">EXPIRED</text>'
                 )
                 : ""
         );
+        string memory line = expired ? EXPIRED_MARK : "url(#r)";
+        string memory lines = string.concat(
+            '<rect x="24" y="240" width="222" height="2.4" fill="',
+            line,
+            '"/><rect x="24" y="246.4" width="222" height="2.4" fill="',
+            line,
+            '"/>'
+        );
         string memory nameText = string.concat(
-            '<text x="24" y="240" font-family="',
+            '<text x="24" y="226" font-family="',
             FONT,
             '" font-size="',
             size.toString(),
             '" font-weight="700" fill="',
-            ink,
+            INK,
             '">',
             _xmlEscape(shown),
             "</text></svg>"
         );
-        return string.concat(top, tag, nameText);
+        return string.concat(top, tag, lines, nameText);
     }
 
     function _attributes(string memory label, uint64 expiry, bool expired) internal pure returns (string memory) {

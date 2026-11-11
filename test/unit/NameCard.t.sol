@@ -46,10 +46,12 @@ contract NameCardTest is PdaiTestBase {
         string memory svg = deployed.nameCard.svg("alice", false);
         assertEq(image, string.concat("data:image/svg+xml;base64,", Base64.encode(bytes(svg))));
         assertTrue(_has(svg, ">alice.pdai</text>"));
-        assertTrue(_has(svg, ">pDAI Names</text>"));
-        assertTrue(_has(svg, "url(#g)"), "pDAI Names' gold");
-        assertTrue(_has(svg, 'fill="#2B1D05"'), "in dark ink, easy to read on the gold");
-        assertFalse(_has(svg, 'fill="#FFFFFF"'));
+        assertTrue(_has(svg, ">pDAI Name Service</text>"));
+        assertTrue(_has(svg, 'fill="url(#g)"'), "on pDAI Name Service's navy");
+        assertTrue(_has(svg, 'fill="url(#p)"'), "the mark in pDAI's colours");
+        assertTrue(_has(svg, 'fill="url(#r)"'), "Dai's two lines in pDAI's colours");
+        assertTrue(_has(svg, 'fill="#FFFFFF"'), "in white, easy to read on the navy");
+        assertFalse(_has(svg, "#4A4759"), "not the expired grey");
     }
 
     function test_nameCard_escapesWhateverTheLabelHolds() public {
@@ -147,9 +149,10 @@ contract NameCardTest is PdaiTestBase {
         assertTrue(_has(vm.parseJsonString(json, ".description"), "has expired"));
         string memory svg = deployed.nameCard.svg("alice", true);
         assertTrue(_has(svg, ">EXPIRED</text>"));
-        assertTrue(_has(svg, "#6E6A78"), "grey instead of the gold");
+        assertTrue(_has(svg, 'fill="#4A4759"'), "grey instead of the navy");
         assertTrue(_has(svg, 'fill="#FFFFFF"'), "in white, easy to read on the grey");
-        assertFalse(_has(svg, "#2B1D05"));
+        assertFalse(_has(svg, "url(#p)"), "the mark in grey, not pDAI's colours");
+        assertFalse(_has(svg, "url(#r)"), "the lines in grey too");
     }
 
     function test_nameCard_isSafeForAnIdNobodyHolds() public view {

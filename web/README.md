@@ -118,13 +118,14 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
   the first seven drift around the words ([`FloatingNames.tsx`](src/components/FloatingNames.tsx)):
   drag one and it springs back to its place when let go; click one and it hops and settles. On
   phones everyone scrolls past in a row, and a tap makes a name hop.
-- **The background** at the top of the page is a light wash of gold and teal that drifts slowly
-  (`.hero::before` in [`src/styles.css`](src/styles.css), coloured by the `--hero-` variables for
-  light and dark), and its bottom edge is a shallow arc, like the rim of a coin. It stays still for
-  visitors who turn off motion.
+- **The background** at the top of the page is deep navy, lit by pDAI's colours from the top right
+  (cyan) to the bottom left (magenta), as the mark is coloured, and drifting slowly
+  (`.hero::before` in [`src/styles.css`](src/styles.css), coloured by the `--glow-` variables). Dai's
+  two lines run along its bottom edge as a fine rule. It stays still for visitors who turn off
+  motion.
 - **The `.pdai` on each floating name** is in that person's colour, picked from their profile
-  picture: `tone` in [`src/data/featured.ts`](src/data/featured.ts), one shade for light and one
-  for dark, each easy to read on its background (the tests check).
+  picture: `tone` in [`src/data/featured.ts`](src/data/featured.ts), easy to read on the navy (the
+  tests check).
 - **The live strip** under the search ("● LIVE · names registered · the latest names", in
   [`LiveStrip.tsx`](src/components/LiveStrip.tsx)) comes straight from the `.pdai` registry on
   PulseChain, through the site's own function at `/api/stats`
@@ -136,13 +137,18 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
   reads at most about once a minute and keeps its place in Netlify Blobs, which needs no setting
   up. For a copy of the site on the testnet, set `VITE_NETWORK=testnet` in Netlify's environment
   variables.
-- **The pDAI Names mark**, "Coin", is in [`src/components/Logo.tsx`](src/components/Logo.tsx); the
-  browser and phone icons made from it are in [`public`](public), and every version of it, with
-  how to use it, is in [`../brand`](../brand). The on-chain name cards draw it too, and
-  [`Logo.test.ts`](src/components/Logo.test.ts) checks every copy is the same shape.
-- **The colours**: pDAI's gold for the brand (the mark, `.pdai` in headings, the cards), teal for
-  what you click, and dark ink, never white, for words on the gold. They're the variables at the
-  top of [`src/styles.css`](src/styles.css), for light and dark.
+- **The mark**, "Open D", is in [`src/components/Logo.tsx`](src/components/Logo.tsx), and the
+  lockup, the mark with "pDAI Name Service" in white beside it, in
+  [`Brand.tsx`](src/components/Brand.tsx). The browser and phone icons made from it are in
+  [`public`](public), and every version of it, with how to use it, is in [`../brand`](../brand).
+  The on-chain name cards draw it too, and [`Logo.test.ts`](src/components/Logo.test.ts) checks
+  every copy is the same shape.
+- **The colours**: one dark theme, deep navy, with pDAI's own gradient (cyan, blue, violet, magenta,
+  red, as on the token) on the mark and the buttons, a lifted version of it for `.pdai` in headings,
+  a soft violet for section labels and cyan for links. They're the variables at the top of
+  [`src/styles.css`](src/styles.css).
+- **The pDAI token** in "Pay with pDAI" is the token's own logo, in
+  [`src/assets/tokens`](src/assets/tokens).
 - **PulseChain's logo** is in [`src/assets/chains`](src/assets/chains): the PLS mark from PulseX's
   token list (the same as pulsechain.com's icon). It only shows where names live; the footer says
   pDAI Names isn't affiliated with PulseChain.
@@ -167,8 +173,8 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
   bar names it, with one button to switch to PulseChain, or to add PulseChain if the wallet doesn't
   have it, and the details to add it by hand
   ([`src/app/NetworkNotice.tsx`](src/app/NetworkNotice.tsx)).
-- **Light and dark**: the moon and sun button in the top bar switches between them and remembers
-  the choice. Until a visitor picks, the site follows their device's setting.
+- **One theme**: the site and the app are dark, the way the brand is drawn, with no light mode. The
+  brand's white wordmark and pDAI's gradient need the navy behind them.
 - **Reserved names** come straight from `script/reserved-names.csv`, the same list the contracts
   are deployed with, so the search marks exactly those names as reserved. Though the list is outside
   `web/`, a change to it rebuilds the site (`netlify.toml`).

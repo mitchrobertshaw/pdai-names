@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import pdaiToken from "../assets/tokens/pdai.svg";
 import { MAX_YEARS, PRICES, priceFor, YEARLY_PRICE } from "../lib/names";
 import { appUrl } from "../site";
 import { AddPulseChain } from "./AddPulseChain";
@@ -22,7 +23,7 @@ function Resolves() {
   return (
     <p className="resolves">
       <span className="resolves__name">
-        you<span className="pill__tld">.pdai</span>
+        you<span className="grad-text">.pdai</span>
       </span>
       <span className="resolves__arrow" aria-hidden="true">
         →
@@ -101,11 +102,11 @@ export function Features() {
         <div className="bento">
           <article className="card bento__item bento__item--wide">
             <div className="bento__art art-pay" aria-hidden="true">
-              <span className="art-pay__coin">pDAI</span>
+              <img className="art-pay__coin" src={pdaiToken} alt="" width={56} height={56} />
               <span className="art-pay__wire" />
               <span className="art-pay__name">
                 <span>
-                  you<span className="pill__tld">.pdai</span>
+                  you<span className="grad-text">.pdai</span>
                 </span>
                 <small>From {PRICE} a year</small>
               </span>

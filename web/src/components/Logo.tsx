@@ -1,35 +1,51 @@
 import { useId } from "react";
 
 /**
- * The pDAI Names mark, "Coin": a lowercase p whose bowl is a coin, with a node at its centre, your
- * name. One filled path, so it scales cleanly. The on-chain name cards draw the same path
- * (src/PdaiNameCard.sol).
+ * The pDAI Name Service mark, "Open D": Dai's letter with its upright taken away. Its round bowl,
+ * and Dai's two lines running through it and out both sides. Three shapes that overlap, in one
+ * path, so it scales cleanly. The on-chain name cards draw the same path (src/PdaiNameCard.sol).
+ *
+ * Drawn on a 64-unit grid: the bowl's centre line is a half circle of radius 19.1 round (30.636, 32),
+ * with straight ends running back to x = 18.818; the lines run from x = 7 to 57, 5.886 above and
+ * below the middle. Everything is 6 thick with round ends. The lines sit closer to each other than
+ * to the bowl (gaps of 5.77 between them, 7.21 either side) so all three gaps look the same.
  */
 export const MARK_PATH =
-  "M12.1 25.5A19.9 19.9 0 1 1 51.9 25.5A19.9 19.9 0 1 1 12.1 25.5ZM17.9 25.5A14.1 14.1 0 1 0 46.1 25.5A14.1 14.1 0 1 0 17.9 25.5ZM17.9 25.5L17.9 55.5A2.9 2.9 0 0 1 12.1 55.5L12.1 25.5A2.9 2.9 0 0 1 17.9 25.5ZM24.6 25.5A7.4 7.4 0 1 1 39.4 25.5A7.4 7.4 0 1 1 24.6 25.5Z";
+  "M18.818 9.9H30.636A22.1 22.1 0 0 1 30.636 54.1H18.818A3 3 0 0 1 18.818 48.1H30.636A16.1 16.1 0 0 0 30.636 15.9H18.818A3 3 0 0 1 18.818 9.9ZM7 23.114H57A3 3 0 0 1 57 29.114H7A3 3 0 0 1 7 23.114ZM7 34.886H57A3 3 0 0 1 57 40.886H7A3 3 0 0 1 7 34.886Z";
 
-const RATIO = 0.7538; // width / height
+/** The mark's box on the 64-unit grid, cropped tight. */
+export const MARK_VIEWBOX = "4 9.9 56 44.2";
+const RATIO = 56 / 44.2; // width / height
+
+/** pDAI's own colours, cyan to red, run across the mark from top right to bottom left. */
+export const MARK_STOPS: ReadonlyArray<readonly [string, string]> = [
+  ["0", "#00EAFF"],
+  ["0.25", "#0080FF"],
+  ["0.5", "#8000FF"],
+  ["0.75", "#E619E6"],
+  ["1", "#FF0000"],
+];
 
 /**
- * The mark in pDAI Names' gold, `height` pixels tall. Beside the wordmark it's 1.5 times the
- * wordmark's font size. Decorative: "pDAI Names" is always written beside it or nearby.
+ * The mark in pDAI's colours, `height` pixels tall. Beside the wordmark it's 1.25 times the
+ * wordmark's font size. Decorative: "pDAI Name Service" is always written beside it or nearby.
  */
-export function Logo({ height = 30 }: { height?: number }) {
+export function Logo({ height = 24 }: { height?: number }) {
   const id = `pdains-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   return (
     <svg
       className="logo"
       width={Math.round(height * RATIO * 10) / 10}
       height={height}
-      viewBox="12.1 5.6 39.8 52.8"
+      viewBox={MARK_VIEWBOX}
       aria-hidden="true"
       focusable="false"
     >
       <defs>
-        <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="12" y1="6" x2="52" y2="58">
-          <stop offset="0" stopColor="#FFCF40" />
-          <stop offset="0.5" stopColor="#F5AC37" />
-          <stop offset="1" stopColor="#D47A16" />
+        <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="56" y1="4" x2="10" y2="62">
+          {MARK_STOPS.map(([offset, color]) => (
+            <stop key={offset} offset={offset} stopColor={color} />
+          ))}
         </linearGradient>
       </defs>
       <path fill={`url(#${id})`} d={MARK_PATH} />

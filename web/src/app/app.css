@@ -39,7 +39,7 @@ body {
   margin: 0;
   padding: 10px 16px;
   border-bottom: 1px solid var(--border);
-  background: var(--warn-soft);
+  background: linear-gradient(90deg, rgb(0 128 255 / 14%), rgb(128 0 255 / 18%), rgb(230 25 230 / 14%));
   color: var(--text);
   font-size: 14px;
   text-align: center;
@@ -397,12 +397,12 @@ body {
   height: 8px;
   margin-right: 8px;
   border-radius: 50%;
-  background: #22c55e;
+  background: var(--ok);
 }
 
 /* Connected, but on another network than PulseChain. */
 .wallet-button__dot--away {
-  background: #f59e0b;
+  background: var(--warn);
 }
 
 .wallet-menu {
@@ -821,7 +821,7 @@ body {
 }
 
 .get-funds--open {
-  border-color: var(--accent, #0b7a6c);
+  border-color: var(--accent);
 }
 
 .get-funds__title {
@@ -868,7 +868,7 @@ body {
   height: 8px;
   margin-right: 8px;
   border-radius: 50%;
-  background: #f59e0b;
+  background: var(--warn);
   vertical-align: middle;
 }
 
@@ -876,7 +876,7 @@ body {
   flex-basis: 100%;
   margin: 0;
   font-size: 14px;
-  color: var(--bad, #b42318);
+  color: var(--bad);
 }
 
 .network-notice__manual {

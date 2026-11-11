@@ -3,34 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pDAI Names app | Buy and manage .pdai names</title>
+    <title>pDAI Name Service app | Buy and manage .pdai names</title>
     <meta
       name="description"
       content="Find, buy and manage your .pdai name: one name for your wallet on PulseChain."
     />
-    <meta name="theme-color" content="#fffbf2" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b1714" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#08071a" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://app.pdai.domains" />
-    <meta property="og:site_name" content="pDAI Names" />
-    <meta property="og:title" content="pDAI Names app | Buy and manage .pdai names" />
+    <meta property="og:site_name" content="pDAI Name Service" />
+    <meta property="og:title" content="pDAI Name Service app | Buy and manage .pdai names" />
     <meta
       property="og:description"
       content="Swap your 0x… for yourname.pdai. One name for your wallet on PulseChain, made for the pDAI community."
     />
     <meta name="twitter:card" content="summary" />
-    <!-- The pDAI Names mark, "Coin". The SVG is inline so the one-file copy of the site has it too. -->
+    <!-- The pDAI Name Service mark, "Open D". The SVG is inline so the one-file copy of the site has it too. -->
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22 width=%2264%22 height=%2264%22%3E%3Cdefs%3E%3ClinearGradient id=%22coin%22 gradientUnits=%22userSpaceOnUse%22 x1=%2212%22 y1=%226%22 x2=%2252%22 y2=%2258%22%3E%3Cstop offset=%220%22 stop-color=%22%23FFCF40%22/%3E%3Cstop offset=%220.5%22 stop-color=%22%23F5AC37%22/%3E%3Cstop offset=%221%22 stop-color=%22%23D47A16%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill=%22url%28%23coin%29%22 d=%22M12.1 25.5A19.9 19.9 0 1 1 51.9 25.5A19.9 19.9 0 1 1 12.1 25.5ZM17.9 25.5A14.1 14.1 0 1 0 46.1 25.5A14.1 14.1 0 1 0 17.9 25.5ZM17.9 25.5L17.9 55.5A2.9 2.9 0 0 1 12.1 55.5L12.1 25.5A2.9 2.9 0 0 1 17.9 25.5ZM24.6 25.5A7.4 7.4 0 1 1 39.4 25.5A7.4 7.4 0 1 1 24.6 25.5Z%22/%3E%3C/svg%3E" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22 width=%2264%22 height=%2264%22%3E%3Cdefs%3E%3ClinearGradient id=%22pdai%22 gradientUnits=%22userSpaceOnUse%22 x1=%2256%22 y1=%224%22 x2=%2210%22 y2=%2262%22%3E%3Cstop offset=%220%22 stop-color=%22%2300EAFF%22/%3E%3Cstop offset=%220.25%22 stop-color=%22%230080FF%22/%3E%3Cstop offset=%220.5%22 stop-color=%22%238000FF%22/%3E%3Cstop offset=%220.75%22 stop-color=%22%23E619E6%22/%3E%3Cstop offset=%221%22 stop-color=%22%23FF0000%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill=%22url%28%23pdai%29%22 d=%22M18.818 9.9H30.636A22.1 22.1 0 0 1 30.636 54.1H18.818A3 3 0 0 1 18.818 48.1H30.636A16.1 16.1 0 0 0 30.636 15.9H18.818A3 3 0 0 1 18.818 9.9ZM7 23.114H57A3 3 0 0 1 57 29.114H7A3 3 0 0 1 7 23.114ZM7 34.886H57A3 3 0 0 1 57 40.886H7A3 3 0 0 1 7 34.886Z%22/%3E%3C/svg%3E" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <script>
-      // Use the visitor's saved light or dark choice before anything is drawn.
-      try {
-        var theme = localStorage.getItem("pdains-theme");
-        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
-      } catch (error) {}
-    </script>
   </head>
   <body>
     <div id="root"></div>

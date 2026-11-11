@@ -5,8 +5,8 @@ export function Footer() {
     <footer className="footer">
       <div className="container footer__inner">
         <div className="footer__brand">
-          <Brand href="#top" label="pDAI Names: back to the top" tagline={false} />
-          <p>pDAI Name Service: names for the pDAI community, on PulseChain.</p>
+          <Brand href="#top" label="pDAI Name Service: back to the top" size={17} />
+          <p>Names for the pDAI community, on PulseChain.</p>
         </div>
         <nav className="footer__links" aria-label="Footer">
           <a href="#how">How it works</a>
