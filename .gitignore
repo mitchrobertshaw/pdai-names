@@ -9,12 +9,6 @@
 /broadcast/
 .env
 
-# The bot
-bot/node_modules/
-bot/.env
-bot/state.json
-bot/state.json.tmp
-
 # The website
 web/node_modules/
 web/dist/

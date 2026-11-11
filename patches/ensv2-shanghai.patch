@@ -22,7 +22,7 @@ index 949aca41..30b78960 100644
 -                            mload(matchName)
 -                        ) // copy suffix
 -                    }
-+                    // hex-names: PulseChain has no MCOPY (Cancun), so copy with the ens-contracts
++                    // pdai-names: PulseChain has no MCOPY (Cancun), so copy with the ens-contracts
 +                    // LibMem loop instead. Same result: the two regions never overlap.
 +                    LibMem.copy(LibMem.ptr(toName), LibMem.ptr(fromName), offset); // copy prefix
 +                    LibMem.copy(LibMem.ptr(toName) + offset, LibMem.ptr(matchName), matchName.length); // copy suffix

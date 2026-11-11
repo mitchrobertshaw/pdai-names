@@ -821,7 +821,7 @@ body {
 }
 
 .get-funds--open {
-  border-color: var(--accent, #d4145a);
+  border-color: var(--accent, #0b7a6c);
 }
 
 .get-funds__title {
