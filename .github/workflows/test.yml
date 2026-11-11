@@ -1,0 +1,98 @@
+name: test
+
+# Every push, on every branch. Pull requests show these results too, since checks follow the commit.
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    name: Contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Foundry
+        # Foundry 1.9.0, the same as the deploy workflow, straight from its release and checked
+        # against its SHA-256, rather than through the foundryup installer, whose 2.0.0 release
+        # couldn't be downloaded on 8 November 2026.
+        env:
+          FOUNDRY_VERSION: v1.9.0
+          FOUNDRY_SHA256: 8d17599b42e3139f1a9c171be3798c4ed8e743ae17b84cc3435e57bf2a51ae99
+        run: |
+          curl -sSfL --retry 20 --retry-delay 15 --retry-max-time 600 --retry-all-errors -o foundry.tar.gz \
+            "https://github.com/foundry-rs/foundry/releases/download/$FOUNDRY_VERSION/foundry_${FOUNDRY_VERSION}_linux_amd64.tar.gz"
+          echo "$FOUNDRY_SHA256  foundry.tar.gz" | sha256sum -c -
+          mkdir -p "$HOME/.foundry/bin"
+          tar -xzf foundry.tar.gz -C "$HOME/.foundry/bin"
+          rm foundry.tar.gz
+          echo "$HOME/.foundry/bin" >> "$GITHUB_PATH"
+          "$HOME/.foundry/bin/forge" --version
+
+      - name: Cache ENSv2 and its libraries
+        uses: actions/cache@v4
+        with:
+          path: lib
+          key: deps-${{ hashFiles('install-deps.sh', 'patches/**') }}
+
+      - name: Install dependencies
+        run: bash install-deps.sh
+
+      - name: Build
+        run: forge build --sizes
+
+      - name: Unit tests (both chains, with a stand-in bridge)
+        run: forge test -vvv --no-match-path "test/fork/*"
+
+      - name: Fork tests against live PulseChain and Ethereum
+        run: forge test -vvv --match-path "test/fork/*"
+        env:
+          PULSECHAIN_RPC_URL: ${{ vars.PULSECHAIN_RPC_URL || 'https://rpc.pulsechain.com' }}
+          ETHEREUM_RPC_URL: ${{ vars.ETHEREUM_RPC_URL || 'https://ethereum-rpc.publicnode.com' }}
+
+  bot:
+    name: Bot (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # 24 is what the bot runs on at Railway (RAILPACK_NODE_VERSION in deploy/README.md).
+        node: [22, 24]
+    defaults:
+      run:
+        working-directory: bot
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: bot/package-lock.json
+
+      - run: npm ci
+
+      - name: Type check and tests
+        run: npm test
+
+  web:
+    name: Website
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - run: npm ci
+
+      - name: Type check, tests and build
+        run: npm run typecheck && npm test && npm run build

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HexNS | .hex names for PulseChain and Ethereum</title>
+    <meta
+      name="description"
+      content="HEX Name Service (HexNS): one .hex name for your wallet on PulseChain and Ethereum. Swap your 0x… for yourname.hex. From $10 a year for both chains, paid on PulseChain in PLS, HEX and more."
+    />
+    <meta name="theme-color" content="#fff9f4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#130b18" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://hexns.domains" />
+    <meta property="og:site_name" content="HexNS" />
+    <meta property="og:title" content="HexNS | .hex names for PulseChain and Ethereum" />
+    <meta
+      property="og:description"
+      content="Swap your 0x… for yourname.hex. One name for your wallet on PulseChain and Ethereum, made for Hexicans."
+    />
+    <meta name="twitter:card" content="summary" />
+    <!-- The HexNS mark, "Route". The SVG is inline so the one-file copy of the site has it too. -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22 width=%2264%22 height=%2264%22%3E%3Cdefs%3E%3ClinearGradient id=%22route%22 gradientUnits=%22userSpaceOnUse%22 x1=%2210%22 y1=%226%22 x2=%2254%22 y2=%2258%22%3E%3Cstop offset=%220%22 stop-color=%22%23FFC400%22/%3E%3Cstop offset=%220.5%22 stop-color=%22%23FF6A1F%22/%3E%3Cstop offset=%221%22 stop-color=%22%23E5007A%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill=%22url%28%23route%29%22 d=%22M33.45 5.989L53.802 17.739A2.9 2.9 0 0 1 50.902 22.761L30.55 11.011A2.9 2.9 0 0 1 33.45 5.989ZM55.252 20.25L55.252 43.75A2.9 2.9 0 0 1 49.452 43.75L49.452 20.25A2.9 2.9 0 0 1 55.252 20.25ZM53.802 46.261L33.45 58.011A2.9 2.9 0 0 1 30.55 52.989L50.902 41.239A2.9 2.9 0 0 1 53.802 46.261ZM30.55 58.011L10.198 46.261A2.9 2.9 0 0 1 13.098 41.239L33.45 52.989A2.9 2.9 0 0 1 30.55 58.011ZM8.748 43.75L8.748 20.25A2.9 2.9 0 0 1 14.548 20.25L14.548 43.75A2.9 2.9 0 0 1 8.748 43.75ZM13.098 17.739L33.45 29.489A2.9 2.9 0 0 1 30.55 34.511L10.198 22.761A2.9 2.9 0 0 1 13.098 17.739ZM24.6 32A7.4 7.4 0 1 1 39.4 32A7.4 7.4 0 1 1 24.6 32Z%22/%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <script>
+      // Use the visitor's saved light or dark choice before anything is drawn.
+      try {
+        var theme = localStorage.getItem("hexns-theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch (error) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

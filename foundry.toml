@@ -1,0 +1,24 @@
+[profile.default]
+src = "src"
+test = "test"
+script = "script"
+out = "out"
+libs = ["lib"]
+# The compiler and optimizer settings ENS deploys ENSv2 with (contracts/hardhat.config.ts).
+solc_version = "0.8.25"
+optimizer = true
+optimizer_runs = 1000
+# PulseChain does not support the opcodes from Ethereum's March 2024 upgrade (TSTORE, MCOPY),
+# so everything is compiled for the previous target. The same bytecode then runs on both chains.
+evm_version = "shanghai"
+# The deploy script and the tests read the reserved names list; a test checks the website's stats.
+fs_permissions = [
+  { access = "read", path = "./script/reserved-names.csv" },
+  { access = "read", path = "./web/src/lib/stats.ts" },
+]
+
+[fuzz]
+runs = 512
+
+[fmt]
+line_length = 120

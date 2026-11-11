@@ -1,0 +1,16 @@
+# Netlify: the app lives at app.hexns.domains (add that domain to this Netlify site), where every
+# page is the app's one page. On preview links it's under /app instead.
+
+# The site's functions answer on every domain.
+https://app.hexns.domains/api/*  /api/:splat  200
+
+# app.hexns.domains: its front page and every name page are the app.
+https://app.hexns.domains/  /app/index.html  200!
+https://app.hexns.domains/*  /app/index.html  200
+
+# On the live homepage the app is always on its own domain.
+https://hexns.domains/app/*  https://app.hexns.domains/:splat  301!
+https://www.hexns.domains/app/*  https://app.hexns.domains/:splat  301!
+
+# Preview links: /app/alice.hex and the like.
+/app/*  /app/index.html  200

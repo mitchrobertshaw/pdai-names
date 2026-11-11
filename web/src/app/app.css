@@ -1,0 +1,1111 @@
+/* The app at app.hexns.domains. Colours, type, buttons and the checkout's pieces come from
+   ../styles.css; this is the app's own layout. */
+
+body {
+  background: var(--bg);
+}
+
+.app-nav__links {
+  display: none;
+  gap: 24px;
+  margin-left: 40px;
+  margin-right: auto;
+  font-weight: 600;
+}
+
+.app-nav__links a {
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.app-nav__links a:hover,
+.app-nav__links a[aria-current="page"] {
+  color: var(--text);
+}
+
+.app-nav__links a[aria-current="page"] {
+  border-bottom-color: var(--accent);
+}
+
+@media (min-width: 640px) {
+  .app-nav__links {
+    display: flex;
+  }
+}
+
+.app-banner {
+  margin: 0;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--warn-soft);
+  color: var(--text);
+  font-size: 14px;
+  text-align: center;
+}
+
+.app-main {
+  max-width: 760px;
+  min-height: calc(100svh - 64px - 140px);
+  padding-block: 40px 64px;
+}
+
+.app-footer {
+  padding-block: 24px 40px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+.app-footer a {
+  color: inherit;
+}
+
+/* ---------- Search ---------- */
+
+.app-search {
+  padding-top: 6vh;
+  text-align: center;
+}
+
+.app-search h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 1.4rem + 3vw, 3.6rem);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.app-search__lede {
+  margin: 14px 0 28px;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.app-search__box {
+  margin-top: 0;
+}
+
+.app-search__mine {
+  margin: 18px 0 0;
+  font-weight: 600;
+}
+
+.app-search__mine a {
+  color: var(--accent);
+}
+
+.recent {
+  max-width: 620px;
+  margin: 48px auto 0;
+  text-align: left;
+}
+
+.recent h2 {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.recent ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.recent a {
+  color: var(--text);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.recent a span {
+  color: var(--accent);
+}
+
+.recent__when {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ---------- A name ---------- */
+
+.name-page__back {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.name-page__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  margin: 14px 0 24px;
+}
+
+.name-page__head h1 {
+  margin: 0;
+  font-size: clamp(2rem, 1.2rem + 3vw, 3.2rem);
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+}
+
+.name-page__loading {
+  color: var(--muted);
+}
+
+.card.name-page__note {
+  padding: 20px 24px;
+  color: var(--text);
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.status--ok {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+.status--info {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.status--warn {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+.status--neutral {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.status--bad {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+
+.buy,
+.manage,
+.details {
+  padding: 28px;
+}
+
+.buy + .card,
+.details + .card,
+.manage + .card {
+  margin-top: 16px;
+}
+
+.buy__title,
+.manage__title {
+  margin: 0 0 20px;
+  font-size: 20px;
+}
+
+.buy__choices {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+  margin: 0 0 24px;
+  padding: 0;
+  border: 0;
+}
+
+.buy__cta {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.buy__connect {
+  margin-top: 20px;
+}
+
+.buy__preview-note {
+  text-align: center;
+}
+
+.buy__done {
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--ok-soft);
+}
+
+.buy__done-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ok);
+  color: var(--on-accent);
+}
+
+.buy__done p {
+  margin: 0 0 6px;
+  color: var(--text);
+}
+
+.buy__done-title {
+  font-weight: 700;
+}
+
+.buy__share code {
+  overflow-wrap: anywhere;
+}
+
+.buy__actions {
+  margin-top: 12px;
+}
+
+/* ---------- A purchase, step by step ---------- */
+
+.progress {
+  display: grid;
+  gap: 4px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.progress__item {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.progress__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  color: var(--on-accent);
+}
+
+.is-active .progress__icon {
+  border-color: var(--accent);
+  border-right-color: transparent;
+  animation: spin 0.9s linear infinite;
+}
+
+.is-done .progress__icon {
+  border-color: var(--ok);
+  background: var(--ok);
+}
+
+.is-error .progress__icon {
+  border-color: var(--bad);
+  background: var(--bad);
+}
+
+@keyframes spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+.progress__body {
+  display: grid;
+  gap: 2px;
+}
+
+.progress__title {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.is-active .progress__title,
+.is-done .progress__title,
+.is-error .progress__title {
+  color: var(--text);
+}
+
+.progress__countdown {
+  margin-left: 8px;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress__detail {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.is-error .progress__detail {
+  color: var(--bad);
+}
+
+.progress__tx {
+  color: var(--accent);
+  font-size: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-active .progress__icon {
+    animation: none;
+  }
+}
+
+/* ---------- Wallets ---------- */
+
+.wallet-button {
+  position: relative;
+}
+
+/* Narrow phones: "Connect", and a little less room between the brand and the buttons. */
+@media (max-width: 420px) {
+  .wallet-button__more {
+    display: none;
+  }
+
+  .nav__inner {
+    gap: 12px;
+  }
+}
+
+.wallet-button__dot {
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+/* Connected, but on another network than PulseChain. */
+.wallet-button__dot--away {
+  background: #f59e0b;
+}
+
+.wallet-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 50;
+  width: 280px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.wallet-menu__who {
+  display: grid;
+  margin: 4px 8px 10px;
+  font-weight: 700;
+}
+
+.wallet-menu__who span {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.wallet-menu__item {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.wallet-menu__item:hover {
+  background: var(--surface-2);
+}
+
+.wallet-choices {
+  display: grid;
+  gap: 8px;
+}
+
+.wallet-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.wallet-choice:hover {
+  background: var(--surface-2);
+}
+
+.wallet-choice img,
+.wallet-choice__blank {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+
+.wallet-choices--none p {
+  margin: 4px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.wallet-choices--none a,
+.wallet-choices--none b {
+  color: var(--text);
+}
+
+.wallet-choices__error {
+  margin: 4px 0 0;
+  color: var(--bad);
+  font-size: 14px;
+}
+
+/* ---------- Owning a name ---------- */
+
+.details dl {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+
+.details dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.details dt {
+  color: var(--muted);
+}
+
+.details dd {
+  margin: 0;
+  font-weight: 650;
+  text-align: right;
+}
+
+.details dd a {
+  color: var(--text);
+}
+
+.details__you {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.details__note {
+  margin: 16px 0 0;
+  color: var(--warn);
+}
+
+.manage__text {
+  margin: -8px 0 16px;
+  color: var(--muted);
+}
+
+.manage__note {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Under the token choice: a swap sends 2% extra, and the change comes back in USDC. */
+.manage__note.manage__change {
+  margin: -6px 0 16px;
+}
+
+/* Under the checkout's total, the same. */
+.checkout__hint.breakdown__change {
+  margin-top: 10px;
+}
+
+.manage__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.manage__row--after-note {
+  margin: 10px 0 0;
+}
+
+.manage__list {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 18px;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.manage__link {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.manage__input {
+  flex: 1 1 260px;
+  min-width: 0;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+}
+
+/* ---------- My names ---------- */
+
+.my-names h1 {
+  margin: 0;
+  font-size: clamp(2rem, 1.4rem + 2vw, 2.8rem);
+  letter-spacing: -0.03em;
+}
+
+.my-names__who {
+  margin: 6px 0 24px;
+  color: var(--muted);
+}
+
+.my-names__connect,
+.my-names__empty {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  margin-top: 20px;
+  padding: 24px;
+}
+
+.my-names__connect p,
+.my-names__empty p {
+  margin: 0;
+  color: var(--text);
+}
+
+.my-names__list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.my-names__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+}
+
+.my-names__name {
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.my-names__expiry {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.my-names__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* The referral payout report (/referrals). */
+.payouts {
+  display: grid;
+  gap: 16px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.payouts h1 {
+  margin: 0;
+}
+
+.payouts__lede,
+.payouts__offer {
+  margin: 0;
+  color: var(--muted);
+}
+
+.payouts__card {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+}
+
+.payouts__card p {
+  margin: 0;
+}
+
+.payouts__form {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  align-items: end;
+}
+
+.payouts__form label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.payouts__form input {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.payouts__note {
+  grid-column: 1 / -1;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.payouts__title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.bot__balances {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.bot__balances div {
+  display: grid;
+  gap: 2px;
+}
+
+.bot__balances dt {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.bot__balances dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.bot__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  align-items: end;
+  gap: 12px;
+}
+
+.bot__form label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.bot__form input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.payouts__scroll {
+  overflow-x: auto;
+}
+
+.payouts__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.payouts__table th,
+.payouts__table td {
+  padding: 10px 12px 10px 0;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.payouts__table thead th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.payouts__wallet {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.payouts__how,
+.payouts__summary {
+  font-size: 14px;
+}
+
+.payouts__list {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.payouts__download {
+  justify-self: start;
+}
+
+/* On phones each referrer is a short block, with what's owed in view. */
+@media (max-width: 640px) {
+  .payouts__table thead {
+    display: none;
+  }
+
+  .payouts__table,
+  .payouts__table tbody,
+  .payouts__table tr,
+  .payouts__table th,
+  .payouts__table td {
+    display: block;
+    white-space: normal;
+  }
+
+  .payouts__table tr {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .payouts__table th,
+  .payouts__table td {
+    border: 0;
+    padding: 3px 0;
+  }
+
+  .payouts__table th {
+    font-size: 16px;
+  }
+
+  .payouts__table td[data-label]::before {
+    content: attr(data-label) ": ";
+    color: var(--muted);
+  }
+
+  .payouts__table td[data-label="Pay to"]::before {
+    content: none;
+  }
+}
+
+.payouts__pay {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.payouts__paid {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  font-size: 14px;
+}
+
+/* Getting money onto PulseChain, with LibertySwap. */
+.get-funds {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 24px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.get-funds summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.get-funds p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.get-funds--open {
+  border-color: var(--accent, #d4145a);
+}
+
+.get-funds__title {
+  margin: 0;
+  font-size: 16px;
+}
+
+.get-funds__steps {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+}
+
+.get-funds .button {
+  justify-self: start;
+}
+
+/* The connected wallet is on another network than PulseChain. */
+.network-notice {
+  border-bottom: 1px solid var(--border);
+  background: var(--warn-soft);
+}
+
+.network-notice__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.network-notice__text {
+  flex: 1 1 320px;
+  margin: 0;
+  font-size: 15px;
+}
+
+.network-notice__dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  vertical-align: middle;
+}
+
+.network-notice__error {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 14px;
+  color: var(--bad, #b42318);
+}
+
+.network-notice__manual {
+  flex-basis: 100%;
+  font-size: 14px;
+}
+
+.network-notice__manual summary {
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.network-notice__manual p {
+  margin: 8px 0;
+}
+
+.network-notice__manual dl {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+
+.network-notice__manual dl div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: center;
+}
+
+.network-notice__manual dt {
+  min-width: 130px;
+  color: var(--muted);
+}
+
+.network-notice__manual dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* The admin page: the payouts page's cards and forms, with a box for several names. */
+.bot__form textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 72px;
+  box-sizing: border-box;
+  resize: vertical;
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.bot__form .admin__wide {
+  grid-column: 1 / -1;
+}
+
+.admin__subtitle {
+  margin: 8px 0 0;
+  font-size: 16px;
+}
+
+.admin__row-actions {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.buy__paused {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface-2);
+}
+
+/* ---------- The Ethereum copy fee ---------- */
+
+.copy-choice {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.copy-choice button {
+  display: grid;
+  gap: 2px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.copy-choice button span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.copy-choice button:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+
+.copy-choice button[aria-checked="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.copy-choice button[aria-checked="true"] b {
+  color: var(--accent);
+}
+
+.copy-choice__busy {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--surface-2);
+}
+
+.chips--small button {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.details dl > div.details__wide {
+  flex-wrap: wrap;
+}
+
+.copy-now {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.copy-now__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.copy-now__or {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: right;
+}
+
+.manage__fee {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+}

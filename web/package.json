@@ -1,0 +1,39 @@
+{
+  "name": "hexns-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The Hex Name Service website: hexns.domains.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "build:single": "tsc --noEmit && vite build --mode single",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "avatars": "node scripts/fetch-avatars.mjs"
+  },
+  "dependencies": {
+    "@adraffy/ens-normalize": "1.11.1",
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource-variable/space-grotesk": "5.3.0",
+    "@netlify/blobs": "11.1.5",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tweetnacl": "1.0.3",
+    "viem": "2.21.55"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.2.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.6",
+    "vite-plugin-singlefile": "2.3.4",
+    "vitest": "5.1.0"
+  }
+}

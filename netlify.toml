@@ -1,0 +1,18 @@
+# Netlify builds the website in web/ from this repo. See web/README.md.
+[build]
+  base = "web"
+  command = "npm run build"
+  publish = "dist"
+  # Netlify skips a build when nothing in web/ changed. The site also shows the reserved names list,
+  # which lives in script/, so a change to it (or to this file) rebuilds the site too.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ../script/reserved-names.csv ../netlify.toml"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"

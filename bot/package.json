@@ -1,0 +1,27 @@
+{
+  "name": "hex-names-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fills .hex orders placed on Ethereum within about two minutes, and relays bridge messages to Ethereum.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "keygen": "tsx src/keygen.ts",
+    "check-claim": "tsx scripts/check-claim.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsc --noEmit && tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "tsx": "4.19.2",
+    "tweetnacl": "1.0.3",
+    "viem": "2.21.55"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "typescript": "5.7.2"
+  }
+}

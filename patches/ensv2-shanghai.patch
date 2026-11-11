@@ -1,0 +1,31 @@
+diff --git a/contracts/src/resolver/PermissionedResolver.sol b/contracts/src/resolver/PermissionedResolver.sol
+index 949aca41..30b78960 100644
+--- a/contracts/src/resolver/PermissionedResolver.sol
++++ b/contracts/src/resolver/PermissionedResolver.sol
+@@ -17,6 +17,7 @@ import {IVersionableResolver} from "@ens/contracts/resolvers/profiles/IVersionab
+ import {ResolverFeatures} from "@ens/contracts/resolvers/ResolverFeatures.sol";
+ import {ENSIP19, COIN_TYPE_ETH, COIN_TYPE_DEFAULT} from "@ens/contracts/utils/ENSIP19.sol";
+ import {IERC7996} from "@ens/contracts/utils/IERC7996.sol";
++import {LibMem} from "@ens/contracts/utils/LibMem/LibMem.sol";
+ import {NameCoder} from "@ens/contracts/utils/NameCoder.sol";
+ import {IProxyAuthorization} from "@ensdomains/verifiable-factory/IProxyAuthorization.sol";
+ import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+@@ -780,14 +781,10 @@ contract PermissionedResolver is
+                 if (offset > 0) {
+                     // rewrite prefix: [x.y].{fromName[offset:]} => [x.y].{matchName}
+                     toName = new bytes(offset + matchName.length);
+-                    assembly {
+-                        mcopy(add(toName, 32), add(fromName, 32), offset) // copy prefix
+-                        mcopy(
+-                            add(toName, add(32, offset)),
+-                            add(matchName, 32),
+-                            mload(matchName)
+-                        ) // copy suffix
+-                    }
++                    // hex-names: PulseChain has no MCOPY (Cancun), so copy with the ens-contracts
++                    // LibMem loop instead. Same result: the two regions never overlap.
++                    LibMem.copy(LibMem.ptr(toName), LibMem.ptr(fromName), offset); // copy prefix
++                    LibMem.copy(LibMem.ptr(toName) + offset, LibMem.ptr(matchName), matchName.length); // copy suffix
+                 } else {
+                     toName = matchName;
+                 }
