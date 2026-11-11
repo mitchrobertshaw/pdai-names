@@ -49,7 +49,6 @@ contract NameCardTest is PdaiTestBase {
         assertTrue(_has(svg, ">pDAI Name Service</text>"));
         assertTrue(_has(svg, 'fill="url(#g)"'), "on pDAI Name Service's navy");
         assertTrue(_has(svg, 'fill="url(#p)"'), "the mark in pDAI's colours");
-        assertTrue(_has(svg, 'fill="url(#r)"'), "Dai's two lines in pDAI's colours");
         assertTrue(_has(svg, 'fill="#FFFFFF"'), "in white, easy to read on the navy");
         assertFalse(_has(svg, "#4A4759"), "not the expired grey");
     }
@@ -152,7 +151,6 @@ contract NameCardTest is PdaiTestBase {
         assertTrue(_has(svg, 'fill="#4A4759"'), "grey instead of the navy");
         assertTrue(_has(svg, 'fill="#FFFFFF"'), "in white, easy to read on the grey");
         assertFalse(_has(svg, "url(#p)"), "the mark in grey, not pDAI's colours");
-        assertFalse(_has(svg, "url(#r)"), "the lines in grey too");
     }
 
     function test_nameCard_isSafeForAnIdNobodyHolds() public view {

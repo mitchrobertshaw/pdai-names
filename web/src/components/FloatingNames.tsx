@@ -7,7 +7,7 @@ import { Avatar } from "./Avatar";
  * Where the names float on wide screens, inside the content width like ENS's: `x` is the distance
  * from that side, as a percentage of the content width; `y` is the distance from the middle of the
  * hero in pixels, chosen to sit beside the badge, above the words and beside the search, never
- * beside the wide headline. The first seven people float here; everyone scrolls past on phones.
+ * beside the wide headline. The first eight people float here; everyone scrolls past on phones.
  */
 const SLOTS: { side: "left" | "right"; x: number; y: number; scale: number }[] = [
   { side: "left", x: 7, y: -325, scale: 0.96 },
@@ -16,8 +16,9 @@ const SLOTS: { side: "left" | "right"; x: number; y: number; scale: number }[] =
   { side: "right", x: 0, y: -240, scale: 1 },
   { side: "left", x: 1, y: 112, scale: 1 },
   { side: "right", x: 1, y: 100, scale: 1.04 },
-  // Top middle, between the first two and above the badge.
+  // Top middle, between the first two and above the badge, one each side.
   { side: "left", x: 33, y: -318, scale: 0.92 },
+  { side: "right", x: 31, y: -306, scale: 0.92 },
   // None lower down: the search and the live line below it have the bottom to themselves.
 ];
 

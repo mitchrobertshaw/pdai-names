@@ -28,8 +28,12 @@ export const MARK_STOPS: ReadonlyArray<readonly [string, string]> = [
   ["1", "#FF0000"],
 ];
 
-/** Across the mark the gradient runs from its bottom left (cyan) to its top right (red). */
-export const MARK_GRADIENT = { x1: 4, y1: 54.1, x2: 60, y2: 9.9 } as const;
+/**
+ * Across the mark the gradient runs from its bottom left (cyan) towards its top right (red), set a
+ * little to the right of the mark's middle so more of the cyan and blue shows: the magenta falls in
+ * the bowl, and the red only at its top right.
+ */
+export const MARK_GRADIENT = { x1: 10.3, y1: 49.1, x2: 66.3, y2: 4.9 } as const;
 
 /**
  * The mark in the brand's gradient, `height` pixels tall. Beside the wordmark it's 1.55 times the

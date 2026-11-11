@@ -210,9 +210,9 @@ name's page in the app explains how. What wallets and marketplaces show for a na
 registry itself, as ENS's metadata service does it for .eth names:
 [`PdaiNameCard`](src/PdaiNameCard.sol) makes each name's card on-chain, so nothing has to stay
 online. The card has the name in white on pDAI Name Service's navy, under the mark in the brand's
-gradient, with Dai's two lines along its foot (all grey once expired), sized to fit whichever common
-font a wallet draws it in, and the details give its length, when it's paid until, whether it has
-expired, and a link to its page in the app.
+gradient (all grey once expired), sized to fit whichever common font a wallet draws it in, and the
+details give its length, when it's paid until, whether it has expired, and a link to its page in the
+app.
 
 **Running ENSv2 on PulseChain.** PulseChain lacks the opcodes from Ethereum's March 2024 upgrade
 (`TSTORE`, `MCOPY`). So everything is compiled for the previous target, Shanghai, with the compiler

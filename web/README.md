@@ -108,21 +108,22 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
 
 ## Changing things
 
-- **The floating names** are people from the PulseChain community, listed in
-  [`src/data/featured.ts`](src/data/featured.ts) with their X handles: to begin with, the same
-  people as HexNS's homepage. After adding someone, run `npm run avatars` to save their profile
-  picture into `src/assets/avatars` (or ask Claude to). Every person shown must also be in
+- **The floating names** are people and projects from the pDAI community, listed in
+  [`src/data/featured.ts`](src/data/featured.ts) with their X handles: pDAI Conference, LibertySwap,
+  NineIronCapital, Your Friend Sommi, Coexisteven, ZKX Wallet, bluntfullstop and Cryptogirl. After
+  adding someone, run `npm run avatars` to save their profile picture into `src/assets/avatars` (or
+  ask Claude to). Every person shown must also be in
   [`../script/reserved-names.csv`](../script/reserved-names.csv), so nobody can buy their name
   first; the tests check both. A name and photo on the homepage reads as that person backing pDAI
-  Names, so it's worth asking them first, even if they agreed to appear on HexNS's. On wide screens
-  the first seven drift around the words ([`FloatingNames.tsx`](src/components/FloatingNames.tsx)):
-  drag one and it springs back to its place when let go; click one and it hops and settles. On
-  phones everyone scrolls past in a row, and a tap makes a name hop.
-- **The background** at the top of the page is deep navy, lit by pDAI's colours from the top right
-  (cyan) to the bottom left (magenta), as the mark is coloured, and drifting slowly
-  (`.hero::before` in [`src/styles.css`](src/styles.css), coloured by the `--glow-` variables). Dai's
-  two lines run along its bottom edge as a fine rule. It stays still for visitors who turn off
-  motion.
+  Names, so it's worth asking them first. On wide screens all eight drift around the words
+  ([`FloatingNames.tsx`](src/components/FloatingNames.tsx)): drag one and it springs back to its
+  place when let go; click one and it hops and settles. On phones everyone scrolls past in a row,
+  and a tap makes a name hop.
+- **The background** at the top of the page is deep navy, lit softly in the brand's colours, cyan
+  low on the left, magenta in the middle and red high on the right, as the gradient runs across the
+  mark, and drifting slowly (`.hero::before` in [`src/styles.css`](src/styles.css), coloured by the
+  `--glow-` variables). Dai's two lines run along its bottom edge as a fine rule. It stays still for
+  visitors who turn off motion.
 - **The `.pdai` on each floating name** is in the brand's gradient, cyan to magenta to red, as it
   is in the headline.
 - **The live strip** under the search ("● LIVE · names registered · the latest names", in

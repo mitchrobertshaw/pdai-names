@@ -15,13 +15,12 @@ export interface FeaturedName {
 }
 
 export const featuredNames: FeaturedName[] = [
-  { label: "richardheart", person: "Richard Heart", x: "RichardHeartWin" },
-  { label: "yourfriendsommi", person: "Your Friend Sommi", x: "yourfriendSOMMI" },
-  { label: "cryptocoffee", person: "Crypto Coffee", x: "CryptoCoffee369" },
-  { label: "broots", person: "BRoots", x: "iambroots" },
-  { label: "hexologist", person: "Hexologist", x: "Hexologist31" },
-  { label: "dollarcostcrypto", person: "Dollar Cost Crypto", x: "dollarcostcrypt" },
-  { label: "5996", person: "5996", picture: "5996" },
-  { label: "matiallin", person: "Mati Allin", x: "MatiAllin" },
+  { label: "pdaiconference", person: "pDAI Conference", x: "pDAI_Conference" },
+  { label: "libertyswap", person: "LibertySwap", x: "LibertySwapFi" },
   { label: "nineironcapital", person: "NineIronCapital", x: "NineIronCapital" },
+  { label: "yourfriendsommi", person: "Your Friend Sommi", x: "yourfriendSOMMI" },
+  { label: "coexisteven", person: "Coexisteven", x: "Coexisteven" },
+  { label: "zkxwallet", person: "ZKX Wallet", x: "zkxwallet" },
+  { label: "bluntfullstop", person: "bluntfullstop", x: "bluntfullstop" },
+  { label: "cryptogirl", person: "Cryptogirl", x: "cryptogirrrl" },
 ];

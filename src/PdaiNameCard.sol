@@ -30,8 +30,7 @@ contract PdaiNameCard is IRegistryURIRenderer {
         "M18.818 9.9H30.636A22.1 22.1 0 0 1 30.636 54.1H18.818A3 3 0 0 1 18.818 48.1H30.636A16.1 16.1 0 0 0 30.636 15.9H18.818A3 3 0 0 1 18.818 9.9ZM7 23.114H57A3 3 0 0 1 57 29.114H7A3 3 0 0 1 7 23.114ZM7 34.886H57A3 3 0 0 1 57 40.886H7A3 3 0 0 1 7 34.886Z";
 
     /// @dev The brand's gradient, three of pDAI's colours (cyan, magenta and red), as gradient stops:
-    ///      the mark on a live card, from its bottom left to its top right, and Dai's two lines along
-    ///      the card's foot, left to right. As on the website.
+    ///      the mark on a live card, from its bottom left towards its top right, as on the website.
     string internal constant RAINBOW =
         '<stop offset="0" stop-color="#00EAFF"/><stop offset="0.5" stop-color="#E619E6"/><stop offset="1" stop-color="#FF0000"/>';
 
@@ -39,7 +38,7 @@ contract PdaiNameCard is IRegistryURIRenderer {
     ///      of an expired one.
     string internal constant INK = "#FFFFFF";
 
-    /// @dev An expired card is grey, with the mark and lines in a lighter grey instead of pDAI's colours.
+    /// @dev An expired card is grey, with the mark in a lighter grey instead of pDAI's colours.
     string internal constant EXPIRED_GREY = "#4A4759";
     string internal constant EXPIRED_MARK = "#A9A5BA";
 
@@ -117,7 +116,7 @@ contract PdaiNameCard is IRegistryURIRenderer {
     }
 
     /// @notice The card: the name in white on pDAI Name Service's navy (grey once expired), under the
-    ///         mark in pDAI's colours, with Dai's two lines along the foot.
+    ///         mark in the brand's gradient.
     function svg(string memory label, bool expired) public pure returns (string memory) {
         (string memory shown, uint256 size) = _fit(label);
         string memory art = expired ? EXPIRED_MARK : "url(#p)";
@@ -125,9 +124,7 @@ contract PdaiNameCard is IRegistryURIRenderer {
             '<svg xmlns="http://www.w3.org/2000/svg" width="270" height="270" viewBox="0 0 270 270"><defs>',
             '<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#100E2C"/>',
             '<stop offset="0.55" stop-color="#08071A"/><stop offset="1" stop-color="#1F0B2C"/></linearGradient>',
-            '<linearGradient id="p" gradientUnits="userSpaceOnUse" x1="4" y1="54.1" x2="60" y2="9.9">',
-            RAINBOW,
-            '</linearGradient><linearGradient id="r">',
+            '<linearGradient id="p" gradientUnits="userSpaceOnUse" x1="10.3" y1="49.1" x2="66.3" y2="4.9">',
             RAINBOW,
             "</linearGradient></defs>",
             expired
@@ -155,16 +152,8 @@ contract PdaiNameCard is IRegistryURIRenderer {
                 )
                 : ""
         );
-        string memory line = expired ? EXPIRED_MARK : "url(#r)";
-        string memory lines = string.concat(
-            '<rect x="24" y="240" width="222" height="2.4" fill="',
-            line,
-            '"/><rect x="24" y="246.4" width="222" height="2.4" fill="',
-            line,
-            '"/>'
-        );
         string memory nameText = string.concat(
-            '<text x="24" y="226" font-family="',
+            '<text x="24" y="240" font-family="',
             FONT,
             '" font-size="',
             size.toString(),
@@ -174,7 +163,7 @@ contract PdaiNameCard is IRegistryURIRenderer {
             _xmlEscape(shown),
             "</text></svg>"
         );
-        return string.concat(top, tag, lines, nameText);
+        return string.concat(top, tag, nameText);
     }
 
     function _attributes(string memory label, uint64 expiry, bool expired) internal pure returns (string memory) {
