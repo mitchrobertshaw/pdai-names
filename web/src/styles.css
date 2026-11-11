@@ -20,15 +20,17 @@
   --warn-soft: rgb(255 179 92 / 14%);
   --bad: #ff6b8b;
   --bad-soft: rgb(255 107 139 / 15%);
-  /* pDAI's own rainbow, cyan to red, as on the token and the mark: for lines and edges. */
-  --rainbow: linear-gradient(90deg, #00eaff 0%, #0080ff 25%, #8000ff 50%, #e619e6 75%, #ff2a2a 100%);
+  /* pDAI's own five colours, lifted a little to stand out on the navy, as on the mark: for lines
+     and edges. */
+  --rainbow: linear-gradient(90deg, #00eaff 0%, #2b8cff 25%, #a05aff 50%, #f23cf2 75%, #ff3d3d 100%);
   /* The buttons: exactly the gradient on the pDAI token, its five colours at the same stops, running
      the same way, from the top right to the bottom left. */
   --grad: linear-gradient(208deg, #00eaff 0%, #0080ff 25.25%, #8000ff 49.74%, #e619e6 74.99%, #f00 99.91%);
   /* Section labels: a soft violet from the middle of pDAI's colours. */
   --label: #b48cff;
-  /* The rainbow lifted, for words on navy. */
-  --grad-text: linear-gradient(100deg, #38e1ff 0%, #6f8bff 34%, #b36bff 66%, #ff5fd2 100%);
+  /* Words in pDAI's colours, like ".pdai" in the headline: all five, cyan to red, lifted as on the
+     mark so each reads on the navy. */
+  --grad-text: linear-gradient(100deg, #00eaff 0%, #2b8cff 25%, #a05aff 50%, #f23cf2 75%, #ff3d3d 100%);
   /* Soft light from the rainbow, behind the top of the page and the big panels. */
   --glow-cyan: rgb(0 200 255 / 16%);
   --glow-blue: rgb(0 110 255 / 16%);
@@ -1844,7 +1846,7 @@ img {
   border-radius: 24px;
   background:
     radial-gradient(70% 70% at var(--mx, 25%) var(--my, 15%), rgb(255 255 255 / 13%), transparent 70%),
-    linear-gradient(150deg, #22185a 0%, #0d0b28 50%, #2c0b3a 100%);
+    linear-gradient(160deg, #100e2c 0%, #08071a 55%, #1f0b2c 100%);
   box-shadow:
     0 34px 60px -24px rgb(0 0 0 / 75%),
     inset 0 1px 0 rgb(255 255 255 / 14%);

@@ -15,7 +15,7 @@ billboard, in a browser or in any design tool.
 | `pdains-mark-square.svg` | The mark in colour, centred in a square (avatars, favicons). |
 | `pdains-mark-white.svg` | One colour, on dark backgrounds or photos. |
 | `pdains-mark-black.svg` | One colour, navy, on light backgrounds. |
-| `pdains-app-icon.svg` / `-1024.png` | App icon: the mark in colour on navy. The website's phone icons are this. |
+| `pdains-app-icon.svg` / `-1024.png` | App icon: the mark in colour on navy. The website's phone icons and favicon are this. |
 | `pdains-app-icon-bright.svg` / `-1024.png` | App icon: the white mark on pDAI's gradient, like the token. |
 | `pdains-mark-1024.png` | The mark in colour as a picture, transparent background. |
 
@@ -27,15 +27,22 @@ wallets show draw it too (`src/PdaiNameCard.sol`). A test checks all of them use
 
 | | |
 | --- | --- |
-| pDAI's gradient, as on the token: the mark, the buttons, Dai's two lines | `#00EAFF` 0% → `#0080FF` 25% → `#8000FF` 50% → `#E619E6` 75% → `#FF0000` 100% |
+| The mark, Dai's two lines, and words in colour (like ".pdai" in headlines) | `#00EAFF` 0% → `#2B8CFF` 25% → `#A05AFF` 50% → `#F23CF2` 75% → `#FF3D3D` 100% |
+| The buttons, and the bright app icon: the pDAI token's own gradient | `#00EAFF` 0% → `#0080FF` 25% → `#8000FF` 50% → `#E619E6` 75% → `#FF0000` 100% |
 | Navy: the site, the name cards, the app icon | `#08071A` (page), `#121131` (cards) |
 | The wordmark, and words on the navy | `#FFFFFF` |
 | Section labels | `#B48CFF` |
 | Links | `#5EE2FF` |
 
-The gradient runs the way it does on the pDAI token: from the top right (cyan) to the bottom left
-(red). On the mark it runs from (56, 4) to (10, 62) on the 64-unit grid; in CSS it's
-`linear-gradient(208deg, …)`. Words on it are white, with a soft shadow beneath them.
+The mark's colours are the token's five, each lifted a little so every part of the mark stands out
+on the navy: at least 4.7 to 1, where the token's own violet is only 3.2 to 1 and would sink into
+the background. Where white words sit on the colours (the buttons, the bright app icon), the
+token's own gradient is used as it is, with a soft shadow beneath the words.
+
+Both gradients run the way the token's does: from the top right (cyan) to the bottom left (red).
+On the mark it runs from (56, 4) to (10, 62) on the 64-unit grid; on the buttons it's
+`linear-gradient(208deg, …)`; on words it runs left to right, so each letter of ".pdai" takes the
+next colour.
 
 ## Using it
 

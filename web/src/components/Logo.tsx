@@ -17,13 +17,17 @@ export const MARK_PATH =
 export const MARK_VIEWBOX = "4 9.9 56 44.2";
 const RATIO = 56 / 44.2; // width / height
 
-/** pDAI's own colours, cyan to red, run across the mark from top right to bottom left. */
+/**
+ * pDAI's own five colours, cyan to red, run across the mark from top right to bottom left. Each is
+ * lifted a little from the token's (#0080FF, #8000FF, #E619E6, #FF0000), so every part of the mark
+ * stands out on the navy: at least 4.7 to 1, where the token's violet is only 3.2.
+ */
 export const MARK_STOPS: ReadonlyArray<readonly [string, string]> = [
   ["0", "#00EAFF"],
-  ["0.25", "#0080FF"],
-  ["0.5", "#8000FF"],
-  ["0.75", "#E619E6"],
-  ["1", "#FF0000"],
+  ["0.25", "#2B8CFF"],
+  ["0.5", "#A05AFF"],
+  ["0.75", "#F23CF2"],
+  ["1", "#FF3D3D"],
 ];
 
 /**
