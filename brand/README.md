@@ -27,7 +27,8 @@ wallets show draw it too (`src/PdaiNameCard.sol`). A test checks all of them use
 
 | | |
 | --- | --- |
-| The mark, Dai's two lines, and words in colour (like ".pdai" in headlines) | `#00EAFF` 0% → `#2B8CFF` 25% → `#A05AFF` 50% → `#F23CF2` 75% → `#FF3D3D` 100% |
+| The mark and Dai's two lines | `#00EAFF` 0% → `#2B8CFF` 25% → `#A05AFF` 50% → `#F23CF2` 75% → `#FF3D3D` 100% |
+| Words in colour, like ".pdai" in headlines: the two light colours | `#00EAFF` → `#F23CF2` |
 | The buttons, and the bright app icon: the pDAI token's own gradient | `#00EAFF` 0% → `#0080FF` 25% → `#8000FF` 50% → `#E619E6` 75% → `#FF0000` 100% |
 | Navy: the site, the name cards, the app icon | `#08071A` (page), `#121131` (cards) |
 | The wordmark, and words on the navy | `#FFFFFF` |
@@ -39,10 +40,10 @@ on the navy: at least 4.7 to 1, where the token's own violet is only 3.2 to 1 an
 the background. Where white words sit on the colours (the buttons, the bright app icon), the
 token's own gradient is used as it is, with a soft shadow beneath the words.
 
-Both gradients run the way the token's does: from the top right (cyan) to the bottom left (red).
-On the mark it runs from (56, 4) to (10, 62) on the 64-unit grid; on the buttons it's
-`linear-gradient(208deg, …)`; on words it runs left to right, so each letter of ".pdai" takes the
-next colour.
+On the mark the gradient runs the way the token's does, from the top right (cyan) to the bottom
+left (red): from (56, 4) to (10, 62) on the 64-unit grid. On the buttons it runs straight across,
+cyan on the left to red on the right (`linear-gradient(90deg, …)`), and on words left to right,
+cyan to pink.
 
 ## Using it
 
