@@ -16,7 +16,7 @@ billboard, in a browser or in any design tool.
 | `pdains-mark-white.svg` | One colour, on dark backgrounds or photos. |
 | `pdains-mark-black.svg` | One colour, navy, on light backgrounds. |
 | `pdains-app-icon.svg` / `-1024.png` | App icon: the mark in colour on navy. The website's phone icons and favicon are this. |
-| `pdains-app-icon-bright.svg` / `-1024.png` | App icon: the white mark on pDAI's gradient, like the token. |
+| `pdains-app-icon-bright.svg` / `-1024.png` | App icon: the white mark on the gradient, like the token. |
 | `pdains-mark-1024.png` | The mark in colour as a picture, transparent background. |
 
 The website's own icons (favicon, phone home-screen icons) are in `web/public`, the mark itself is
@@ -27,29 +27,22 @@ wallets show draw it too (`src/PdaiNameCard.sol`). A test checks all of them use
 
 | | |
 | --- | --- |
-| The mark and Dai's two lines | `#00EAFF` 0% → `#2B8CFF` 25% → `#A05AFF` 50% → `#F23CF2` 75% → `#FF3D3D` 100% |
-| Words in colour, like ".pdai" in headlines: the two light colours | `#00EAFF` → `#F23CF2` |
-| The buttons, and the bright app icon: the pDAI token's own gradient | `#00EAFF` 0% → `#0080FF` 25% → `#8000FF` 50% → `#E619E6` 75% → `#FF0000` 100% |
+| The gradient: the mark, the buttons, words in colour (like ".pdai"), Dai's two lines | `#00EAFF` → `#E619E6` → `#FF0000` (cyan, magenta, red) |
+| The accent: links, focus, what's selected | `#E619E6` (magenta) |
+| Section labels | `#F28CF2` (a tint of the magenta) |
 | Navy: the site, the name cards, the app icon | `#08071A` (page), `#121131` (cards) |
 | The wordmark, and words on the navy | `#FFFFFF` |
-| Section labels | `#B48CFF` |
-| Links | `#5EE2FF` |
 
-The mark's colours are the token's five, each lifted a little so every part of the mark stands out
-on the navy: at least 4.7 to 1, where the token's own violet is only 3.2 to 1 and would sink into
-the background. Where white words sit on the colours (the buttons, the bright app icon), the
-token's own gradient is used as it is, with a soft shadow beneath the words.
-
-On the mark the gradient runs the way the token's does, from the top right (cyan) to the bottom
-left (red): from (56, 4) to (10, 62) on the 64-unit grid. On the buttons it runs straight across,
-cyan on the left to red on the right (`linear-gradient(90deg, …)`), and on words left to right,
-cyan to pink.
+There is one gradient, three of pDAI's colours, and it's the same everywhere. Across the mark it
+runs from the bottom left (cyan) to the top right (red): from (4, 54.1) to (60, 9.9) on the 64-unit
+grid. Across buttons, lines and words it runs left to right. Each of its colours stands out on the
+navy by at least 5 to 1.
 
 ## Using it
 
 - The lockup is the mark, then "pDAI Name Service" in white, in Space Grotesk: "pDAI" bold (700)
-  and "Name Service" medium (500). The mark is 1.25 times the type size tall, with a gap of half the
-  type size: a 22.5px mark beside 18px type, as in the website's top bar.
+  and "Name Service" medium (500). The mark is 1.55 times the type size tall, with a gap of half the
+  type size: a 28px mark beside 18px type, as in the website's top bar.
 - Put the lockup on navy or another dark colour, never on white: the wordmark is white.
 - On its own, the mark can be as large as you like. Leave space around it at least as wide as its
   bowl's line.

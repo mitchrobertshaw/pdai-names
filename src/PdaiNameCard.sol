@@ -29,11 +29,11 @@ contract PdaiNameCard is IRegistryURIRenderer {
     string internal constant MARK_PATH =
         "M18.818 9.9H30.636A22.1 22.1 0 0 1 30.636 54.1H18.818A3 3 0 0 1 18.818 48.1H30.636A16.1 16.1 0 0 0 30.636 15.9H18.818A3 3 0 0 1 18.818 9.9ZM7 23.114H57A3 3 0 0 1 57 29.114H7A3 3 0 0 1 7 23.114ZM7 34.886H57A3 3 0 0 1 57 40.886H7A3 3 0 0 1 7 34.886Z";
 
-    /// @dev pDAI's own five colours, cyan to red, as gradient stops: the mark on a live card, and Dai's
-    ///      two lines along its foot. Lifted a little from the token's, as on the website, so every
-    ///      part stands out on the navy.
+    /// @dev The brand's gradient, three of pDAI's colours (cyan, magenta and red), as gradient stops:
+    ///      the mark on a live card, from its bottom left to its top right, and Dai's two lines along
+    ///      the card's foot, left to right. As on the website.
     string internal constant RAINBOW =
-        '<stop offset="0" stop-color="#00EAFF"/><stop offset="0.25" stop-color="#2B8CFF"/><stop offset="0.5" stop-color="#A05AFF"/><stop offset="0.75" stop-color="#F23CF2"/><stop offset="1" stop-color="#FF3D3D"/>';
+        '<stop offset="0" stop-color="#00EAFF"/><stop offset="0.5" stop-color="#E619E6"/><stop offset="1" stop-color="#FF0000"/>';
 
     /// @dev The words on every card: white, easy to read on the navy of a live card and on the grey
     ///      of an expired one.
@@ -125,7 +125,7 @@ contract PdaiNameCard is IRegistryURIRenderer {
             '<svg xmlns="http://www.w3.org/2000/svg" width="270" height="270" viewBox="0 0 270 270"><defs>',
             '<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#100E2C"/>',
             '<stop offset="0.55" stop-color="#08071A"/><stop offset="1" stop-color="#1F0B2C"/></linearGradient>',
-            '<linearGradient id="p" gradientUnits="userSpaceOnUse" x1="56" y1="4" x2="10" y2="62">',
+            '<linearGradient id="p" gradientUnits="userSpaceOnUse" x1="4" y1="54.1" x2="60" y2="9.9">',
             RAINBOW,
             '</linearGradient><linearGradient id="r">',
             RAINBOW,

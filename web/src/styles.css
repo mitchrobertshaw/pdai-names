@@ -9,10 +9,10 @@
   --text: #f5f3ff;
   --muted: #aca8d2;
   --border: #262451;
-  /* Links, focus and small accents: pDAI's cyan, lifted so it reads on navy. */
-  --accent: #5ee2ff;
-  --accent-hover: #a3f0ff;
-  --accent-soft: rgb(94 226 255 / 12%);
+  /* The accent, for links, focus and what's selected: pDAI's magenta. */
+  --accent: #e619e6;
+  --accent-hover: #f567f5;
+  --accent-soft: rgb(230 25 230 / 14%);
   --on-accent: #070619;
   --ok: #4fe3a3;
   --ok-soft: rgb(79 227 163 / 14%);
@@ -20,21 +20,20 @@
   --warn-soft: rgb(255 179 92 / 14%);
   --bad: #ff6b8b;
   --bad-soft: rgb(255 107 139 / 15%);
-  /* pDAI's own five colours, lifted a little to stand out on the navy, as on the mark: for lines
-     and edges. */
-  --rainbow: linear-gradient(90deg, #00eaff 0%, #2b8cff 25%, #a05aff 50%, #f23cf2 75%, #ff3d3d 100%);
-  /* The buttons: the gradient on the pDAI token, its five colours at the same stops, run across
-     from left to right. */
-  --grad: linear-gradient(90deg, #00eaff 0%, #0080ff 25.25%, #8000ff 49.74%, #e619e6 74.99%, #f00 99.91%);
-  /* Section labels: a soft violet from the middle of pDAI's colours. */
-  --label: #b48cff;
-  /* Words in pDAI's colours, like ".pdai" in the headline: the two light ones, cyan to pink. */
-  --grad-text: linear-gradient(100deg, #00eaff 0%, #f23cf2 100%);
-  /* Soft light from the rainbow, behind the top of the page and the big panels. */
-  --glow-cyan: rgb(0 200 255 / 16%);
-  --glow-blue: rgb(0 110 255 / 16%);
-  --glow-violet: rgb(128 0 255 / 22%);
-  --glow-magenta: rgb(230 25 230 / 15%);
+  /* The brand's one gradient, pDAI's cyan, magenta and red, the same everywhere: the mark, the
+     buttons, words in colour, and lines and edges. Across a line or a button it runs left to right;
+     across the mark, from its bottom left to its top right. */
+  --rainbow: linear-gradient(90deg, #00eaff, #e619e6, #f00);
+  /* The buttons: the brand's gradient, left to right. */
+  --grad: var(--rainbow);
+  /* Section labels: a soft tint of the magenta. */
+  --label: #f28cf2;
+  /* Words in colour, like ".pdai" in the headline: the brand's gradient, left to right. */
+  --grad-text: var(--rainbow);
+  /* Soft light in the gradient's colours, behind the top of the page and the big panels. */
+  --glow-cyan: rgb(0 200 255 / 15%);
+  --glow-magenta: rgb(230 25 230 / 18%);
+  --glow-red: rgb(255 0 60 / 11%);
   --dots: rgb(255 255 255 / 6%);
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 35%), 0 4px 12px rgb(0 0 0 / 25%);
   --shadow-md: 0 2px 6px rgb(0 0 0 / 35%), 0 18px 40px rgb(0 0 0 / 45%);
@@ -172,9 +171,7 @@ img {
   /* Under the (see-through) border too, so the gradient doesn't repeat round the edge as a rim. */
   background-origin: border-box;
   color: #fff;
-  /* A soft shadow under the words, so they read on the token's brightest colours at either end. */
-  text-shadow: 0 1px 2px rgb(20 0 60 / 45%);
-  box-shadow: 0 8px 22px -8px rgb(128 0 255 / 70%);
+  box-shadow: 0 8px 22px -8px rgb(230 25 230 / 60%);
 }
 
 .button--primary:hover:not(:disabled) {
@@ -222,7 +219,7 @@ img {
   height: 64px;
 }
 
-/* The lockup: the mark, then "pDAI Name Service" in white. The mark is 1.25 times the type size
+/* The lockup: the mark, then "pDAI Name Service" in white. The mark is 1.55 times the type size
    tall and the gap half of it, as brand/README.md says. The size is set by Brand.tsx. */
 .brand {
   display: inline-flex;
@@ -239,7 +236,7 @@ img {
 .brand .logo {
   flex: none;
   width: auto;
-  height: 1.25em;
+  height: 1.55em;
 }
 
 /* The narrowest phones: a smaller lockup and button, so both fit beside each other. */
@@ -334,10 +331,9 @@ img {
   inset: -10% -6%;
   z-index: -3;
   background:
-    radial-gradient(38% 46% at 82% 14%, var(--glow-cyan), transparent 70%),
-    radial-gradient(44% 52% at 60% 48%, var(--glow-violet), transparent 72%),
-    radial-gradient(40% 48% at 14% 88%, var(--glow-magenta), transparent 72%),
-    radial-gradient(30% 40% at 22% 18%, var(--glow-blue), transparent 70%);
+    radial-gradient(40% 48% at 14% 86%, var(--glow-cyan), transparent 72%),
+    radial-gradient(44% 52% at 52% 50%, var(--glow-magenta), transparent 72%),
+    radial-gradient(38% 46% at 86% 12%, var(--glow-red), transparent 70%);
   animation: hero-drift 26s ease-in-out infinite alternate;
 }
 
@@ -391,7 +387,7 @@ img {
   border-radius: 999px;
   background:
     linear-gradient(var(--surface), var(--surface)) padding-box,
-    linear-gradient(100deg, rgb(0 234 255 / 55%), rgb(128 0 255 / 45%), rgb(230 25 230 / 55%)) border-box;
+    linear-gradient(90deg, rgb(0 234 255 / 55%), rgb(230 25 230 / 50%), rgb(255 0 0 / 50%)) border-box;
   box-shadow: var(--shadow-sm);
   color: var(--muted);
   font-size: 15px;
@@ -417,8 +413,8 @@ img {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #38e1ff;
-  box-shadow: 0 0 10px 1px rgb(56 225 255 / 70%);
+  background: var(--accent);
+  box-shadow: 0 0 10px 1px rgb(230 25 230 / 70%);
 }
 
 .hero h1 {
@@ -452,21 +448,21 @@ img {
   border-radius: 999px;
   background:
     linear-gradient(rgb(18 17 49 / 92%), rgb(18 17 49 / 92%)) padding-box,
-    linear-gradient(100deg, rgb(0 234 255 / 45%), rgb(128 0 255 / 40%), rgb(230 25 230 / 45%)) border-box;
+    linear-gradient(90deg, rgb(0 234 255 / 45%), rgb(230 25 230 / 40%), rgb(255 0 0 / 40%)) border-box;
   box-shadow:
     var(--shadow-md),
-    0 0 0 6px rgb(124 44 240 / 10%);
+    0 0 0 6px rgb(230 25 230 / 9%);
   transition: box-shadow 0.15s;
 }
 
 .search__form:focus-within {
   background:
     linear-gradient(rgb(18 17 49 / 96%), rgb(18 17 49 / 96%)) padding-box,
-    linear-gradient(100deg, #00eaff, #8000ff, #e619e6) border-box;
+    var(--rainbow) border-box;
   box-shadow:
     var(--shadow-md),
-    0 0 0 6px rgb(124 44 240 / 22%),
-    0 0 40px rgb(0 200 255 / 18%);
+    0 0 0 6px rgb(230 25 230 / 20%),
+    0 0 40px rgb(0 200 255 / 16%);
 }
 
 .search__icon {
@@ -1357,7 +1353,7 @@ img {
   height: 44px;
   border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 14px;
-  background: linear-gradient(135deg, rgb(0 234 255 / 20%), rgb(128 0 255 / 26%) 55%, rgb(230 25 230 / 22%));
+  background: linear-gradient(45deg, rgb(0 234 255 / 22%), rgb(230 25 230 / 26%), rgb(255 0 0 / 20%));
   color: #fff;
 }
 
@@ -1484,8 +1480,8 @@ img {
   padding: 24px 20px;
   border-bottom: 1px solid var(--border);
   background:
-    radial-gradient(70% 90% at 50% 115%, var(--glow-violet), transparent 70%),
-    radial-gradient(50% 70% at 92% 0%, var(--glow-cyan), transparent 70%),
+    radial-gradient(70% 90% at 50% 115%, var(--glow-magenta), transparent 70%),
+    radial-gradient(50% 70% at 8% 100%, var(--glow-cyan), transparent 70%),
     var(--bg-tint);
 }
 
@@ -1636,9 +1632,8 @@ img {
   padding: 7px 18px;
   border-radius: 999px;
   background: var(--grad);
-  box-shadow: 0 8px 22px -6px rgb(128 0 255 / 65%);
+  box-shadow: 0 8px 22px -6px rgb(230 25 230 / 55%);
   color: #fff;
-  text-shadow: 0 1px 2px rgb(20 0 60 / 45%);
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 700;
@@ -1727,7 +1722,7 @@ img {
   margin-bottom: 18px;
   border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 50%;
-  background: linear-gradient(135deg, rgb(0 234 255 / 20%), rgb(128 0 255 / 30%) 55%, rgb(230 25 230 / 24%));
+  background: linear-gradient(45deg, rgb(0 234 255 / 22%), rgb(230 25 230 / 30%), rgb(255 0 0 / 22%));
   color: #fff;
   font-family: var(--font-display);
   font-size: 20px;
@@ -1743,9 +1738,9 @@ img {
   --surface-2: rgb(255 255 255 / 10%);
   position: relative;
   background:
-    radial-gradient(45% 60% at 78% 40%, rgb(128 0 255 / 26%), transparent 70%),
+    radial-gradient(45% 60% at 78% 40%, rgb(230 25 230 / 22%), transparent 70%),
     radial-gradient(40% 50% at 8% 95%, rgb(230 25 230 / 13%), transparent 70%),
-    radial-gradient(30% 40% at 95% 5%, rgb(0 200 255 / 12%), transparent 70%),
+    radial-gradient(30% 40% at 95% 5%, rgb(255 0 60 / 10%), transparent 70%),
     var(--bg);
   color: var(--text);
 }
@@ -1755,7 +1750,7 @@ img {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(40% 55% at 76% 42%, rgb(180 120 255 / 42%), transparent 75%);
+  background: radial-gradient(40% 55% at 76% 42%, rgb(240 110 240 / 40%), transparent 75%);
   -webkit-mask: var(--lines) 0 0 / 28px 20px repeat;
   mask: var(--lines) 0 0 / 28px 20px repeat;
   pointer-events: none;
@@ -1885,8 +1880,8 @@ img {
     115deg,
     transparent 25%,
     rgb(0 234 255 / 20%) 40%,
-    rgb(128 0 255 / 24%) 50%,
-    rgb(230 25 230 / 20%) 60%,
+    rgb(230 25 230 / 22%) 50%,
+    rgb(255 0 0 / 16%) 60%,
     transparent 75%
   );
   background-position: var(--mx, 25%) var(--my, 15%);
@@ -2339,9 +2334,9 @@ img {
   border: 1px solid var(--border);
   border-radius: 32px;
   background:
-    radial-gradient(60% 80% at 50% 0%, var(--glow-violet), transparent 70%),
-    radial-gradient(50% 60% at 6% 100%, var(--glow-magenta), transparent 70%),
-    radial-gradient(40% 60% at 96% 90%, var(--glow-cyan), transparent 70%),
+    radial-gradient(60% 80% at 50% 0%, var(--glow-magenta), transparent 70%),
+    radial-gradient(50% 60% at 6% 100%, var(--glow-cyan), transparent 70%),
+    radial-gradient(40% 60% at 96% 10%, var(--glow-red), transparent 70%),
     var(--surface);
   box-shadow: var(--shadow-md);
   text-align: center;

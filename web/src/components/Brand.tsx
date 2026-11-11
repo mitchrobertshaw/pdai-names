@@ -6,7 +6,7 @@ import { Logo } from "./Logo";
 export function Brand({ href, label, size = 18 }: { href: string; label: string; size?: number }) {
   return (
     <a className="brand" href={href} aria-label={label} style={{ "--brand-size": `${size}px` } as CSSProperties}>
-      <Logo height={Math.round(size * 1.25)} />
+      <Logo height={Math.round(size * 1.55)} />
       <span className="brand__name">
         <b>pDAI</b> Name Service
       </span>

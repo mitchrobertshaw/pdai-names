@@ -18,20 +18,21 @@ export const MARK_VIEWBOX = "4 9.9 56 44.2";
 const RATIO = 56 / 44.2; // width / height
 
 /**
- * pDAI's own five colours, cyan to red, run across the mark from top right to bottom left. Each is
- * lifted a little from the token's (#0080FF, #8000FF, #E619E6, #FF0000), so every part of the mark
- * stands out on the navy: at least 4.7 to 1, where the token's violet is only 3.2.
+ * The brand's gradient, three of pDAI's colours: cyan, magenta and red. Each stands out on the navy
+ * by at least 5 to 1. The same three colours run left to right on the buttons and words in colour
+ * (--rainbow in styles.css).
  */
 export const MARK_STOPS: ReadonlyArray<readonly [string, string]> = [
   ["0", "#00EAFF"],
-  ["0.25", "#2B8CFF"],
-  ["0.5", "#A05AFF"],
-  ["0.75", "#F23CF2"],
-  ["1", "#FF3D3D"],
+  ["0.5", "#E619E6"],
+  ["1", "#FF0000"],
 ];
 
+/** Across the mark the gradient runs from its bottom left (cyan) to its top right (red). */
+export const MARK_GRADIENT = { x1: 4, y1: 54.1, x2: 60, y2: 9.9 } as const;
+
 /**
- * The mark in pDAI's colours, `height` pixels tall. Beside the wordmark it's 1.25 times the
+ * The mark in the brand's gradient, `height` pixels tall. Beside the wordmark it's 1.55 times the
  * wordmark's font size. Decorative: "pDAI Name Service" is always written beside it or nearby.
  */
 export function Logo({ height = 24 }: { height?: number }) {
@@ -46,7 +47,7 @@ export function Logo({ height = 24 }: { height?: number }) {
       focusable="false"
     >
       <defs>
-        <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="56" y1="4" x2="10" y2="62">
+        <linearGradient id={id} gradientUnits="userSpaceOnUse" {...MARK_GRADIENT}>
           {MARK_STOPS.map(([offset, color]) => (
             <stop key={offset} offset={offset} stopColor={color} />
           ))}

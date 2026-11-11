@@ -123,8 +123,8 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
   (`.hero::before` in [`src/styles.css`](src/styles.css), coloured by the `--glow-` variables). Dai's
   two lines run along its bottom edge as a fine rule. It stays still for visitors who turn off
   motion.
-- **The `.pdai` on each floating name** is in pDAI's two light colours, cyan to pink, as it is in
-  the headline.
+- **The `.pdai` on each floating name** is in the brand's gradient, cyan to magenta to red, as it
+  is in the headline.
 - **The live strip** under the search ("● LIVE · names registered · the latest names", in
   [`LiveStrip.tsx`](src/components/LiveStrip.tsx)) comes straight from the `.pdai` registry on
   PulseChain, through the site's own function at `/api/stats`
@@ -142,12 +142,12 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
   [`public`](public), and every version of it, with how to use it, is in [`../brand`](../brand).
   The on-chain name cards draw it too, and [`Logo.test.ts`](src/components/Logo.test.ts) checks
   every copy is the same shape.
-- **The colours**: one dark theme, deep navy, with pDAI's five colours (cyan, blue, violet, magenta,
-  red): the token's own gradient across the buttons, left to right, and the same five lifted a
-  little on the mark, so it stands out on the navy. Words in colour, like `.pdai` in headings and
-  beside the floating names, use the two light ones, cyan to pink. Section labels are a soft violet
-  and links cyan. They're the variables at the top of [`src/styles.css`](src/styles.css), and the mark's are
-  in [`Logo.tsx`](src/components/Logo.tsx).
+- **The colours**: one dark theme, deep navy, and one gradient, pDAI's cyan, magenta and red, the
+  same everywhere: on the mark (from its bottom left to its top right), and left to right on the
+  buttons, on words in colour like `.pdai`, and on lines. Magenta is the accent, for links, focus
+  and what's selected, and a tint of it colours the section labels. They're the variables at the top
+  of [`src/styles.css`](src/styles.css), and the mark's are in
+  [`Logo.tsx`](src/components/Logo.tsx).
 - **The pDAI token** in "Pay with pDAI" is the token's own logo, in
   [`src/assets/tokens`](src/assets/tokens).
 - **PulseChain's logo** is in [`src/assets/chains`](src/assets/chains): the PLS mark from PulseX's
