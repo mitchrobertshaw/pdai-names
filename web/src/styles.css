@@ -9,7 +9,8 @@
   --text: #f5f3ff;
   --muted: #aca8d2;
   --border: #262451;
-  /* The accent, for links, focus and what's selected: pDAI's magenta. */
+  /* pDAI's magenta: the buttons, links, focus, what's selected, and ".pdai" beside the floating
+     names. */
   --accent: #e619e6;
   --accent-hover: #f567f5;
   --accent-soft: rgb(230 25 230 / 14%);
@@ -20,12 +21,10 @@
   --warn-soft: rgb(255 179 92 / 14%);
   --bad: #ff6b8b;
   --bad-soft: rgb(255 107 139 / 15%);
-  /* The brand's one gradient, pDAI's cyan, magenta and red, the same everywhere: the mark, the
-     buttons, words in colour, and lines and edges. Across a line or a button it runs left to right;
-     across the mark, from its bottom left to its top right. */
+  /* The brand's gradient, pDAI's cyan, magenta and red: the mark, words in colour like ".pdai" in
+     the headline, and lines and edges. Across a line or a word it runs left to right; across the
+     mark, from its bottom left to its top right. */
   --rainbow: linear-gradient(90deg, #00eaff, #e619e6, #f00);
-  /* The buttons: the brand's gradient, left to right. */
-  --grad: var(--rainbow);
   /* Section labels: a soft tint of the magenta. */
   --label: #f28cf2;
   /* Words in colour, like ".pdai" in the headline: the brand's gradient, left to right. */
@@ -167,9 +166,8 @@ img {
 }
 
 .button--primary {
-  background: var(--grad);
-  /* Under the (see-through) border too, so the gradient doesn't repeat round the edge as a rim. */
-  background-origin: border-box;
+  background: var(--accent);
+  border-color: var(--accent);
   color: #fff;
   box-shadow: 0 8px 22px -8px rgb(230 25 230 / 60%);
 }
@@ -692,12 +690,9 @@ img {
     0 4px 14px rgb(0 0 0 / 40%);
 }
 
-/* In pDAI's five colours, as ".pdai" is in the headline. */
+/* In pDAI's magenta, like the buttons. */
 .pill__tld {
-  background: var(--grad-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--accent);
 }
 
 .avatar {
@@ -1130,7 +1125,7 @@ img {
   inset: 12% 8% 10%;
   z-index: -1;
   border-radius: 40px;
-  background: var(--grad);
+  background: var(--accent);
   opacity: 0.2;
   filter: blur(44px);
 }
@@ -1162,7 +1157,7 @@ img {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: var(--grad);
+  background: var(--accent);
   color: #fff;
   font-weight: 800;
 }
@@ -1631,7 +1626,7 @@ img {
 .art-tokens__total {
   padding: 7px 18px;
   border-radius: 999px;
-  background: var(--grad);
+  background: var(--accent);
   box-shadow: 0 8px 22px -6px rgb(230 25 230 / 55%);
   color: #fff;
   font-family: var(--font-display);
