@@ -10,7 +10,7 @@ const listeners = new Set<() => void>();
 
 /** The label to show for what the visitor typed: normalized, one word, or "you" if there's nothing. */
 export function playLabel(input: string): string {
-  const text = input.trim().replace(/\.hex$/i, "").replace(/\./g, "");
+  const text = input.trim().replace(/\.pdai$/i, "").replace(/\./g, "");
   if (!text) return DEFAULT_PLAY_NAME;
   try {
     return ens_normalize(text) || DEFAULT_PLAY_NAME;
@@ -35,7 +35,7 @@ export function usePlayName(): string {
   );
 }
 
-const SEARCH_EVENT = "hexns:search";
+const SEARCH_EVENT = "pdains:search";
 
 /** Puts `name` in the search box at the top of the page and scrolls up to it. */
 export function searchFor(name: string) {

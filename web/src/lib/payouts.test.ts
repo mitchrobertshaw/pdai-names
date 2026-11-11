@@ -1,9 +1,10 @@
-import { concat, encodeFunctionData, keccak256, toBytes } from "viem";
+import { concat, encodeFunctionData, hexToString, keccak256, slice, stringToHex, toBytes } from "viem";
 import { describe, expect, it } from "vitest";
 
 import { disperseAbi } from "../app/abis";
 
 import {
+  carriesNote,
   dollarsText,
   findPayout,
   microDollarsText,
@@ -22,8 +23,8 @@ import {
 } from "./payouts";
 
 const tag = (name: string) => keccak256(toBytes(name));
-const A = "0x00000000000000000000000000000000000000aa"; // owns mick.hex
-const B = "0x00000000000000000000000000000000000000bb"; // owns sommi.hex
+const A = "0x00000000000000000000000000000000000000aa"; // owns mick.pdai
+const B = "0x00000000000000000000000000000000000000bb"; // owns sommi.pdai
 const USDC = "0x00000000000000000000000000000000000000c1";
 const DAI = "0x00000000000000000000000000000000000000d1";
 const ODD = "0x00000000000000000000000000000000000000e1";
@@ -72,17 +73,17 @@ describe("the referral payout report", () => {
 
   it("pays each referrer 10% of what their buyers paid, purchases and renewals, USDC and DAI alike", () => {
     expect(report.pay.map((row) => [row.referrer, row.payTo, row.purchases, row.renewals, row.paid, row.owed])).toEqual([
-      ["mick.hex", "0x00000000000000000000000000000000000000AA", 2, 1, usdc(30), usdc(3)],
-      ["sommi.hex", B, 1, 0, usdc(2.5), usdc(0.25)],
+      ["mick.pdai", "0x00000000000000000000000000000000000000AA", 2, 1, usdc(30), usdc(3)],
+      ["sommi.pdai", B, 1, 0, usdc(2.5), usdc(0.25)],
     ]);
     expect(report.total).toEqual({ paid: usdc(32.5), owed: usdc(3.25) });
   });
 
   it("sets aside self-referrals, and tags that aren't a name anyone owns", () => {
-    expect(report.selfReferrals.map((row) => [row.referrer, row.payTo, row.purchases, row.paid])).toEqual([["mick.hex", null, 1, usdc(10)]]);
+    expect(report.selfReferrals.map((row) => [row.referrer, row.payTo, row.purchases, row.paid])).toEqual([["mick.pdai", null, 1, usdc(10)]]);
     expect(report.noOwner.map((row) => [row.referrer, row.payTo, row.paid])).toEqual([
       [tag("ghost"), null, usdc(10)],
-      ["lapsed.hex", null, usdc(10)],
+      ["lapsed.pdai", null, usdc(10)],
     ]);
     expect(report.otherTokens.map((p) => p.label)).toEqual(["gina"]);
   });
@@ -105,11 +106,11 @@ describe("the referral payout report", () => {
   it("makes a spreadsheet of every referrer, paid or not", () => {
     expect(payoutCsv(report).split("\n")).toEqual([
       "referrer,pay_to,purchases,renewals,buyers_paid_usd,owed_usdc,status",
-      "mick.hex,0x00000000000000000000000000000000000000AA,2,1,30.000000,3.000000,pay",
-      `sommi.hex,${B},1,0,2.500000,0.250000,pay`,
-      "mick.hex,,1,0,10.000000,0.000000,not paid: self-referral",
+      "mick.pdai,0x00000000000000000000000000000000000000AA,2,1,30.000000,3.000000,pay",
+      `sommi.pdai,${B},1,0,2.500000,0.250000,pay`,
+      "mick.pdai,,1,0,10.000000,0.000000,not paid: self-referral",
       `${tag("ghost")},,1,0,10.000000,0.000000,not paid: no one owns this name`,
-      "lapsed.hex,,1,0,10.000000,0.000000,not paid: no one owns this name",
+      "lapsed.pdai,,1,0,10.000000,0.000000,not paid: no one owns this name",
       "",
     ]);
   });
@@ -150,15 +151,36 @@ describe("paying out", () => {
 describe("a payout's record of the days it paid", () => {
   const payee = "0x1096E7956173bF2778F51798B9D411E3F366f0ca";
   const usdc = "0x15D38573d2feeb82e7ad5187aB8c1D52810B1f07";
+  const call = encodeFunctionData({ abi: disperseAbi, functionName: "disperseToken", args: [usdc, [payee], [1_000_000n]] });
 
   it("rides at the end of the payout's transaction, where Disperse ignores it", () => {
     const note = payoutNote("2026-11-01", "2026-11-30");
-    expect(note).toMatch(/^0x48584e53[0-9a-f]{16}$/); // "HXNS", then the two days
-    const call = encodeFunctionData({ abi: disperseAbi, functionName: "disperseToken", args: [usdc, [payee], [1_000_000n]] });
+    expect(note).toMatch(/^0x[0-9a-f]{24}$/);
+    expect(hexToString(slice(note, 0, 4))).toBe("PDNS"); // then the two days
     expect(readPayoutNote(concat([call, note]))).toEqual({ first: "2026-11-01", last: "2026-11-30" });
-    // A payout made before payouts carried notes says nothing.
+    // A payout without a note, made some other way, says nothing.
     expect(readPayoutNote(call)).toBeNull();
     expect(readPayoutNote("0x")).toBeNull();
+  });
+
+  // HexNS's payouts carry "HXNS", then the days, and may come from the same payments wallet.
+  const hexnsNote = (first: string, last: string) => concat([stringToHex("HXNS"), slice(payoutNote(first, last), 4)]);
+
+  it("counts only pDAI Names' payouts, not HexNS's, which the same wallet may make through Disperse", () => {
+    const hexns = concat([call, hexnsNote("2026-11-01", "2026-12-31")]);
+    const ours = concat([call, payoutNote("2026-11-01", "2026-11-14")]);
+    expect(readPayoutNote(hexns)).toBeNull();
+    const payouts = [hexns, ours].map((input, i) => ({ tx: keccak256(input), block: BigInt(i), days: readPayoutNote(input) }));
+    expect(paidThrough(payouts)).toBe("2026-11-14");
+  });
+
+  it("tells a payout with a note, ours or HexNS's, from one made without", () => {
+    // Only one made without a note, by hand say, is looked for by its amounts (findPayout).
+    const two = encodeFunctionData({ abi: disperseAbi, functionName: "disperseToken", args: [usdc, [payee, usdc], [1n, 2n]] });
+    expect([call, two].map(carriesNote)).toEqual([false, false]);
+    expect(carriesNote(concat([call, payoutNote("2026-11-01", "2026-11-30")]))).toBe(true);
+    expect(carriesNote(concat([two, hexnsNote("2026-11-01", "2026-11-30")]))).toBe(true);
+    expect(carriesNote("0x")).toBe(false);
   });
 
   it("knows the last day paid from all the payouts made", () => {

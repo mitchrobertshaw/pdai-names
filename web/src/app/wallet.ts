@@ -14,8 +14,7 @@ import {
   getAddress,
 } from "viem";
 
-import { addChainParams, chainName, CHAINS } from "./network";
-import type { ChainKey } from "../lib/tokens";
+import { addChainParams, CHAIN, chainName } from "./network";
 
 export interface Eip1193 {
   request(args: { method: string; params?: unknown[] | object }): Promise<unknown>;
@@ -35,12 +34,12 @@ export interface WalletState {
   connected: { option: WalletOption; account: Address; chainId: number } | null;
   connecting: boolean;
   error: string | null;
-  /** A network the connected wallet turned out not to have, and didn't add when asked. */
-  missing: ChainKey | null;
+  /** The connected wallet turned out not to have PulseChain, and didn't add it when asked. */
+  missing: boolean;
 }
 
-const LAST = "hexns-wallet";
-let state: WalletState = { options: [], connected: null, connecting: false, error: null, missing: null };
+const LAST = "pdains-wallet";
+let state: WalletState = { options: [], connected: null, connecting: false, error: null, missing: false };
 const listeners = new Set<() => void>();
 
 function set(next: Partial<WalletState>) {
@@ -126,7 +125,7 @@ export async function connect(id: string, quietly = false): Promise<void> {
     remember(id);
     // Names live on PulseChain: on connecting, offer to move there (adding it if the wallet doesn't
     // have it).
-    if (!quietly && chainId !== CHAINS.pulsechain.id) await switchTo("pulsechain").catch(() => undefined);
+    if (!quietly && chainId !== CHAIN.id) await switchToPulseChain().catch(() => undefined);
   } catch (error) {
     set({ connecting: false, error: quietly ? null : messageOf(error) });
   }
@@ -136,7 +135,7 @@ export function disconnect() {
   unsubscribe?.();
   unsubscribe = null;
   remember(null);
-  set({ connected: null, missing: null });
+  set({ connected: null, missing: false });
 }
 
 /** Reads which network the connected wallet is on now. */
@@ -146,7 +145,7 @@ async function refreshChain(): Promise<number | null> {
   try {
     const chainId = Number(await connected.option.provider.request({ method: "eth_chainId" }));
     if (state.connected && state.connected.chainId !== chainId) set({ connected: { ...state.connected, chainId } });
-    if (state.missing && CHAINS[state.missing].id === chainId) set({ missing: null });
+    if (state.missing && chainId === CHAIN.id) set({ missing: false });
     return chainId;
   } catch {
     return null;
@@ -179,40 +178,39 @@ export function isUnknownChain(error: unknown): boolean {
 }
 
 /**
- * Asks the wallet to move to PulseChain or Ethereum. If the wallet doesn't have it, it asks the
- * wallet to add it, then to switch, for wallets that add a network without moving to it.
+ * Asks the wallet to move to PulseChain. If the wallet doesn't have it, it asks the wallet to add
+ * it, then to switch, for wallets that add a network without moving to it.
  */
-export async function switchTo(key: ChainKey): Promise<void> {
+export async function switchToPulseChain(): Promise<void> {
   const connected = state.connected;
   if (!connected) throw new Error("Connect a wallet first.");
-  const chain = CHAINS[key];
-  if (((await refreshChain()) ?? connected.chainId) === chain.id) return;
+  if (((await refreshChain()) ?? connected.chainId) === CHAIN.id) return;
   const provider = connected.option.provider;
-  const chainId = `0x${chain.id.toString(16)}`;
+  const chainId = `0x${CHAIN.id.toString(16)}`;
   try {
     await provider.request({ method: "wallet_switchEthereumChain", params: [{ chainId }] });
   } catch (error) {
     if (!isUnknownChain(error)) throw error;
-    set({ missing: key });
-    await provider.request({ method: "wallet_addEthereumChain", params: [addChainParams(key)] });
-    set({ missing: null });
+    set({ missing: true });
+    await provider.request({ method: "wallet_addEthereumChain", params: [addChainParams()] });
+    set({ missing: false });
     // Most wallets move to a network as they add it; ask the rest to.
-    if ((await refreshChain()) !== chain.id) {
+    if ((await refreshChain()) !== CHAIN.id) {
       await provider.request({ method: "wallet_switchEthereumChain", params: [{ chainId }] });
     }
   }
-  const now = await settle(chain.id);
-  if (now !== null && now !== chain.id) throw new Error(`Your wallet is still on ${chainName(now)}.`);
-  set({ missing: null, ...(now === null && state.connected ? { connected: { ...state.connected, chainId: chain.id } } : {}) });
+  const now = await settle(CHAIN.id);
+  if (now !== null && now !== CHAIN.id) throw new Error(`Your wallet is still on ${chainName(now)}.`);
+  set({ missing: false, ...(now === null && state.connected ? { connected: { ...state.connected, chainId: CHAIN.id } } : {}) });
 }
 
-/** A client that asks the connected wallet to sign on `key`'s chain. */
-export function walletClient(key: ChainKey): WalletClient<Transport, Chain, Account> {
+/** A client that asks the connected wallet to sign on PulseChain. */
+export function walletClient(): WalletClient<Transport, Chain, Account> {
   const connected = state.connected;
   if (!connected) throw new Error("Connect a wallet first.");
   return createWalletClient({
     account: connected.account,
-    chain: CHAINS[key],
+    chain: CHAIN,
     transport: custom(connected.option.provider),
   });
 }

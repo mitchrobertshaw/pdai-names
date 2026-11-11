@@ -1,4 +1,4 @@
-/* The app at app.hexns.domains. Colours, type, buttons and the checkout's pieces come from
+/* The app at app.pdains.domains. Colours, type, buttons and the checkout's pieces come from
    ../styles.css; this is the app's own layout. */
 
 body {
@@ -692,84 +692,9 @@ body {
   margin: 0;
 }
 
-.payouts__form {
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  align-items: end;
-}
-
-.payouts__form label {
-  display: grid;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.payouts__form input {
-  font: inherit;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface);
-  color: var(--text);
-}
-
-.payouts__note {
-  grid-column: 1 / -1;
-  font-size: 14px;
-  color: var(--muted);
-}
-
 .payouts__title {
   margin: 0;
   font-size: 20px;
-}
-
-.bot__balances {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-  margin: 0;
-}
-
-.bot__balances div {
-  display: grid;
-  gap: 2px;
-}
-
-.bot__balances dt {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.bot__balances dd {
-  margin: 0;
-  font-weight: 700;
-}
-
-.bot__form {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  align-items: end;
-  gap: 12px;
-}
-
-.bot__form label {
-  display: grid;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.bot__form input {
-  width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  font: inherit;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface);
-  color: var(--text);
 }
 
 .payouts__scroll {
@@ -991,8 +916,34 @@ body {
   overflow-wrap: anywhere;
 }
 
-/* The admin page: the payouts page's cards and forms, with a box for several names. */
-.bot__form textarea {
+/* The admin page: the payouts page's cards, with forms, and a box for several names. */
+.admin__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  align-items: end;
+  gap: 12px;
+}
+
+.admin__form label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.admin__form input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.admin__form textarea {
   width: 100%;
   min-width: 0;
   min-height: 72px;
@@ -1006,7 +957,7 @@ body {
   color: var(--text);
 }
 
-.bot__form .admin__wide {
+.admin__form .admin__wide {
   grid-column: 1 / -1;
 }
 
@@ -1025,87 +976,4 @@ body {
   padding: 12px 14px;
   border-radius: 12px;
   background: var(--surface-2);
-}
-
-/* ---------- The Ethereum copy fee ---------- */
-
-.copy-choice {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 8px;
-}
-
-.copy-choice button {
-  display: grid;
-  gap: 2px;
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.copy-choice button span {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.copy-choice button:hover:not(:disabled) {
-  background: var(--surface-2);
-}
-
-.copy-choice button[aria-checked="true"] {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-}
-
-.copy-choice button[aria-checked="true"] b {
-  color: var(--accent);
-}
-
-.copy-choice__busy {
-  padding: 10px 14px;
-  border-radius: 12px;
-  background: var(--surface-2);
-}
-
-.chips--small button {
-  padding: 6px 12px;
-  font-size: 14px;
-}
-
-.details dl > div.details__wide {
-  flex-wrap: wrap;
-}
-
-.copy-now {
-  display: grid;
-  gap: 10px;
-  margin-top: 10px;
-  font-weight: 400;
-  text-align: left;
-}
-
-.copy-now__row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
-}
-
-.copy-now__or {
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-  text-align: right;
-}
-
-.manage__fee {
-  display: grid;
-  gap: 10px;
-  margin-bottom: 16px;
 }

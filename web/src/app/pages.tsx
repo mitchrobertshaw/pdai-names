@@ -9,7 +9,6 @@ import { timeAgo } from "../lib/stats";
 import { NETWORK } from "../site";
 import { AlertIcon, LockIcon, SearchIcon } from "../components/icons";
 import { BuyPanel } from "./BuyPanel";
-import { EthereumCopyRow } from "./CopyChoice";
 import { lookUp, type NameInfo } from "./lookup";
 import { CopyButton, OwnerPanel, RenewPanel } from "./ManagePanel";
 import { addressUrl, deployment } from "./network";
@@ -20,10 +19,10 @@ import { WalletChoices } from "./WalletButton";
 const dateText = (unix: number) =>
   new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(unix * 1000);
 
-/** The label a check is about (the .hex one, for a .eth name), or null if there's no name in it. */
+/** The label a check is about (the .pdai one, for a .eth name), or null if there's no name in it. */
 function labelOf(check: NameCheck): string | null {
-  if (check.kind === "eth") return labelOf(check.hex);
-  return check.kind === "empty" || check.kind === "invalid" ? null : check.name.replace(/\.hex$/, "");
+  if (check.kind === "eth") return labelOf(check.pdai);
+  return check.kind === "empty" || check.kind === "invalid" ? null : check.name.replace(/\.pdai$/, "");
 }
 
 type Taken = Extract<NameInfo, { kind: "registered" | "reserved" }>;
@@ -34,7 +33,7 @@ type Taken = Extract<NameInfo, { kind: "registered" | "reserved" }>;
  * the answer comes, the rules' own answer shows.
  */
 function useTaken(check: NameCheck): Taken | null {
-  const target = check.kind === "eth" ? check.hex : check;
+  const target = check.kind === "eth" ? check.pdai : check;
   const label = target.kind === "available" || target.kind === "premium" ? labelOf(target) : null;
   const [found, setFound] = useState<{ label: string; info: NameInfo } | null>(null);
   useEffect(() => {
@@ -58,7 +57,7 @@ function useTaken(check: NameCheck): Taken | null {
 
 /** A name the rules allow, but that someone owns, or the registry holds, on PulseChain. */
 function TakenCard({ info }: { info: Taken }) {
-  const name = shortName(`${info.label}.hex`);
+  const name = shortName(`${info.label}.pdai`);
   const see = (
     <a className="button button--ghost button--small" {...linkProps({ page: "name", label: info.label })}>
       See it
@@ -89,7 +88,7 @@ function TakenCard({ info }: { info: Taken }) {
 
 /** Buying happens on the name's own page. */
 const registerHere = (name: string) => (
-  <a className="button button--primary button--small" {...linkProps({ page: "name", label: name.replace(/\.hex$/, "") })}>
+  <a className="button button--primary button--small" {...linkProps({ page: "name", label: name.replace(/\.pdai$/, "") })}>
     Register
   </a>
 );
@@ -111,13 +110,13 @@ export function SearchPage() {
   return (
     <div className="app-search">
       <h1>
-        Find your <span className="grad-text">.hex</span> name
+        Find your <span className="grad-text">.pdai</span> name
       </h1>
-      <p className="app-search__lede">One name for your wallet, on PulseChain and Ethereum.</p>
+      <p className="app-search__lede">One name for your wallet, on PulseChain.</p>
       <div className="search app-search__box">
         <form className="search__form" role="search" onSubmit={submit}>
           <label htmlFor="app-search" className="visually-hidden">
-            Search for a .hex name
+            Search for a .pdai name
           </label>
           <span className="search__icon">
             <SearchIcon />
@@ -158,7 +157,7 @@ export function SearchPage() {
               <li key={`${r.label}-${r.at}`}>
                 <a {...linkProps({ page: "name", label: r.label })}>
                   {r.label}
-                  <span>.hex</span>
+                  <span>.pdai</span>
                 </a>
                 <span className="recent__when">{timeAgo(r.at, Math.floor(Date.now() / 1000))}</span>
               </li>
@@ -211,7 +210,7 @@ export function NamePage({ label }: { label: string }) {
     };
   }, [label, version]);
 
-  const name = `${label}.hex`;
+  const name = `${label}.pdai`;
   const mine = info?.kind === "registered" && wallet.connected?.account.toLowerCase() === info.owner.toLowerCase();
 
   return (
@@ -222,7 +221,7 @@ export function NamePage({ label }: { label: string }) {
       <header className="name-page__head">
         <h1>
           {label}
-          <span className="grad-text">.hex</span>
+          <span className="grad-text">.pdai</span>
         </h1>
         {info ? <StatusChip info={info} /> : null}
       </header>
@@ -240,7 +239,7 @@ export function NamePage({ label }: { label: string }) {
               <div>
                 <dt>Owner</dt>
                 <dd>
-                  <a href={addressUrl("pulsechain", info.owner)} target="_blank" rel="noreferrer">
+                  <a href={addressUrl(info.owner)} target="_blank" rel="noreferrer">
                     {short(info.owner)}
                   </a>
                   {mine ? <span className="details__you">you</span> : null}
@@ -248,21 +247,12 @@ export function NamePage({ label }: { label: string }) {
               </div>
               <div>
                 <dt>Points to</dt>
-                <dd>Its owner, on PulseChain and Ethereum, unless they point it elsewhere</dd>
+                <dd>Its owner, unless they point it elsewhere</dd>
               </div>
               <div>
                 <dt>{info.inGrace ? "Expired on" : "Paid until"}</dt>
                 <dd>{dateText(info.expiry)}</dd>
               </div>
-              {!info.inGrace ? (
-                <EthereumCopyRow
-                  label={info.label}
-                  owner={info.owner}
-                  expiry={info.expiry}
-                  version={version}
-                  onChanged={() => setVersion((v) => v + 1)}
-                />
-              ) : null}
             </dl>
             {info.inGrace ? (
               <p className="details__note">
@@ -339,7 +329,7 @@ export function MyNamesPage() {
       <div className="my-names">
         <h1>My names</h1>
         <section className="card my-names__connect">
-          <p>Connect your wallet to see the .hex names in it.</p>
+          <p>Connect your wallet to see the .pdai names in it.</p>
           <WalletChoices />
         </section>
       </div>
@@ -360,7 +350,7 @@ export function MyNamesPage() {
       ) : owned.length === 0 ? (
         <section className="card my-names__empty">
           <p>
-            <b>No .hex names in this wallet yet.</b>
+            <b>No .pdai names in this wallet yet.</b>
           </p>
           <a className="button button--primary button--small" {...linkProps({ page: "search" })}>
             Find one
@@ -373,7 +363,7 @@ export function MyNamesPage() {
               <div>
                 <a className="my-names__name" {...linkProps({ page: "name", label: n.label })}>
                   {n.label}
-                  <span className="grad-text">.hex</span>
+                  <span className="grad-text">.pdai</span>
                 </a>
                 <p className="my-names__expiry">Paid until {dateText(n.expiry)}</p>
               </div>

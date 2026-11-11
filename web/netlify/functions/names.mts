@@ -1,4 +1,4 @@
-// GET /api/names?network=mainnet|testnet&owner=0x…: the .hex names a wallet holds, for the app's
+// GET /api/names?network=mainnet|testnet&owner=0x…: the .pdai names a wallet holds, for the app's
 // My names (src/lib/stats.ts follows every registration, transfer, renewal and removal).
 
 import { current, networkOf, reply } from "../lib/registry";

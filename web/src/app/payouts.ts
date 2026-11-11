@@ -5,10 +5,18 @@
 import { type Address, type Hex, type PublicClient, zeroAddress, zeroHash } from "viem";
 
 import type { Deployment } from "../deployment";
-import { type Payout, type ReferredPayment, type Referrer, readPayoutNote, type Token, type Transfer } from "../lib/payouts";
+import {
+  carriesNote,
+  type Payout,
+  type ReferredPayment,
+  type Referrer,
+  readPayoutNote,
+  type Token,
+  type Transfer,
+} from "../lib/payouts";
 import { DISPERSE, erc20Abi, labelStoreAbi, registrarEvents, registryAbi, transferEvent } from "./abis";
 
-/** Blocks per log request, as the bot reads PulseChain. */
+/** Blocks per log request: a stretch PulseChain's public RPCs accept. */
 const RANGE = 50_000n;
 /** Lookups sent at once, to stay polite to public RPCs. */
 const BATCH = 10;
@@ -113,7 +121,11 @@ export async function readTokens(client: PublicClient, addresses: Address[]): Pr
   return new Map(found);
 }
 
-/** Every transfer of `token` out of Disperse to these wallets from block `from` on: past payouts. */
+/**
+ * Every transfer of `token` out of Disperse to these wallets from block `from` on, from payouts made
+ * without a note (by hand, say). A payout with a note is ours, known by it, or another project's
+ * from the same payments wallet (HexNS's), which never pays what's owed here.
+ */
 export async function readPayoutTransfers(client: PublicClient, token: Address, wallets: Address[], from: bigint): Promise<Transfer[]> {
   if (!wallets.length) return [];
   const latest = await client.getBlockNumber();
@@ -123,7 +135,11 @@ export async function readPayoutTransfers(client: PublicClient, token: Address, 
     const logs = await client.getLogs({ address: token, event: transferEvent[0], args: { from: DISPERSE, to: wallets }, fromBlock: start, toBlock: end });
     for (const log of logs) out.push({ to: log.args.to!, value: log.args.value!, tx: log.transactionHash, block: log.blockNumber });
   }
-  return out;
+  const noted = await inBatches([...new Set(out.map((transfer) => transfer.tx))], async (hash) => {
+    const sent = await client.getTransaction({ hash });
+    return sent.to?.toLowerCase() === DISPERSE.toLowerCase() && carriesNote(sent.input) ? hash : null;
+  });
+  return out.filter((transfer) => !noted.includes(transfer.tx));
 }
 
 /**

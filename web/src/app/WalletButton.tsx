@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-import { chainName, CHAINS, PAY } from "./network";
+import { CHAIN, chainName, PAY } from "./network";
 import { linkProps } from "./router";
-import { connect, disconnect, short, switchTo, useWallet } from "./wallet";
+import { connect, disconnect, short, switchToPulseChain, useWallet } from "./wallet";
 
 /** The wallets this browser has, to pick one; or how to get one. */
 export function WalletChoices({ onDone }: { onDone?: () => void }) {
@@ -76,7 +76,7 @@ export function WalletButton() {
         {wallet.connected ? (
           <>
             <span
-              className={`wallet-button__dot${wallet.connected.chainId === CHAINS.pulsechain.id ? "" : " wallet-button__dot--away"}`}
+              className={`wallet-button__dot${wallet.connected.chainId === CHAIN.id ? "" : " wallet-button__dot--away"}`}
               title={`On ${chainName(wallet.connected.chainId)}`}
               aria-hidden="true"
             />
@@ -99,17 +99,17 @@ export function WalletButton() {
                   {short(wallet.connected.account)} · on {chainName(wallet.connected.chainId)}
                 </span>
               </p>
-              {wallet.connected.chainId !== CHAINS.pulsechain.id ? (
+              {wallet.connected.chainId !== CHAIN.id ? (
                 <button
                   type="button"
                   className="wallet-menu__item"
                   role="menuitem"
                   onClick={() => {
-                    void switchTo("pulsechain").catch(() => undefined);
+                    void switchToPulseChain().catch(() => undefined);
                     setOpen(false);
                   }}
                 >
-                  Switch to {PAY.pulsechain.name}
+                  Switch to {PAY.name}
                 </button>
               ) : null}
               <a

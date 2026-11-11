@@ -8,13 +8,13 @@ import { ReferralsPage } from "./ReferralsPage";
 import { linkProps, useRoute } from "./router";
 import { WalletButton } from "./WalletButton";
 
-/** The homepage: hexns.domains from the live app, or the same site's root on a preview link. */
+/** The homepage: pdains.domains from the live app, or the same site's root on a preview link. */
 function homeUrl(): string {
   const { hostname, protocol } = window.location;
-  return protocol === "file:" || hostname === "app.hexns.domains" ? "https://hexns.domains" : "/";
+  return protocol === "file:" || hostname === "app.pdains.domains" ? "https://pdains.domains" : "/";
 }
 
-/** app.hexns.domains: find, buy and manage .hex names. */
+/** app.pdains.domains: find, buy and manage .pdai names. */
 export function App() {
   const route = useRoute();
   return (
@@ -24,7 +24,7 @@ export function App() {
       </a>
       <header className="nav">
         <div className="container nav__inner">
-          <Brand href={homeUrl()} label="HexNS, HEX Name Service: home" />
+          <Brand href={homeUrl()} label="pDAI Names, pDAI Name Service: home" />
           <nav className="app-nav__links" aria-label="App">
             <a {...linkProps({ page: "search" })} aria-current={route.page === "search" || route.page === "name" ? "page" : undefined}>
               Search
@@ -47,7 +47,7 @@ export function App() {
         </p>
       ) : network === "testnet" ? (
         <p className="app-banner">
-          <b>Testnet.</b> PulseChain Testnet v4 and Sepolia, with test coins. Nothing here costs real money.
+          <b>Testnet.</b> PulseChain Testnet v4, with test coins. Nothing here costs real money.
         </p>
       ) : null}
 
@@ -69,7 +69,7 @@ export function App() {
 
       <footer className="app-footer container">
         <p>
-          <a href={homeUrl()}>HexNS</a> · .hex names never end in .eth.
+          <a href={homeUrl()}>pDAI Names</a> · .pdai names never end in .eth.
         </p>
       </footer>
     </>

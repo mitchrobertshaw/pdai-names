@@ -51,9 +51,7 @@ export function Result({
       return (
         taken ?? (
           <Card tone="ok" icon={<CheckIcon />} title={<><b>{check.name}</b> is available</>}>
-            <p>
-              ${check.yearlyPrice} a year for both chains. Pay on PulseChain, with PLS, HEX and more.
-            </p>
+            <p>${check.yearlyPrice} a year. Pay on PulseChain, with PLS, pDAI, HEX and more.</p>
             {action(check.name)}
           </Card>
         )
@@ -63,9 +61,7 @@ export function Result({
       return (
         taken ?? (
           <Card tone="ok" icon={<StarIcon />} title={<><b>{check.name}</b> is a premium name</>}>
-            <p>
-              Names of {check.length} characters are rarer, so they cost ${check.yearlyPrice} a year for both chains.
-            </p>
+            <p>Names of {check.length} characters are rarer, so they cost ${check.yearlyPrice} a year.</p>
             {action(check.name)}
           </Card>
         )
@@ -102,9 +98,9 @@ export function Result({
       return (
         <>
           <Card tone="warn" icon={<AlertIcon />} title={<><b>{check.name}</b> is a .eth name</>}>
-            <p>.hex names never end in .eth. Here&rsquo;s the .hex one:</p>
+            <p>.pdai names never end in .eth. Here&rsquo;s the .pdai one:</p>
           </Card>
-          <Result check={check.hex} action={action} taken={taken} />
+          <Result check={check.pdai} action={action} taken={taken} />
         </>
       );
   }
@@ -136,7 +132,7 @@ export function NameSearch() {
     <div className="search">
       <form className="search__form" role="search" onSubmit={onSubmit}>
         <label htmlFor="name-search" className="visually-hidden">
-          Search for a .hex name
+          Search for a .pdai name
         </label>
         <span className="search__icon">
           <SearchIcon />

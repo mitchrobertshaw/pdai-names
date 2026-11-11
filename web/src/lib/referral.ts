@@ -1,5 +1,5 @@
-// Referral links: hexns.domains/?ref=alice or app.hexns.domains/?ref=alice, where alice is the
-// referrer's .hex name. The name is remembered for 58 days in the visitor's browser and goes with
+// Referral links: pdains.domains/?ref=alice or app.pdains.domains/?ref=alice, where alice is the
+// referrer's .pdai name. The name is remembered for 58 days in the visitor's browser and goes with
 // their purchase to the registrar as its referral tag: keccak256 of the name, as ENSv2 ids names.
 // Referrers are paid from the registrar's records, to whoever owns the name when they're paid.
 //
@@ -9,7 +9,7 @@
 
 import { ens_normalize } from "@adraffy/ens-normalize";
 
-const KEY = "hexns-ref";
+const KEY = "pdains-ref";
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 /** Referrers earn this share of what the buyers they bring pay, during the launch offer. */
@@ -20,11 +20,11 @@ export const LAUNCH_OFFER_DAYS = 58;
 export const REMEMBER_DAYS = LAUNCH_OFFER_DAYS;
 const REMEMBER_MS = REMEMBER_DAYS * DAY_MS;
 
-/** The referrer's name from a ?ref= value, if it's a valid .hex name. */
+/** The referrer's name from a ?ref= value, if it's a valid .pdai name. */
 export function referrerFrom(value: string | null): string | null {
   if (!value) return null;
   try {
-    const label = ens_normalize(value.trim().replace(/\.hex$/i, ""));
+    const label = ens_normalize(value.trim().replace(/\.pdai$/i, ""));
     return label && !label.includes(".") && [...label].length >= 3 ? label : null;
   } catch {
     return null;
@@ -45,7 +45,7 @@ export function captureReferral(now = Date.now()): string | null {
 }
 
 /** A link that brings a visitor in on `label`'s referral. */
-export function referralLink(label: string, base = "https://hexns.domains"): string {
+export function referralLink(label: string, base = "https://pdains.domains"): string {
   return `${base}/?ref=${encodeURIComponent(label)}`;
 }
 

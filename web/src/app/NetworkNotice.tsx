@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { CopyButton } from "./ManagePanel";
-import { addChainParams, chainName, CHAINS } from "./network";
-import { messageOf, switchTo, useWallet } from "./wallet";
+import { addChainParams, CHAIN, chainName } from "./network";
+import { messageOf, switchToPulseChain, useWallet } from "./wallet";
 
 /**
  * Under the top bar while the connected wallet is on another network than PulseChain: which one it's
@@ -14,16 +14,14 @@ export function NetworkNotice() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const connected = wallet.connected;
-  const home = CHAINS.pulsechain;
-  if (!connected || connected.chainId === home.id) return null;
-  const missing = wallet.missing === "pulsechain";
-  const details = addChainParams("pulsechain");
+  if (!connected || connected.chainId === CHAIN.id) return null;
+  const details = addChainParams();
 
   async function move() {
     setBusy(true);
     setError(null);
     try {
-      await switchTo("pulsechain");
+      await switchToPulseChain();
     } catch (e) {
       setError(messageOf(e));
     } finally {
@@ -36,18 +34,18 @@ export function NetworkNotice() {
       <div className="container network-notice__inner">
         <p className="network-notice__text">
           <span className="network-notice__dot" aria-hidden="true" />
-          {missing ? (
+          {wallet.missing ? (
             <>
-              <b>Your wallet doesn&rsquo;t have {home.name} yet.</b> .hex names are bought and managed there.
+              <b>Your wallet doesn&rsquo;t have {CHAIN.name} yet.</b> .pdai names are bought and managed there.
             </>
           ) : (
             <>
-              <b>Your wallet is on {chainName(connected.chainId)}.</b> .hex names are bought and managed on {home.name}.
+              <b>Your wallet is on {chainName(connected.chainId)}.</b> .pdai names are bought and managed on {CHAIN.name}.
             </>
           )}
         </p>
         <button type="button" className="button button--primary button--small" disabled={busy} onClick={move}>
-          {busy ? "Check your wallet…" : missing ? `Add ${home.name} to your wallet` : `Switch to ${home.name}`}
+          {busy ? "Check your wallet…" : wallet.missing ? `Add ${CHAIN.name} to your wallet` : `Switch to ${CHAIN.name}`}
         </button>
         {error ? (
           <p className="network-notice__error" role="alert">
@@ -70,7 +68,7 @@ export function NetworkNotice() {
             </div>
             <div>
               <dt>Chain ID</dt>
-              <dd>{home.id}</dd>
+              <dd>{CHAIN.id}</dd>
             </div>
             <div>
               <dt>Currency symbol</dt>

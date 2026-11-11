@@ -1,4 +1,4 @@
-// What the site's functions share: the scan of the .hex registry, kept in Netlify Blobs between
+// What the site's functions share: the scan of the .pdai registry, kept in Netlify Blobs between
 // visits, brought up to date at most about once a minute (each answer is cached that long).
 
 import { getStore } from "@netlify/blobs";
@@ -18,7 +18,7 @@ export async function current(network: Network): Promise<{ state: ScanState; beh
   const deployment = DEPLOYMENTS[network];
   if (!deployment) return null;
   const { pulsechain } = deployment;
-  const store = getStore("hexns-registry");
+  const store = getStore("pdains-registry");
   const key = `${network}-${pulsechain.registry.toLowerCase()}`;
   const saved = (await store.get(key, { type: "json" })) as ScanState | null;
   // A state from before names' owners were followed starts again from the deployment.

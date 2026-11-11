@@ -7,23 +7,12 @@ import { formatToken, formatUsd, quoteIn } from "../lib/quotes";
 import { captureReferral, referralLink } from "../lib/referral";
 import type { PayToken } from "../lib/tokens";
 import { erc20Abi } from "./abis";
-import { feeText, useCopyFee } from "./copy";
-import { CopyChoice, type CopyWhen } from "./CopyChoice";
-import {
-  amountText,
-  bestQuote,
-  buyOnPulseChain,
-  changeText,
-  type SelfCopied,
-  type Step,
-  tokenAddress,
-  withBuffer,
-} from "./flows";
+import { amountText, bestQuote, buyOnPulseChain, changeText, type Step, tokenAddress, withBuffer } from "./flows";
 import { usePriceLevel, useSalesOpen } from "./live";
 import type { NameInfo } from "./lookup";
 import { priceOf } from "./lookup";
-import { clients, deployment, PAY } from "./network";
-import { referralTag, SECONDS_PER_YEAR } from "./order";
+import { client, deployment, PAY } from "./network";
+import { referralTag, SECONDS_PER_YEAR } from "./purchase";
 import { linkProps } from "./router";
 import { Steps } from "./Steps";
 import { WalletChoices } from "./WalletButton";
@@ -38,19 +27,17 @@ const yearsText = (n: number) => `${n} ${n === 1 ? "year" : "years"}`;
 /**
  * What paying for `years` of `label` takes in `token`, refreshed as the choices change. Once the
  * contracts are deployed it's the checkout's own quote: in USDC, the price to the last unit, exactly
- * what's paid, and with `withCopy` the copy fee too. Before then (the walkthrough), `dollars` priced
- * on the exchange.
+ * what's paid. Before then (the walkthrough), `dollars` priced on the exchange.
  */
-function useQuote(token: PayToken, label: string, years: number, dollars: number, withCopy = false): Quote {
+function useQuote(token: PayToken, label: string, years: number, dollars: number): Quote {
   const [quote, setQuote] = useState<Quote>({ status: "loading" });
   useEffect(() => {
-    const chain = PAY.pulsechain;
     const usdc = BigInt(Math.ceil(dollars * 1e6));
     const show = (amount: bigint) =>
       setQuote({
         status: "ok",
         text: token.path
-          ? `≈ ${formatToken(amount, token.decimals)} ${token.symbol} on ${chain.dex} right now`
+          ? `≈ ${formatToken(amount, token.decimals)} ${token.symbol} on ${PAY.dex} right now`
           : `= ${amountText(token, amount)}`,
         amount,
         token,
@@ -63,8 +50,8 @@ function useQuote(token: PayToken, label: string, years: number, dollars: number
     setQuote({ status: "loading" });
     const timer = setTimeout(() => {
       const asked = deployment
-        ? bestQuote("quoteRegister", label, BigInt(years) * SECONDS_PER_YEAR, token, withCopy).then((q) => q.amountIn)
-        : quoteIn(chain, token, usdc, controller.signal);
+        ? bestQuote("quoteRegister", label, BigInt(years) * SECONDS_PER_YEAR, token).then((q) => q.amountIn)
+        : quoteIn(PAY, token, usdc, controller.signal);
       asked
         .then((amount) => !controller.signal.aborted && show(amount))
         .catch(() => !controller.signal.aborted && setQuote({ status: "error" }));
@@ -73,7 +60,7 @@ function useQuote(token: PayToken, label: string, years: number, dollars: number
       clearTimeout(timer);
       controller.abort();
     };
-  }, [token, label, years, dollars, withCopy]);
+  }, [token, label, years, dollars]);
   return quote;
 }
 
@@ -81,7 +68,7 @@ function useQuote(token: PayToken, label: string, years: number, dollars: number
 async function walkthrough(token: PayToken, report: (steps: Step[]) => void) {
   const pause = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
   const titles: [string, string][] = [
-    ["chain", `Switch to ${PAY.pulsechain.name}`],
+    ["chain", `Switch to ${PAY.name}`],
     ["commit", "Reserve the name"],
     ...(token.native ? [] : ([["approve", `Allow ${token.label ?? token.symbol}`]] as [string, string][])),
     ["wait", "Wait a minute"],
@@ -132,13 +119,13 @@ function useFunds(account: Address | undefined, token: PayToken, need: bigint | 
     const check = async () => {
       try {
         const [pls, gasPrice] = await Promise.all([
-          clients.pulsechain.getBalance({ address: account }),
-          clients.pulsechain.getGasPrice().catch(() => null),
+          client.getBalance({ address: account }),
+          client.getGasPrice().catch(() => null),
         ]);
         const gas = gasPrice === null ? FALLBACK_GAS_PLS : gasPrice * PURCHASE_GAS;
-        const address = tokenAddress("pulsechain", token);
+        const address = tokenAddress(token);
         const held = address
-          ? await clients.pulsechain.readContract({ address, abi: erc20Abi, functionName: "balanceOf", args: [account] })
+          ? await client.readContract({ address, abi: erc20Abi, functionName: "balanceOf", args: [account] })
           : pls;
         const result: Funds = address
           ? held < need
@@ -193,8 +180,7 @@ function GetFunds({ funds, total, token }: { funds: Funds; total: number; token:
         or another chain, and choose <b>PLS on PulseChain</b> to receive.
       </li>
       <li>
-        In a few minutes, come back here and pay with <b>PLS</b>. It covers the name and the network fee. Your name
-        works on Ethereum too.
+        In a few minutes, come back here and pay with <b>PLS</b>. It covers the name and the network fee.
       </li>
     </ol>
   );
@@ -225,10 +211,7 @@ function GetFunds({ funds, total, token }: { funds: Funds; total: number; token:
   return (
     <details className="get-funds">
       <summary>Coming from Ethereum or another chain?</summary>
-      <p>
-        Names are bought on PulseChain, and work on Ethereum too. LibertySwap brings money over in a few minutes, for
-        a 0.3% fee.
-      </p>
+      <p>Names are bought on PulseChain. LibertySwap brings money over in a few minutes, for a 0.3% fee.</p>
       {steps}
       {link}
     </details>
@@ -238,22 +221,15 @@ function GetFunds({ funds, total, token }: { funds: Funds; total: number; token:
 /** Choose how long and how to pay, see exactly what it costs, and buy. */
 export function BuyPanel({ info }: { info: Extract<NameInfo, { kind: "available" }> }) {
   const wallet = useWallet();
-  const name = `${info.label}.hex`;
+  const name = `${info.label}.pdai`;
   const [years, setYears] = useState(1);
-  // Names are bought on PulseChain. Coming from another chain? LibertySwap brings the money over.
-  const chain = PAY.pulsechain;
-  const [symbol, setSymbol] = useState(chain.tokens[0].symbol);
-  const token = chain.tokens.find((t) => t.symbol === symbol) ?? chain.tokens[0];
+  const [symbol, setSymbol] = useState(PAY.tokens[0].symbol);
+  const token = PAY.tokens.find((t) => t.symbol === symbol) ?? PAY.tokens[0];
   const level = usePriceLevel();
   const salesOpen = useSalesOpen();
-  const copy = useCopyFee();
-  const [copyWhen, setCopyWhen] = useState<CopyWhen>("later");
-  const copyFee = copy?.kind === "offered" && copyWhen === "now" ? copy.fee : null;
-  // While HexNS can't copy it at once, the buyer may copy it themselves after paying, in ETH.
-  const copyMyself = copy?.kind === "busy" && copyWhen === "myself";
   const price = priceOf(info, years, level);
   const total = Math.round(price.total * 100) / 100;
-  const asked = useQuote(token, info.label, years, total, copyFee !== null);
+  const asked = useQuote(token, info.label, years, total);
   // Just after another token is chosen, until its quote is asked for, the last token's quote is
   // still held: in its own units (USDC has 6 decimals, PLS 18), so it's taken as still loading.
   const quote: Quote = asked.status === "ok" && asked.token !== token ? { status: "loading" } : asked;
@@ -263,28 +239,13 @@ export function BuyPanel({ info }: { info: Extract<NameInfo, { kind: "available"
   const funds = useFunds(wallet.connected?.account, token, need);
   const [steps, setSteps] = useState<Step[] | null>(null);
   const [phase, setPhase] = useState<"choose" | "buying" | "done" | "failed">("choose");
-  const [copyPaid, setCopyPaid] = useState(0n);
-  const [copied, setCopied] = useState<SelfCopied | "later" | undefined>(undefined);
-  const withFee = Math.round((total + (copyFee === null ? 0 : Number(copyFee) / 1e6)) * 100) / 100;
 
   async function buy() {
     setPhase("buying");
     const referrer = referralTag(captureReferral(), info.label);
     try {
       if (!deployment) await walkthrough(token, setSteps);
-      else {
-        const done = await buyOnPulseChain({
-          label: info.label,
-          years,
-          token,
-          referrer,
-          copyNow: copyFee !== null,
-          copyMyself,
-          report: setSteps,
-        });
-        setCopyPaid(done.copyFee);
-        setCopied(done.copied);
-      }
+      else await buyOnPulseChain({ label: info.label, years, token, referrer, report: setSteps });
       setPhase("done");
     } catch {
       setPhase("failed");
@@ -327,10 +288,10 @@ export function BuyPanel({ info }: { info: Extract<NameInfo, { kind: "available"
 
         <div className="checkout__field">
           <span className="checkout__label" id="buy-token">
-            Pay with, on {chain.name}
+            Pay with, on {PAY.name}
           </span>
           <div className="chips" role="radiogroup" aria-labelledby="buy-token">
-            {chain.tokens.map((t) => (
+            {PAY.tokens.map((t) => (
               <button
                 key={t.symbol}
                 type="button"
@@ -342,13 +303,11 @@ export function BuyPanel({ info }: { info: Extract<NameInfo, { kind: "available"
               </button>
             ))}
           </div>
-          <p className="checkout__hint">{token.note ?? `Holding another token? Swap it for PLS on ${chain.dex} first.`}</p>
+          <p className="checkout__hint">{token.note ?? `Holding another token? Swap it for PLS on ${PAY.dex} first.`}</p>
         </div>
-
-        <CopyChoice copy={copy} choice={copyWhen} onChange={setCopyWhen} what="your name" />
       </fieldset>
 
-      <GetFunds funds={funds} total={withFee} token={token} />
+      <GetFunds funds={funds} total={total} token={token} />
 
       <dl className="breakdown">
         <div>
@@ -369,26 +328,14 @@ export function BuyPanel({ info }: { info: Extract<NameInfo, { kind: "available"
             <dd>{formatUsd(info.premium)}</dd>
           </div>
         ) : null}
-        {copyFee !== null ? (
-          <div>
-            <dt>Copy to Ethereum now</dt>
-            <dd>{feeText(copyFee)}</dd>
-          </div>
-        ) : null}
-        {copyMyself ? (
-          <div>
-            <dt>Copy to Ethereum yourself</dt>
-            <dd className="breakdown__note">Ethereum&rsquo;s fee, in ETH, after paying</dd>
-          </div>
-        ) : null}
         <div>
           <dt>Network fee</dt>
-          <dd className="breakdown__note">{chain.network}</dd>
+          <dd className="breakdown__note">{PAY.network}</dd>
         </div>
         <div className="breakdown__total">
           <dt>Total</dt>
           <dd>
-            {formatUsd(withFee)}
+            {formatUsd(total)}
             <span className="breakdown__quote" aria-live="polite">
               {quote.status === "ok"
                 ? quote.text
@@ -411,21 +358,9 @@ export function BuyPanel({ info }: { info: Extract<NameInfo, { kind: "available"
           <div>
             <p className="buy__done-title">{deployment ? `${name} is yours.` : "That's the whole purchase."}</p>
             <p>
-              {!deployment
-                ? "On the live site each step is a real transaction, confirmed in your wallet."
-                : copied === "copied"
-                  ? "It works on PulseChain now, and you've copied it to Ethereum: it shows there in a moment."
-                  : copied === "already" || copied === "someone-else"
-                    ? "It works on PulseChain now, and it's been copied to Ethereum."
-                    : copied === "later"
-                      ? "It works on PulseChain now. Copy it to Ethereum from its page when you're ready, or it's copied free once Ethereum's fees fall."
-                      : copyPaid > 0n || copy?.kind === "free" || copy === null
-                        ? "It works on PulseChain now, and on Ethereum in about 15 minutes."
-                        : `It works on PulseChain now. Ethereum is busy, so its copy there follows once Ethereum's fees fall${
-                            copy?.kind === "offered"
-                              ? `, or for ${feeText(copy.fee)} at once from its page`
-                              : ", or copy it yourself from its page, paying Ethereum's fee in ETH"
-                          }.`}
+              {deployment
+                ? "It works on PulseChain now."
+                : "On the live site each step is a real transaction, confirmed in your wallet."}
             </p>
             {deployment ? (
               <p className="buy__share">
@@ -479,7 +414,7 @@ export function BuyPanel({ info }: { info: Extract<NameInfo, { kind: "available"
         </div>
       ) : (
         <button type="button" className="button button--primary buy__cta" disabled={!choosing} onClick={buy}>
-          {choosing ? `Buy ${name} for ${formatUsd(withFee)}` : "Follow the steps in your wallet…"}
+          {choosing ? `Buy ${name} for ${formatUsd(total)}` : "Follow the steps in your wallet…"}
         </button>
       )}
       {!deployment && choosing ? (

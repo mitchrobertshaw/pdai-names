@@ -13,7 +13,7 @@ type Hex = `0x${string}`;
 /** One referred purchase or renewal, from the registrar's NameRegistered or NameRenewed event. */
 export interface ReferredPayment {
   kind: "purchase" | "renewal";
-  /** The name bought or renewed, without .hex. */
+  /** The name bought or renewed, without .pdai. */
   label: string;
   /** Who owns that name: the buyer, for a purchase; its owner now, for a renewal. */
   owner: Address | null;
@@ -42,7 +42,7 @@ export type PayoutStatus = "pay" | "self-referral" | "no-owner";
 
 export interface PayoutRow {
   status: PayoutStatus;
-  /** The referrer's name, such as "mick.hex", or its tag when it isn't a name. */
+  /** The referrer's name, such as "mick.pdai", or its tag when it isn't a name. */
   referrer: string;
   tag: Hex;
   /** Who to pay: the owner of the referrer's name now. */
@@ -102,7 +102,7 @@ export function payoutReport(
     if (!row) {
       row = {
         status,
-        referrer: referrer.label ? `${referrer.label}.hex` : tag,
+        referrer: referrer.label ? `${referrer.label}.pdai` : tag,
         tag,
         payTo: status === "pay" ? referrer.owner : null,
         purchases: 0,
@@ -215,8 +215,12 @@ export function findPayout(report: PayoutReport, transfers: Transfer[], decimals
   return null;
 }
 
-/** "HXNS": what starts the note a payout carries at the end of its transaction. */
-const NOTE_TAG = "48584e53";
+/**
+ * "PDNS": what starts the note a payout carries at the end of its transaction. The payments wallet
+ * may pay other referrers through Disperse too (HexNS's payouts carry "HXNS"), so only a payout with
+ * this note counts as one of pDAI Names'.
+ */
+const NOTE_TAG = "50444e53";
 const DAY_MS = 86_400_000;
 /** A day ("2026-11-10") as a number: days since 1 January 1970. */
 export const dayNumber = (day: string) => Math.round(Date.parse(`${day}T00:00:00Z`) / DAY_MS);
@@ -225,7 +229,7 @@ export const dayFrom = (n: number) => new Date(n * DAY_MS).toISOString().slice(0
 
 /**
  * The note a payout carries at the end of its transaction, after what the payout contract reads:
- * "HXNS", then the first and last days it paid for. The chain keeps it with the transaction, so any
+ * "PDNS", then the first and last days it paid for. The chain keeps it with the transaction, so any
  * device can see which days are paid.
  */
 export function payoutNote(first: string, last: string): Hex {
@@ -233,7 +237,7 @@ export function payoutNote(first: string, last: string): Hex {
   return `0x${NOTE_TAG}${word(first)}${word(last)}`;
 }
 
-/** The days a payout's transaction says it paid for, or null if it carries no note. */
+/** The days a payout's transaction says it paid for, or null if it carries no PDNS note. */
 export function readPayoutNote(input: Hex): { first: string; last: string } | null {
   const hex = input.toLowerCase().replace(/^0x/, "");
   if (hex.length < 24 || !hex.slice(-24).startsWith(NOTE_TAG)) return null;
@@ -242,7 +246,18 @@ export function readPayoutNote(input: Hex): { first: string; last: string } | nu
   return first <= last ? { first: dayFrom(first), last: dayFrom(last) } : null;
 }
 
-/** A payout the payments wallet made, and the days it says it paid for (none if it predates notes). */
+/**
+ * Whether a call to Disperse's disperseToken carries a note after its arguments: ours, or another
+ * project's. Its arguments are 5 words, and 2 more for each wallet it pays.
+ */
+export function carriesNote(input: Hex): boolean {
+  const hex = input.replace(/^0x/, "");
+  const word = (i: number) => parseInt(hex.slice(8 + i * 64, 8 + (i + 1) * 64) || "0", 16);
+  const wallets = word(word(1) / 32); // the length of the recipients array, where its offset says
+  return hex.length / 2 > 4 + 32 * (5 + 2 * wallets);
+}
+
+/** A payout the payments wallet made, and the days it says it paid for: none without a PDNS note. */
 export interface Payout {
   tx: Hex;
   block: bigint;

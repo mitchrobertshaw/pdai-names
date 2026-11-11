@@ -1,12 +1,8 @@
-import nacl from "tweetnacl";
 import {
-  bytesToHex,
   ContractFunctionExecutionError,
   ContractFunctionRevertedError,
-  decodeAbiParameters,
   encodeErrorResult,
   type Hex,
-  hexToBytes,
   keccak256,
   toBytes,
   zeroAddress,
@@ -22,15 +18,13 @@ import {
   referralOfferText,
   referrerFrom,
 } from "../lib/referral";
-import { commitmentOf, encodePurchase, labelId, NO_REFERRER, type Purchase, referralTag, sealFor } from "./order";
+import { commitmentOf, labelId, NO_REFERRER, type Purchase, referralTag } from "./purchase";
 import { usdcText } from "../lib/payouts";
-import { PAY_CHAINS, type PayToken } from "../lib/tokens";
+import { PAY_CHAIN, type PayToken } from "../lib/tokens";
 import { checkoutAbi } from "./abis";
 import { amountToSend } from "./BuyPanel";
-import { ethText } from "./copy";
-import { amountText, changeText, errorText, ethShortText, selfCopiedText, shortText, testnetFees } from "./flows";
-import { anyPower, capFrom, OWNER_ROLES, parseNames, powersOf } from "./admin";
-import { capText, copyFeeOf, feeText, UNAVAILABLE } from "./copy";
+import { amountText, changeText, errorText, shortText, testnetFees } from "./flows";
+import { anyPower, OWNER_ROLES, parseNames, powersOf } from "./admin";
 import { baseRatio, LIST_LEVEL, levelOf, priceDecimalsFrom, ratioFor } from "./live";
 import { localInfo } from "./lookup";
 import { renewableYears } from "./ManagePanel";
@@ -50,22 +44,8 @@ const purchase: Purchase = {
 
 describe("buying", () => {
   it("commits exactly as the deployed registrar's makeCommitment does", () => {
-    // The same vector as bot/test/reveal.test.ts, from ETHRegistrar.makeCommitment on a deployment.
+    // From ETHRegistrar.makeCommitment on a deployment.
     expect(commitmentOf(purchase)).toBe("0xd9a764372bda56ec1d542c80b3d205148b386b601cf67981e3cbe759e463f941");
-  });
-
-  it("seals an order so the bot's key opens it, in the bot's format", () => {
-    const bot = nacl.box.keyPair();
-    const sealed = hexToBytes(sealFor(purchase, bytesToHex(bot.publicKey)));
-    expect(sealed[0]).toBe(1); // version
-    const oneOff = sealed.slice(1, 33);
-    const nonce = sealed.slice(33, 57);
-    const opened = nacl.box.open(sealed.slice(57), nonce, oneOff, bot.secretKey);
-    expect(opened).not.toBeNull();
-    expect(bytesToHex(opened!)).toBe(encodePurchase(purchase));
-    const [label, owner] = decodeAbiParameters([{ type: "string" }, { type: "address" }], encodePurchase(purchase));
-    expect([label, owner]).toEqual(["alice", purchase.owner]);
-    expect(nacl.box.open(sealed.slice(57), nonce, oneOff, nacl.box.keyPair().secretKey)).toBeNull();
   });
 
   it("knows a name by keccak256 of its label, as ENSv2 does", () => {
@@ -74,13 +54,13 @@ describe("buying", () => {
 });
 
 describe("referrals", () => {
-  it("take a .hex name from the link, in any case, with or without .hex", () => {
+  it("take a .pdai name from the link, in any case, with or without .pdai", () => {
     expect(referrerFrom("Mick")).toBe("mick");
-    expect(referrerFrom("mick.hex")).toBe("mick");
+    expect(referrerFrom("mick.pdai")).toBe("mick");
     expect(referrerFrom("mi")).toBeNull(); // too short to be a name
     expect(referrerFrom("not a name")).toBeNull();
     expect(referrerFrom(null)).toBeNull();
-    expect(referralLink("mick")).toBe("https://hexns.domains/?ref=mick");
+    expect(referralLink("mick")).toBe("https://pdains.domains/?ref=mick");
   });
 
   afterEach(() => vi.unstubAllGlobals());
@@ -139,30 +119,30 @@ describe("the app's pages", () => {
     return { pathname: u.pathname, hash: u.hash, hostname: u.hostname, protocol: u.protocol };
   };
 
-  it("sit at the root of app.hexns.domains", () => {
-    expect(modeOf(at("https://app.hexns.domains/alice.hex"))).toEqual({ base: "", hash: false });
-    expect(parse(at("https://app.hexns.domains/alice.hex"))).toEqual({ page: "name", label: "alice" });
-    expect(parse(at("https://app.hexns.domains/names"))).toEqual({ page: "names" });
-    expect(parse(at("https://app.hexns.domains/"))).toEqual({ page: "search" });
-    expect(hrefOf({ page: "name", label: "alice" }, at("https://app.hexns.domains/"))).toBe("/alice.hex");
+  it("sit at the root of app.pdains.domains", () => {
+    expect(modeOf(at("https://app.pdains.domains/alice.pdai"))).toEqual({ base: "", hash: false });
+    expect(parse(at("https://app.pdains.domains/alice.pdai"))).toEqual({ page: "name", label: "alice" });
+    expect(parse(at("https://app.pdains.domains/names"))).toEqual({ page: "names" });
+    expect(parse(at("https://app.pdains.domains/"))).toEqual({ page: "search" });
+    expect(hrefOf({ page: "name", label: "alice" }, at("https://app.pdains.domains/"))).toBe("/alice.pdai");
   });
 
   it("sit under /app on a preview link", () => {
-    const place = at("https://deploy-preview-5--hexns.netlify.app/app/Alice.hex");
+    const place = at("https://deploy-preview-5--pdains.netlify.app/app/Alice.pdai");
     expect(modeOf(place)).toEqual({ base: "/app", hash: false });
     expect(parse(place)).toEqual({ page: "name", label: "alice" });
     expect(hrefOf({ page: "names" }, place)).toBe("/app/names");
   });
 
   it("include the referral payout report at /referrals, which isn't a name", () => {
-    expect(parse(at("https://app.hexns.domains/referrals"))).toEqual({ page: "referrals" });
-    expect(parse(at("https://app.hexns.domains/referrals.hex"))).toEqual({ page: "name", label: "referrals" });
-    expect(parse(at("https://hexns-testnet.netlify.app/app/referrals"))).toEqual({ page: "referrals" });
-    expect(hrefOf({ page: "referrals" }, at("https://hexns-testnet.netlify.app/app/"))).toBe("/app/referrals");
+    expect(parse(at("https://app.pdains.domains/referrals"))).toEqual({ page: "referrals" });
+    expect(parse(at("https://app.pdains.domains/referrals.pdai"))).toEqual({ page: "name", label: "referrals" });
+    expect(parse(at("https://pdains-testnet.netlify.app/app/referrals"))).toEqual({ page: "referrals" });
+    expect(hrefOf({ page: "referrals" }, at("https://pdains-testnet.netlify.app/app/"))).toBe("/app/referrals");
   });
 
   it("go after a # anywhere else, such as a copy opened from a file", () => {
-    const place = at("file:///Users/me/hexns-app.html#/b%C3%BCcher.hex");
+    const place = at("file:///Users/me/pdains-app.html#/b%C3%BCcher.pdai");
     expect(modeOf(place)).toEqual({ base: "", hash: true });
     expect(parse(place)).toEqual({ page: "name", label: "bücher" });
     expect(hrefOf({ page: "search" }, place)).toBe("#/");
@@ -171,7 +151,7 @@ describe("the app's pages", () => {
 
 describe("a name's page", () => {
   it("says a name over 63 bytes is too long, and doesn't offer it", () => {
-    expect(localInfo(`${"a".repeat(63)}.hex`)).toMatchObject({ kind: "available", length: 63 });
+    expect(localInfo(`${"a".repeat(63)}.pdai`)).toMatchObject({ kind: "available", length: 63 });
     expect(localInfo("a".repeat(64))).toEqual({ kind: "too-long", label: "a".repeat(64), length: 64, bytes: 64 });
     expect(localInfo("🔥".repeat(16))).toMatchObject({ kind: "invalid" }); // only letters, numbers and hyphens
   });
@@ -201,8 +181,9 @@ describe("the wallet's network", () => {
 });
 
 describe("paying", () => {
-  const usdc = PAY_CHAINS.pulsechain.tokens.find((t) => !t.path) as PayToken;
-  const pls = PAY_CHAINS.pulsechain.tokens.find((t) => t.native) as PayToken;
+  const usdc = PAY_CHAIN.tokens.find((t) => !t.path) as PayToken;
+  const pls = PAY_CHAIN.tokens.find((t) => t.native) as PayToken;
+  const pdai = PAY_CHAIN.tokens.find((t) => t.symbol === "pDAI") as PayToken;
   const refused = (data: Hex) =>
     new ContractFunctionExecutionError(
       new ContractFunctionRevertedError({ abi: checkoutAbi, data, functionName: "registerWithToken" }),
@@ -214,6 +195,7 @@ describe("paying", () => {
     expect(amountText(usdc, 17_500_000n)).toBe("17.50 USDC from Ethereum");
     expect(amountText(usdc, 10_000_003n)).toBe("10.000003 USDC from Ethereum");
     expect(amountText(pls, 512_345_678n * 10n ** 15n)).toBe("512,300 PLS");
+    expect(amountText(pdai, 9_251_234n * 10n ** 15n)).toBe("9,251 pDAI"); // $10 in November 2026
   });
 
   it("tells a wallet short of the price what it holds and what it costs, before anything is sent", () => {
@@ -227,13 +209,13 @@ describe("paying", () => {
   });
 
   it("says a swap sends 2% extra and the change comes back in USDC, so the wallet's amount isn't a surprise", () => {
-    const usdt = PAY_CHAINS.pulsechain.tokens.find((t) => t.symbol === "USDT") as PayToken;
+    const usdt = PAY_CHAIN.tokens.find((t) => t.symbol === "USDT") as PayToken;
     // The launch rehearsal: a $10 name quoted at 10.06 USDT, and the wallet sent 10.26.
     expect(changeText(usdt, 10_058_700n)).toBe(
       "Your wallet sends about 10.26 USDT: 2% extra in case the price moves. " +
         "What isn’t needed comes straight back to you, in USDC.",
     );
-    // Where there's no quote to hand (renewing, the copy fee).
+    // Where there's no quote to hand (renewing).
     expect(changeText(pls)).toBe(
       "Your wallet sends 2% more PLS than this costs, in case the price moves. " +
         "What isn’t needed comes straight back to you, in USDC.",
@@ -333,16 +315,15 @@ describe("the admin page", () => {
 
   it("opens for a wallet with admin powers, and shows only those it has", () => {
     const adminOf = (role: bigint) => role << 128n;
-    // What the deploy gives the admin on the .hex registry (HexDeployer).
+    // What the deploy gives the admin on the .pdai registry (PdaiDeployer).
     const deployed =
       adminOf(1n) | adminOf(1n << 16n) | (1n << 4n) | adminOf(1n << 4n) | (1n << 36n) | adminOf(1n << 36n);
-    const all = { pause: true, prices: true, hold: true, handOut: true, extend: true, copyFee: true, leftover: 0n };
-    expect(powersOf(deployed, true, true)).toEqual(all);
-    const none = { pause: false, prices: false, hold: false, handOut: false, extend: false, copyFee: false, leftover: 0n };
+    const all = { pause: true, prices: true, hold: true, handOut: true, extend: true, leftover: 0n };
+    expect(powersOf(deployed, true)).toEqual(all);
+    const none = { pause: false, prices: false, hold: false, handOut: false, extend: false, leftover: 0n };
     expect(powersOf(0n, false)).toEqual(none);
     expect(anyPower(powersOf(0n, false))).toBe(false);
     expect(anyPower(powersOf(0n, true))).toBe(true); // prices only, say, with the rest given up
-    expect(anyPower(powersOf(0n, false, true))).toBe(true); // the copy fee only: the checkout's owner
     // Left holding the power to register names, by an action that didn't finish: it's offered back.
     expect(powersOf(deployed | 1n, true).leftover).toBe(1n);
     // The roles a buyer gets with a name (ETHRegistrar's REGISTRATION_ROLE_BITMAP).
@@ -350,7 +331,7 @@ describe("the admin page", () => {
   });
 
   it("takes names to hold as they're typed, checked as a search checks them", () => {
-    expect(parseNames("Alice, bob\ncarol.hex  alice")).toEqual({ labels: ["alice", "bob", "carol"], problems: [] });
+    expect(parseNames("Alice, bob\ncarol.pdai  alice")).toEqual({ labels: ["alice", "bob", "carol"], problems: [] });
     const { labels, problems } = parseNames("ab x a.b ab--cd good");
     expect(labels).toEqual(["good"]);
     expect(problems).toHaveLength(4);
@@ -358,7 +339,7 @@ describe("the admin page", () => {
   });
 
   it("sits at /admin, out of the menu", () => {
-    const place = { pathname: "/app/admin", hash: "", hostname: "hexns-testnet.netlify.app", protocol: "https:" };
+    const place = { pathname: "/app/admin", hash: "", hostname: "pdains-testnet.netlify.app", protocol: "https:" };
     expect(parse(place)).toEqual({ page: "admin" });
     expect(hrefOf({ page: "admin" }, place)).toBe("/app/admin");
   });
@@ -391,63 +372,5 @@ describe("the payout report page", () => {
     expect(usdcText(1_000_000n)).toBe("1.00");
     expect(usdcText(7n)).toBe("0.000007");
     expect(usdcText(1_234_567_891_230n)).toBe("1,234,567.89123");
-  });
-});
-
-describe("the Ethereum copy fee", () => {
-  it("is offered at any price up to the admin's safety limit, unless the bot pauses it", () => {
-    const cap = 1_000_000_000n; // $1,000, as deployed
-    expect(copyFeeOf(0n, cap)).toEqual({ kind: "free" });
-    expect(copyFeeOf(1_250_000n, cap)).toEqual({ kind: "offered", fee: 1_250_000n });
-    expect(copyFeeOf(155_400_000n, cap)).toEqual({ kind: "offered", fee: 155_400_000n }); // 200 gwei
-    expect(copyFeeOf(cap, cap)).toEqual({ kind: "offered", fee: cap });
-    expect(copyFeeOf(cap + 1n, cap)).toEqual({ kind: "busy", cap, overCap: true });
-    expect(copyFeeOf(UNAVAILABLE, cap)).toEqual({ kind: "busy", cap, overCap: false }); // the bot hasn't the ETH
-    expect(copyFeeOf(1_250_000n, 0n)).toEqual({ kind: "free" }); // switched off by the admin
-  });
-
-  it("shows fees in dollars and cents, and the cap in whole dollars when it is", () => {
-    expect(feeText(1_250_000n)).toBe("$1.25");
-    expect(feeText(270_000n)).toBe("$0.27");
-    expect(feeText(80_400_000n)).toBe("$80.40");
-    expect(capText(100_000_000n)).toBe("$100");
-    expect(capText(1_000_000_000n)).toBe("$1,000");
-    expect(capText(12_500_000n)).toBe("$12.50");
-  });
-
-  it("takes the most a copy can cost as dollars, up to $10,000", () => {
-    expect(capFrom("100")).toBe(100_000_000n);
-    expect(capFrom("2.5")).toBe(2_500_000n);
-    expect(capFrom("0")).toBe(0n);
-    expect(capFrom(" 12.34 ")).toBe(12_340_000n);
-    expect(capFrom("1.234")).toBeNull();
-    expect(capFrom("-1")).toBeNull();
-    expect(capFrom("10001")).toBeNull();
-    expect(capFrom("")).toBeNull();
-  });
-});
-
-describe("copying a name yourself", () => {
-  it("shows ETH to 2 figures, rounded up, so a cost is never shown as less than it is", () => {
-    expect(ethText(0n)).toBe("0 ETH");
-    expect(ethText(61_200_000_000_000_000n)).toBe("0.062 ETH");
-    expect(ethText(316_800_000_000_000_000n)).toBe("0.32 ETH");
-    expect(ethText(320_000_000_000_000_000n)).toBe("0.32 ETH");
-    expect(ethText(1_500_000_000_000_000_000n)).toBe("1.5 ETH");
-    expect(ethText(2_100_000_000_000_000n)).toBe("0.0021 ETH");
-  });
-
-  it("says, before the wallet asks, when it hasn't the ETH on hand to send the copy, and why that's more than the fee", () => {
-    const text = ethShortText({ balance: 50_000_000_000_000_000n, need: 316_800_000_000_000_000n, cost: 60_100_000_000_000_000n });
-    expect(text).toContain("holds 0.05 ETH");
-    expect(text).toContain("needs 0.32 ETH on hand");
-    expect(text).toContain("charged only about 0.061 ETH");
-    expect(text).toContain("Nothing was paid.");
-  });
-
-  it("says plainly when someone else copied it first: it's copied either way", () => {
-    expect(selfCopiedText("copied")).toMatch(/^Copied/);
-    expect(selfCopiedText("already")).toMatch(/already been copied, so there was nothing to pay/);
-    expect(selfCopiedText("someone-else")).toMatch(/Someone else copied it a moment before you, so it's copied/);
   });
 });

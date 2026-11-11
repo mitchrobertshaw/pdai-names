@@ -1,4 +1,4 @@
-// What the site knows about the .hex registry on PulseChain: how many names are registered, which
+// What the site knows about the .pdai registry on PulseChain: how many names are registered, which
 // were registered last (the homepage's live numbers), and who owns each name (the app's My names).
 // The site's functions (netlify/functions) read the new blocks at most about once a minute and
 // keep their place between visits, so visitors' browsers never have to scan the chain.

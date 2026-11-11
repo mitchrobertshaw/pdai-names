@@ -3,7 +3,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { decodeAmountIn, encodeGetAmountsIn, quoteIn } from "./quotes";
-import { PAY_CHAINS } from "./tokens";
+import { PAY_CHAIN } from "./tokens";
 
 const word = (n: bigint) => n.toString(16).padStart(64, "0");
 /** A router's getAmountsIn answer: [amountIn, ..., amountOut]. */
@@ -23,7 +23,7 @@ function routersAnswer(byRouter: Record<string, bigint | "error">) {
   );
 }
 
-const chain = PAY_CHAINS.pulsechain;
+const chain = PAY_CHAIN;
 const pls = chain.tokens.find((t) => t.symbol === "PLS")!;
 const [v1, v2] = chain.routers.map((r) => r.toLowerCase());
 

@@ -2,13 +2,9 @@ import { type ReactNode, useEffect, useState } from "react";
 
 import { PRICES } from "../lib/names";
 import { formatUsd } from "../lib/quotes";
-import { zeroAddress } from "viem";
 
 import {
   anyPower,
-  capFrom,
-  copyToEthereum,
-  type CopySettings,
   extendName,
   giveBack,
   type Held,
@@ -16,16 +12,12 @@ import {
   holdNames,
   type Powers,
   type Prices,
-  readCopySettings,
   readHeld,
   readPowers,
   readPrices,
-  setCopyBot,
-  setCopyCap,
   setPriceLevel,
   setSales,
 } from "./admin";
-import { copyFeeOf, feeText } from "./copy";
 import type { Step } from "./flows";
 import { LIST_LEVEL, readSalesOpen } from "./live";
 import { deployment } from "./network";
@@ -54,7 +46,7 @@ function pricesAt(level: bigint): string {
 }
 
 /**
- * app.hexns.domains/admin: the admin wallet's powers, made easy to use. Like the referral payouts
+ * app.pdains.domains/admin: the admin wallet's powers, made easy to use. Like the referral payouts
  * page, it's not in the menu and doesn't say which wallet opens it: it opens for a wallet the
  * contracts give admin powers to, and shows only the powers that wallet has.
  */
@@ -81,7 +73,7 @@ export function AdminPage() {
     return (
       <Shell>
         <section className="card payouts__card">
-          <p>This page works once .hex is deployed.</p>
+          <p>This page works once .pdai is deployed.</p>
         </section>
       </Shell>
     );
@@ -132,7 +124,6 @@ export function AdminPage() {
       {powers.hold || powers.handOut || powers.extend ? (
         <HeldCard powers={powers} onDone={() => setVersion((v) => v + 1)} />
       ) : null}
-      {powers.copyFee ? <CopyFeeCard /> : null}
     </Shell>
   );
 }
@@ -300,7 +291,7 @@ function PricesCard() {
             Multi-year discounts and the premium for recently expired names follow along.
           </p>
           <form
-            className="bot__form"
+            className="admin__form"
             onSubmit={async (event) => {
               event.preventDefault();
               if (level === null) return;
@@ -402,7 +393,7 @@ function HeldCard({ powers, onDone }: { powers: Powers; onDone: () => void }) {
             <tbody>
               {held.map((name) => (
                 <tr key={name.label}>
-                  <th scope="row">{name.label}.hex</th>
+                  <th scope="row">{name.label}.pdai</th>
                   <td data-label="Held until">{dayText(name.expiry)}</td>
                   <td data-label="For">{name.forWhom ?? "—"}</td>
                   <td data-label="Actions">
@@ -438,7 +429,7 @@ function HeldCard({ powers, onDone }: { powers: Powers; onDone: () => void }) {
         <>
           <h3 className="admin__subtitle">Hold more names</h3>
           <form
-            className="bot__form"
+            className="admin__form"
             onSubmit={async (event) => {
               event.preventDefault();
               if (await holdAct((report) => holdNames({ text: toHold, years: years(holdYears), report }))) {
@@ -484,7 +475,7 @@ function HeldCard({ powers, onDone }: { powers: Powers; onDone: () => void }) {
         <>
           <h3 className="admin__subtitle">Hand a held name to its owner</h3>
           <form
-            className="bot__form"
+            className="admin__form"
             onSubmit={async (event) => {
               event.preventDefault();
               if (await giveAct((report) => handOut({ name: giveName, owner: giveTo, report }))) {
@@ -520,10 +511,7 @@ function HeldCard({ powers, onDone }: { powers: Powers; onDone: () => void }) {
               Hand it out
             </button>
           </form>
-          <p className="payouts__how">
-            It&rsquo;s theirs at once, with everything a buyer gets. A second transaction sends its copy to Ethereum,
-            and the bot copies it at once, whatever Ethereum&rsquo;s fees.
-          </p>
+          <p className="payouts__how">It&rsquo;s theirs at once, with everything a buyer gets.</p>
           {giveSteps ? <Steps steps={giveSteps} /> : null}
         </>
       ) : null}
@@ -532,7 +520,7 @@ function HeldCard({ powers, onDone }: { powers: Powers; onDone: () => void }) {
         <>
           <h3 className="admin__subtitle">Add time</h3>
           <form
-            className="bot__form"
+            className="admin__form"
             onSubmit={async (event) => {
               event.preventDefault();
               if (await extendAct((report) => extendName({ name: extendWhat, years: years(extendYears), report }))) {
@@ -575,171 +563,6 @@ function HeldCard({ powers, onDone }: { powers: Powers; onDone: () => void }) {
           {extendSteps ? <Steps steps={extendSteps} /> : null}
         </>
       ) : null}
-    </section>
-  );
-}
-
-const short = (address: string) => `${address.slice(0, 6)}…${address.slice(-4)}`;
-
-/**
- * The Ethereum copy fee: what it is now, the bot that sets it (and receives it), and the most it may
- * be. Also copies any name to Ethereum at once, at the project's cost.
- */
-function CopyFeeCard() {
-  const [settings, setSettings] = useState<CopySettings | "failed" | null>(null);
-  const [version, setVersion] = useState(0);
-  const [bot, setBot] = useState(deployment?.bot.address ?? "");
-  const [cap, setCap] = useState("1000");
-  const [copyName, setCopyName] = useState("");
-  const [botSteps, choosing, botAct] = useAction();
-  const [capSteps, capping, capAct] = useAction();
-  const [copySteps, copying, copyAct] = useAction();
-  const busy = choosing || capping || copying;
-
-  useEffect(() => {
-    let alive = true;
-    readCopySettings()
-      .then((value) => {
-        if (!alive) return;
-        setSettings(value);
-        setCap((Number(value.cap) / 1e6).toFixed(2).replace(/\.00$/, ""));
-        if (value.bot !== zeroAddress) setBot(value.bot);
-      })
-      .catch(() => alive && setSettings("failed"));
-    return () => {
-      alive = false;
-    };
-  }, [version]);
-
-  const newCap = capFrom(cap);
-  const now = settings && settings !== "failed" ? copyFeeOf(settings.fee, settings.cap) : null;
-  return (
-    <section className="card payouts__card" aria-labelledby="copy-fee-title">
-      <h2 id="copy-fee-title" className="payouts__title">
-        Ethereum copy fee
-      </h2>
-      <p className="payouts__how">
-        The bot pays Ethereum&rsquo;s gas to copy each name there. The project covers up to $2 a copy. When Ethereum is
-        busy and a copy costs more, the bot sets a fee for the rest: buyers can pay it to copy their name at once, or
-        wait for it to be copied free once fees fall. Sending a name through the app pays it too. The fee goes to the
-        bot, which keeps a little ETH on hand for copies paid for (COPY_NOW_ETH). Busier than that covers, buyers can
-        copy their name themselves on Ethereum instead, paying its fee in ETH.
-      </p>
-      {settings === "failed" ? (
-        <p>Couldn&rsquo;t read the checkout just now. Reload the page in a minute.</p>
-      ) : settings === null ? (
-        <p className="name-page__loading">Reading…</p>
-      ) : (
-        <>
-          <p>
-            <b className="admin__status">
-              {settings.bot === zeroAddress
-                ? "Off: no copy bot chosen."
-                : settings.cap === 0n
-                  ? "Off: the most a copy can cost is $0."
-                  : now?.kind === "offered"
-                    ? `${feeText(now.fee)} to copy a name at once.`
-                    : now?.kind === "busy"
-                      ? now.overCap
-                        ? `Over the most a copy can cost (${feeText(settings.cap)}): copying at once isn't offered.`
-                        : "Copying at once paused: the bot hasn't the ETH on hand to do it straight away at today's gas. It tops up while copies are free."
-                      : "None now: copies cost under $2, so they're free."}
-            </b>{" "}
-            {settings.bot === zeroAddress || settings.cap === 0n
-              ? "Every copy is free, and goes as the bot's daily limit allows."
-              : `Set by the bot ${short(settings.bot)}, at most ${feeText(settings.cap)}.`}
-          </p>
-
-          <h3 className="admin__subtitle">The copy bot</h3>
-          <form
-            className="bot__form"
-            onSubmit={async (event) => {
-              event.preventDefault();
-              if (await botAct((report) => setCopyBot({ bot, report }))) setVersion((v) => v + 1);
-            }}
-          >
-            <label className="admin__wide">
-              The bot&rsquo;s wallet: the first 0x… in its log
-              <input
-                value={bot}
-                onChange={(event) => setBot(event.target.value)}
-                placeholder="0x…"
-                spellCheck={false}
-                autoComplete="off"
-                required
-              />
-            </label>
-            <button type="submit" className="button button--primary" disabled={busy}>
-              Choose it
-            </button>
-          </form>
-          <p className="payouts__how">
-            Once chosen, the bot keeps the fee up to date by itself. The bot needs PULSECHAIN_CHECKOUT in its settings.
-          </p>
-          {botSteps ? <Steps steps={botSteps} /> : null}
-
-          <h3 className="admin__subtitle">The most a copy can cost</h3>
-          <form
-            className="bot__form"
-            onSubmit={async (event) => {
-              event.preventDefault();
-              if (newCap === null) return;
-              if (await capAct((report) => setCopyCap({ cap: newCap, report }))) setVersion((v) => v + 1);
-            }}
-          >
-            <label>
-              In dollars (0 switches it off)
-              <input
-                type="number"
-                min="0"
-                max="10000"
-                step="0.01"
-                value={cap}
-                onChange={(event) => setCap(event.target.value)}
-                required
-              />
-            </label>
-            <button type="submit" className="button button--primary" disabled={busy || newCap === null}>
-              Set it
-            </button>
-          </form>
-          <p className="payouts__how">
-            A safety limit, in case the bot ever sets a wrong fee: below it, buyers can pay whatever copying at once
-            costs. If a copy would cost more, copying at once isn&rsquo;t offered, and copies wait for Ethereum&rsquo;s
-            fees to fall. Ethereum would reach $1,000 at about 1,500 gwei. Switched off (0), every copy is free.
-          </p>
-          {capSteps ? <Steps steps={capSteps} /> : null}
-        </>
-      )}
-
-      <h3 className="admin__subtitle">Copy a name to Ethereum now</h3>
-      <form
-        className="bot__form"
-        onSubmit={async (event) => {
-          event.preventDefault();
-          if (await copyAct((report) => copyToEthereum({ name: copyName, report }))) setCopyName("");
-        }}
-      >
-        <label>
-          Name
-          <input
-            value={copyName}
-            onChange={(event) => setCopyName(event.target.value)}
-            placeholder="alice"
-            spellCheck={false}
-            autoComplete="off"
-            required
-          />
-        </label>
-        <button type="submit" className="button button--primary" disabled={busy}>
-          Copy it now
-        </button>
-      </form>
-      <p className="payouts__how">
-        The bot copies names sent from this wallet at once, whatever Ethereum&rsquo;s fees, at the project&rsquo;s cost:
-        for a name stuck waiting, say.
-      </p>
-      {copySteps ? <Steps steps={copySteps} /> : null}
     </section>
   );
 }

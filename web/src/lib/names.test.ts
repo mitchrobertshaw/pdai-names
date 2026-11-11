@@ -1,14 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import botConfig from "../../../bot/src/config.ts?raw";
-import deployer from "../../../script/HexDeployer.sol?raw";
-import nameRules from "../../../src/pulsechain/HexNameRules.sol?raw";
+import deployer from "../../../script/PdaiDeployer.sol?raw";
+import nameRules from "../../../src/PdaiNameRules.sol?raw";
 import page from "../../index.html?raw";
 
 import {
   checkName,
   DISCOUNTS,
-  ETHEREUM_ORDER_FEE,
   MAX_NAME_BYTES,
   isPlain,
   MAX_YEARS,
@@ -32,17 +30,18 @@ const check = (input: string) => checkName(input, reserved);
 
 describe("checkName", () => {
   it("prices names of 5 or more characters at $10 a year", () => {
-    expect(check("alice")).toEqual({ kind: "available", name: "alice.hex", length: 5, yearlyPrice: 10 });
+    expect(check("alice")).toEqual({ kind: "available", name: "alice.pdai", length: 5, yearlyPrice: 10 });
   });
 
-  it("lower-cases, trims and accepts a typed .hex ending", () => {
-    expect(check("  Alice.HEX ")).toMatchObject({ kind: "available", name: "alice.hex" });
+  it("lower-cases, trims and accepts a typed .pdai ending", () => {
+    expect(check("  Alice.PDAI ")).toMatchObject({ kind: "available", name: "alice.pdai" });
+    expect(check("alice.pDAI")).toMatchObject({ kind: "available", name: "alice.pdai" });
   });
 
   it("prices 3 and 4 characters as premium and refuses 1 and 2", () => {
     expect(check("abc")).toMatchObject({ kind: "premium", length: 3, yearlyPrice: 320 });
     expect(check("abcd")).toMatchObject({ kind: "premium", length: 4, yearlyPrice: 160 });
-    expect(check("ab")).toEqual({ kind: "too-short", name: "ab.hex" });
+    expect(check("ab")).toEqual({ kind: "too-short", name: "ab.pdai" });
     expect(check("a")).toMatchObject({ kind: "too-short" });
   });
 
@@ -64,45 +63,46 @@ describe("checkName", () => {
   it("says who a reserved name is for", () => {
     expect(check("yourfriendsommi")).toEqual({
       kind: "reserved",
-      name: "yourfriendsommi.hex",
+      name: "yourfriendsommi.pdai",
       reservedFor: "Your Friend Sommi",
       given: true,
     });
     expect(check("PulseChain")).toMatchObject({ kind: "reserved", reservedFor: "PulseChain", given: false });
   });
 
-  it("catches .eth and checks the .hex name instead", () => {
+  it("catches .eth and checks the .pdai name instead", () => {
     expect(check("alice.eth")).toEqual({
       kind: "eth",
       name: "alice.eth",
-      hex: { kind: "available", name: "alice.hex", length: 5, yearlyPrice: 10 },
+      pdai: { kind: "available", name: "alice.pdai", length: 5, yearlyPrice: 10 },
     });
-    expect(check("alice.hex.eth")).toMatchObject({ kind: "eth", hex: { name: "alice.hex" } });
+    expect(check("alice.pdai.eth")).toMatchObject({ kind: "eth", pdai: { name: "alice.pdai" } });
   });
 
   it("refuses dots, spaces and characters wallets won't accept", () => {
-    expect(check("sub.alice")).toMatchObject({ kind: "invalid" });
+    expect(check("sub.alice")).toEqual({ kind: "invalid", reason: "A .pdai name is one word, with no dots in it." });
+    expect(check("alice.pls")).toMatchObject({ kind: "invalid" }); // another ending
     expect(check("two words")).toEqual({ kind: "invalid", reason: "Names can't have spaces in them." });
     expect(check("hey!")).toEqual({ kind: "invalid", reason: PLAIN_ONLY });
   });
 
   it("drops invisible characters, as wallets do when they normalize a name", () => {
-    expect(check("ali​ce")).toMatchObject({ kind: "available", name: "alice.hex" }); // zero-width space
+    expect(check("ali​ce")).toMatchObject({ kind: "available", name: "alice.pdai" }); // zero-width space
   });
 
   it("says a name over 63 bytes is too long, as the contracts do", () => {
     const longest = "a".repeat(63);
     const tooLong = "a".repeat(64);
     expect(check(longest)).toMatchObject({ kind: "available", length: 63 });
-    expect(check(tooLong)).toEqual({ kind: "too-long", name: `${tooLong}.hex`, length: 64, bytes: 64 });
+    expect(check(tooLong)).toEqual({ kind: "too-long", name: `${tooLong}.pdai`, length: 64, bytes: 64 });
     expect(tooLongText({ length: 64 })).toBe("Names can be up to 63 characters. This one has 64.");
-    expect(shortName(`${tooLong}.hex`)).toBe(`${"a".repeat(20)}….hex`);
-    expect(shortName("alice.hex")).toBe("alice.hex");
+    expect(shortName(`${tooLong}.pdai`)).toBe(`${"a".repeat(20)}….pdai`);
+    expect(shortName("alice.pdai")).toBe("alice.pdai");
   });
 
   it("treats blank input as nothing typed", () => {
     expect(check("   ")).toEqual({ kind: "empty" });
-    expect(check(".hex")).toEqual({ kind: "empty" });
+    expect(check(".pdai")).toEqual({ kind: "empty" });
   });
 });
 
@@ -150,10 +150,6 @@ describe("the prices", () => {
   it("allow the same characters the contracts do", () => {
     expect(nameRules).toContain('(c >= "a" && c <= "z") || (c >= "0" && c <= "9") || c == "-"');
     expect(nameRules).toContain('b.length >= 4 && b[2] == "-" && b[3] == "-"');
-  });
-
-  it("add the bot's Ethereum order fee", () => {
-    expect(Number(botConfig.match(/MIN_FEE_USDC"\) \?\? "([\d.]+)"/)?.[1])).toBe(ETHEREUM_ORDER_FEE);
   });
 
   it("is the one in the page description", () => {

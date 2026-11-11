@@ -4,12 +4,10 @@ import { type Address, isAddress } from "viem";
 import { formatUsd } from "../lib/quotes";
 import { captureReferral, launchOffer, referralLink, referralOfferText } from "../lib/referral";
 import { MAX_YEARS, priceFor } from "../lib/names";
-import { feeText, useCopyFee } from "./copy";
-import { CopyChoice, type CopyWhen, FEE_TOKENS, FeeTokens } from "./CopyChoice";
 import { changeText, renew, send, type Step } from "./flows";
 import { usePriceLevel } from "./live";
 import { addressUrl, deployment, PAY } from "./network";
-import { referralTag } from "./order";
+import { referralTag } from "./purchase";
 import { Steps } from "./Steps";
 
 const yearsText = (n: number) => `${n} ${n === 1 ? "year" : "years"}`;
@@ -19,7 +17,7 @@ const dayText = (unix: number) =>
 
 /**
  * How many whole years a name expiring at `expiry` can be renewed for now: a name can be paid for
- * at most 5 years ahead (HexNameRules), so a name with 4½ years left can't add a whole year yet.
+ * at most 5 years ahead (PdaiNameRules), so a name with 4½ years left can't add a whole year yet.
  */
 export function renewableYears(expiry: number, now = Math.floor(Date.now() / 1000)): number {
   return Math.max(0, Math.min(MAX_YEARS, Math.floor((now + MAX_YEARS * YEAR - expiry) / YEAR)));
@@ -66,17 +64,13 @@ export function RenewPanel({
   const most = renewableYears(expiry);
   const [chosen, setYears] = useState(1);
   const years = Math.max(1, Math.min(chosen, most));
-  const tokens = PAY.pulsechain.tokens;
+  const tokens = PAY.tokens;
   const [symbol, setSymbol] = useState(tokens[0].symbol);
   const token = tokens.find((t) => t.symbol === symbol) ?? tokens[0];
   const [steps, setSteps] = useState<Step[] | null>(null);
   const [busy, setBusy] = useState(false);
   const level = usePriceLevel();
   const price = priceFor(length, years);
-  const copy = useCopyFee();
-  const [copyWhen, setCopyWhen] = useState<CopyWhen>("later");
-  const copyFee = copy?.kind === "offered" && copyWhen === "now" ? copy.fee : null;
-  const copyMyself = copy?.kind === "busy" && copyWhen === "myself";
 
   return (
     <section className="card manage" aria-labelledby="renew-title">
@@ -119,9 +113,6 @@ export function RenewPanel({
         </div>
       </div>
       {changeText(token) ? <p className="manage__note manage__change">{changeText(token)}</p> : null}
-      <div className="manage__fee">
-        <CopyChoice copy={copy} choice={copyWhen} onChange={setCopyWhen} disabled={busy} what="the new date" />
-      </div>
       {!mine ? (
         <p className="manage__note">
           Anyone can renew a name, but it stays its owner&rsquo;s: this adds time for them, it doesn&rsquo;t buy it.
@@ -141,15 +132,7 @@ export function RenewPanel({
         onClick={async () => {
           setBusy(true);
           try {
-            await renew({
-              label,
-              years,
-              token,
-              referrer: referralTag(captureReferral(), label),
-              copyNow: copyFee !== null,
-              copyMyself,
-              report: setSteps,
-            });
+            await renew({ label, years, token, referrer: referralTag(captureReferral(), label), report: setSteps });
             onChanged?.();
           } catch {
             // Shown in the steps.
@@ -158,7 +141,6 @@ export function RenewPanel({
         }}
       >
         Renew for {yearsText(years)}, {formatUsd(Math.round(price.total * level * 100) / 100)}
-        {copyFee !== null ? ` + ${feeText(copyFee)} to copy now` : copyMyself ? ", then copy it yourself" : ""}
       </button>
     </section>
   );
@@ -183,9 +165,6 @@ export function OwnerPanel({
   const [busy, setBusy] = useState(false);
   const valid = isAddress(to.trim());
   const link = referralLink(label);
-  const copy = useCopyFee();
-  const [feeToken, setFeeToken] = useState(FEE_TOKENS[0]);
-  const copyFee = copy?.kind === "offered" ? copy.fee : null;
 
   return (
     <>
@@ -205,22 +184,10 @@ export function OwnerPanel({
           Send it to another wallet
         </h2>
         <p className="manage__text">
-          {!canSend
-            ? "Renew it first: an expired name can't be sent."
-            : copyFee !== null
-              ? "It moves for good: only the new owner can send it back."
-              : "It moves for good: only the new owner can send it back. Its Ethereum copy follows by itself, about 15 minutes later."}
+          {canSend
+            ? "It moves for good: only the new owner can send it back."
+            : "Renew it first: an expired name can't be sent."}
         </p>
-        {canSend && copyFee !== null ? (
-          <div className="manage__fee">
-            <p className="manage__note">
-              Ethereum is busy, so sending it here also pays for its copy there, {feeText(copyFee)}, so the new owner
-              shows on Ethereum in about 15 minutes. Pay it with:
-            </p>
-            <FeeTokens token={feeToken} onChange={setFeeToken} disabled={busy} />
-            {changeText(feeToken) ? <p className="manage__note">{changeText(feeToken)}</p> : null}
-          </div>
-        ) : null}
         {canSend ? (
           <div className="manage__row">
             <input
@@ -240,12 +207,7 @@ export function OwnerPanel({
               onClick={async () => {
                 setBusy(true);
                 try {
-                  await send({
-                    label,
-                    to: to.trim() as Address,
-                    copyWith: copyFee !== null ? feeToken : undefined,
-                    report: setSteps,
-                  });
+                  await send({ label, to: to.trim() as Address, report: setSteps });
                   onChanged?.();
                 } catch {
                   // Shown in the steps.
@@ -253,7 +215,7 @@ export function OwnerPanel({
                 setBusy(false);
               }}
             >
-              {copyFee !== null ? `Send, +${feeText(copyFee)}` : "Send"}
+              Send
             </button>
           </div>
         ) : null}
@@ -266,9 +228,9 @@ export function OwnerPanel({
 }
 
 /**
- * How to sell a name, as ENS explains it for .eth names: there's no HexNS marketplace. Each name is
- * an NFT (ERC-1155) in the .hex registry, so it sells on PulseChain NFT marketplaces, which show its
- * card (HexNameCard). None is named: they come and go.
+ * How to sell a name, as ENS explains it for .eth names: there's no pDAI Names marketplace. Each name
+ * is an NFT (ERC-1155) in the .pdai registry, so it sells on PulseChain NFT marketplaces, which show
+ * its card (PdaiNameCard). None is named: they come and go.
  */
 function SellPanel({ label, expiry, canSell }: { label: string; expiry: number; canSell: boolean }) {
   const registry = deployment?.pulsechain.registry;
@@ -281,17 +243,15 @@ function SellPanel({ label, expiry, canSell }: { label: string; expiry: number; 
         <>
           <p className="manage__text">
             Your name is an NFT on PulseChain, so you can sell it on a PulseChain NFT marketplace, the way .eth names
-            sell on Ethereum&rsquo;s. Connect this wallet there, pick {label}.hex from your NFTs and set a price: when
+            sell on Ethereum&rsquo;s. Connect this wallet there, pick {label}.pdai from your NFTs and set a price: when
             someone buys it, the marketplace swaps the name for their payment in one go.
           </p>
           <ul className="manage__list">
+            <li>The buyer gets it paid for until {dayText(expiry)}.</li>
+            <li>pDAI Names takes no cut. The marketplace may charge a fee.</li>
             <li>
-              The buyer gets it paid for until {dayText(expiry)}, and its Ethereum copy follows them by itself.
-            </li>
-            <li>HexNS takes no cut. The marketplace may charge a fee.</li>
-            <li>
-              To list it, your wallet asks you to let the marketplace move your .hex names. Only say yes to a marketplace
-              you trust.
+              To list it, your wallet asks you to let the marketplace move your .pdai names. Only say yes to a
+              marketplace you trust.
             </li>
             <li>
               An expired name can&rsquo;t change hands, so renew it before {dayText(expiry)} if it might not sell by
@@ -305,8 +265,8 @@ function SellPanel({ label, expiry, canSell }: { label: string; expiry: number; 
           {registry ? (
             <>
               <p className="manage__note">
-                Buyers can check it&rsquo;s a real .hex name: it comes from{" "}
-                <a href={addressUrl("pulsechain", registry)} target="_blank" rel="noreferrer">
+                Buyers can check it&rsquo;s a real .pdai name: it comes from{" "}
+                <a href={addressUrl(registry)} target="_blank" rel="noreferrer">
                   this contract
                 </a>
                 .

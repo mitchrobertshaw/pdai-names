@@ -7,8 +7,8 @@ import type { Address } from "viem";
 
 import { PRICES } from "../lib/names";
 import { oracleAbi, registrarAbi, registryAbi, rulesAbi } from "./abis";
-import { clients, deployment } from "./network";
-import { SECONDS_PER_YEAR } from "./order";
+import { client, deployment } from "./network";
+import { SECONDS_PER_YEAR } from "./purchase";
 
 /** ENSv2's role for registering names: the registrar holds it while sales are open. */
 export const ROLE_REGISTRAR = 1n;
@@ -53,13 +53,13 @@ export function ratioFor(level: bigint, tokenDecimals: number, priceDecimals: nu
 
 let oracle: Promise<Address> | null = null;
 
-/** The price oracle, behind HexNameRules. */
+/** The price oracle, behind PdaiNameRules. */
 export function oracleAddress(): Promise<Address> {
   const d = deployment;
   if (!d) return Promise.reject(new Error("The contracts aren't deployed yet."));
-  oracle ??= clients.pulsechain
+  oracle ??= client
     .readContract({ address: d.pulsechain.registrar, abi: registrarAbi, functionName: "rentPriceOracle" })
-    .then((rules) => clients.pulsechain.readContract({ address: rules, abi: rulesAbi, functionName: "ORACLE" }))
+    .then((rules) => client.readContract({ address: rules, abi: rulesAbi, functionName: "ORACLE" }))
     .catch((error) => {
       oracle = null;
       throw error;
@@ -69,7 +69,7 @@ export function oracleAddress(): Promise<Address> {
 
 /** The oracle's units: see priceDecimalsFrom. */
 export async function readPriceDecimals(): Promise<number> {
-  const rates = await clients.pulsechain.readContract({
+  const rates = await client.readContract({
     address: await oracleAddress(),
     abi: oracleAbi,
     functionName: "getBaseRates",
@@ -84,7 +84,7 @@ export async function readPriceLevel(): Promise<number> {
   const [decimals, [numer, denom]] = await Promise.all([
     readPriceDecimals(),
     oracleAddress().then((address) =>
-      clients.pulsechain.readContract({
+      client.readContract({
         address,
         abi: oracleAbi,
         functionName: "getPaymentTokenRatio",
@@ -100,7 +100,7 @@ export async function readPriceLevel(): Promise<number> {
 export async function readSalesOpen(): Promise<boolean> {
   const d = deployment;
   if (!d) return true;
-  return clients.pulsechain.readContract({
+  return client.readContract({
     address: d.pulsechain.registry,
     abi: registryAbi,
     functionName: "hasRootRoles",

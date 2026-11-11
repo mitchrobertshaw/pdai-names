@@ -14,7 +14,7 @@ export const registrarAbi = parseAbi([
   "function rentPriceOracle() view returns (address)",
 ]);
 
-/** HexNameRules, between the registrar and its price oracle. */
+/** PdaiNameRules, between the registrar and its price oracle. */
 export const rulesAbi = parseAbi(["function ORACLE() view returns (address)"]);
 
 /** ENSv2's StandardRentPriceOracle: what the admin's "all prices together" changes. */
@@ -136,104 +136,17 @@ export const checkoutAbi = [
     inputs: [renewal, swap],
     outputs: [uint("change")],
   },
-  // The same, also paying the copy fee to have the name copied to Ethereum at once (copy.ts).
-  {
-    type: "function",
-    name: "registerWithTokenAndCopy",
-    stateMutability: "nonpayable",
-    inputs: [registration, { type: "address", name: "tokenIn" }, uint("amountIn"), swap, uint("copyFeeLimit")],
-    outputs: [uint("tokenId"), uint("change"), uint("fee")],
-  },
-  {
-    type: "function",
-    name: "registerWithPLSAndCopy",
-    stateMutability: "payable",
-    inputs: [registration, swap, uint("copyFeeLimit")],
-    outputs: [uint("tokenId"), uint("change"), uint("fee")],
-  },
-  {
-    type: "function",
-    name: "renewWithTokenAndCopy",
-    stateMutability: "nonpayable",
-    inputs: [renewal, { type: "address", name: "tokenIn" }, uint("amountIn"), swap, uint("copyFeeLimit")],
-    outputs: [uint("change"), uint("fee")],
-  },
-  {
-    type: "function",
-    name: "renewWithPLSAndCopy",
-    stateMutability: "payable",
-    inputs: [renewal, swap, uint("copyFeeLimit")],
-    outputs: [uint("change"), uint("fee")],
-  },
-  {
-    type: "function",
-    name: "payCopyFee",
-    stateMutability: "nonpayable",
-    inputs: [{ type: "string", name: "label" }, { type: "address", name: "tokenIn" }, uint("amountIn"), swap],
-    outputs: [uint("fee"), uint("change")],
-  },
-  {
-    type: "function",
-    name: "payCopyFeeWithPLS",
-    stateMutability: "payable",
-    inputs: [{ type: "string", name: "label" }, swap],
-    outputs: [uint("fee"), uint("change")],
-  },
   ...parseAbi([
     "function quoteRegister(string label, uint64 duration, address router, address[] path) view returns (uint256 price, uint256 amountIn)",
     "function quoteRenew(string label, uint64 duration, address router, address[] path) view returns (uint256 price, uint256 amountIn)",
-    "function quoteRegisterAndCopy(string label, uint64 duration, address router, address[] path) view returns (uint256 price, uint256 fee, uint256 amountIn)",
-    "function quoteRenewAndCopy(string label, uint64 duration, address router, address[] path) view returns (uint256 price, uint256 fee, uint256 amountIn)",
-    "function quoteCopyFee(address router, address[] path) view returns (uint256 fee, uint256 amountIn)",
-    // The copy fee: set by the bot, capped by the admin (the checkout's owner).
-    "function copyFee() view returns (uint256)",
-    "function maxCopyFee() view returns (uint256)",
-    "function copyBot() view returns (address)",
-    "function owner() view returns (address)",
-    "function setCopyBot(address bot)",
-    "function setMaxCopyFee(uint256 maxFee)",
-    "function MIRROR_SYNC() view returns (address)",
-    "event CopyPaid(string label, address indexed payer, uint256 fee, bytes32 indexed messageId)",
     // Why a payment would be refused, so the app can say it plainly (flows.ts errorText).
     "error InsufficientPayment(uint256 received, uint256 needed)",
     "error NameNotAvailable(string label)",
     "error CommitmentTooNew(bytes32 commitment, uint64 validFrom, uint64 blockTimestamp)",
     "error CommitmentTooOld(bytes32 commitment, uint64 validTo, uint64 blockTimestamp)",
     "error TooFarAhead(string label, uint256 newExpiry, uint256 latest)",
-    "error NoCopyFee()",
-    "error CopyFailed()",
-    "error OwnableUnauthorizedAccount(address account)",
   ]),
 ] as const;
-
-/** HexMirrorSync on PulseChain: sends a name's state to its Ethereum copy. */
-export const mirrorSyncAbi = parseAbi([
-  "function sync(string label) returns (bytes32 messageId)",
-  "function peer() view returns (address)",
-  "function AMB() view returns (address)",
-  "event Synced(string label, address indexed owner, uint64 expiry, uint64 indexed nonce, bytes32 indexed messageId)",
-]);
-
-/** HexMirrorRegistrar on Ethereum: writes the copies into Ethereum's .hex registry. */
-export const mirrorRegistrarAbi = parseAbi([
-  "function REGISTRY() view returns (address)",
-  "function AMB() view returns (address)",
-  "function lastNonce(uint256 labelId) view returns (uint64)",
-]);
-
-/** The bridge's message contract on PulseChain: messages to Ethereum, and the validators' signatures. */
-export const homeAmbAbi = parseAbi([
-  "event UserRequestForSignature(bytes32 indexed messageId, bytes encodedData)",
-  "function numMessagesSigned(bytes32 message) view returns (uint256)",
-  "function signature(bytes32 hash, uint256 index) view returns (bytes)",
-  "function requiredSignatures() view returns (uint256)",
-]);
-
-/** The bridge's message contract on Ethereum: anyone may deliver a signed message, paying its fee. */
-export const foreignAmbAbi = parseAbi([
-  "function executeSignatures(bytes data, bytes signatures)",
-  "function relayedMessages(bytes32 messageId) view returns (bool)",
-]);
 
 export const erc20Abi = parseAbi([
   "function decimals() view returns (uint8)",

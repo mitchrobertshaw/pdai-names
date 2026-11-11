@@ -6,8 +6,8 @@ import { type Address, zeroAddress } from "viem";
 import { checkName, nameLength, priceFor, yearlyPriceFor } from "../lib/names";
 import { reservedFor, reservedNames } from "../lib/reserved";
 import { registrarAbi, registryAbi } from "./abis";
-import { clients, deployment } from "./network";
-import { labelId, SECONDS_PER_YEAR } from "./order";
+import { client, deployment } from "./network";
+import { labelId, SECONDS_PER_YEAR } from "./purchase";
 
 export type NameInfo =
   | { kind: "invalid"; reason: string }
@@ -37,18 +37,18 @@ export function localInfo(input: string): NameInfo {
     case "invalid":
       return { kind: "invalid", reason: check.reason };
     case "eth":
-      return localInfo(check.name.replace(/\.eth$/, "")); // the .hex name with the same label
+      return localInfo(check.name.replace(/\.eth$/, "")); // the .pdai name with the same label
     case "too-short":
-      return { kind: "too-short", label: check.name.replace(/\.hex$/, "") };
+      return { kind: "too-short", label: check.name.replace(/\.pdai$/, "") };
     case "too-long":
-      return { kind: "too-long", label: check.name.replace(/\.hex$/, ""), length: check.length, bytes: check.bytes };
+      return { kind: "too-long", label: check.name.replace(/\.pdai$/, ""), length: check.length, bytes: check.bytes };
     case "reserved":
-      return { kind: "reserved", label: check.name.replace(/\.hex$/, ""), reservedFor: check.reservedFor };
+      return { kind: "reserved", label: check.name.replace(/\.pdai$/, ""), reservedFor: check.reservedFor };
     case "premium":
     case "available":
       return {
         kind: "available",
-        label: check.name.replace(/\.hex$/, ""),
+        label: check.name.replace(/\.pdai$/, ""),
         length: check.length,
         yearlyPrice: check.yearlyPrice,
         premium: 0,
@@ -62,7 +62,7 @@ export async function lookUp(input: string): Promise<NameInfo> {
   if (!deployment || local.kind === "invalid" || local.kind === "too-short" || local.kind === "too-long") return local;
   const label = local.label;
   const { registry, registrar, usdc } = deployment.pulsechain;
-  const state = await clients.pulsechain.readContract({
+  const state = await client.readContract({
     address: registry,
     abi: registryAbi,
     functionName: "getState",
@@ -84,7 +84,7 @@ export async function lookUp(input: string): Promise<NameInfo> {
   }
   if (state.status === 1)
     return { kind: "reserved", label, reservedFor: reservation ? reservedFor(reservation.note) : "its owner" };
-  const available = await clients.pulsechain.readContract({
+  const available = await client.readContract({
     address: registrar,
     abi: registrarAbi,
     functionName: "isAvailable",
@@ -93,7 +93,7 @@ export async function lookUp(input: string): Promise<NameInfo> {
   if (!available)
     return { kind: "reserved", label, reservedFor: reservation ? reservedFor(reservation.note) : "its owner" };
   // A name that lapsed recently costs more for a while (a premium that halves daily).
-  const [, premium] = await clients.pulsechain.readContract({
+  const [, premium] = await client.readContract({
     address: registrar,
     abi: registrarAbi,
     functionName: "getRegisterPrice",

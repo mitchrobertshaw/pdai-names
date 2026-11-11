@@ -34,7 +34,7 @@ export function Steps({ steps }: { steps: Step[] }) {
             </span>
             {step.detail ? <span className="progress__detail">{step.detail}</span> : null}
             {step.tx ? (
-              <a className="progress__tx" href={txUrl(step.tx.chain, step.tx.hash)} target="_blank" rel="noreferrer">
+              <a className="progress__tx" href={txUrl(step.tx)} target="_blank" rel="noreferrer">
                 View the transaction
               </a>
             ) : null}
