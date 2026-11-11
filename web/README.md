@@ -123,9 +123,8 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
   (`.hero::before` in [`src/styles.css`](src/styles.css), coloured by the `--glow-` variables). Dai's
   two lines run along its bottom edge as a fine rule. It stays still for visitors who turn off
   motion.
-- **The `.pdai` on each floating name** is in that person's colour, picked from their profile
-  picture: `tone` in [`src/data/featured.ts`](src/data/featured.ts), easy to read on the navy (the
-  tests check).
+- **The `.pdai` on each floating name** is in pDAI's five colours, cyan to red, as it is in the
+  headline.
 - **The live strip** under the search ("● LIVE · names registered · the latest names", in
   [`LiveStrip.tsx`](src/components/LiveStrip.tsx)) comes straight from the `.pdai` registry on
   PulseChain, through the site's own function at `/api/stats`

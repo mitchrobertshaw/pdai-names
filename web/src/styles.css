@@ -697,9 +697,12 @@ img {
     0 4px 14px rgb(0 0 0 / 40%);
 }
 
-/* In the colour of the person's profile picture (src/data/featured.ts), or the accent. */
+/* In pDAI's five colours, as ".pdai" is in the headline. */
 .pill__tld {
-  color: var(--tld, var(--accent));
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .avatar {
