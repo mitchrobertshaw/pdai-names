@@ -1,12 +1,13 @@
 import { useState } from "react";
 
+// Deep enough for the white letter on them.
 const GRADIENTS = [
-  "linear-gradient(135deg, #ffc400, #ff6a1f)",
-  "linear-gradient(135deg, #ff6a1f, #e5007a)",
-  "linear-gradient(135deg, #ff3d5a, #9b2bff)",
-  "linear-gradient(135deg, #ffb800, #e5007a)",
-  "linear-gradient(135deg, #ff8a00, #ff3d5a)",
-  "linear-gradient(135deg, #e5007a, #6d3bff)",
+  "linear-gradient(135deg, #c98a00, #9a5200)",
+  "linear-gradient(135deg, #0f9d8a, #0b6b5f)",
+  "linear-gradient(135deg, #b8730f, #0b7a6c)",
+  "linear-gradient(135deg, #d47a16, #8a3f00)",
+  "linear-gradient(135deg, #0b7a6c, #134e4a)",
+  "linear-gradient(135deg, #a35a00, #0f5f55)",
 ];
 
 function gradientFor(label: string): string {
@@ -24,7 +25,7 @@ function pictureOf(handle: string): string | undefined {
 
 /**
  * A person's X profile picture, saved in src/assets/avatars by `npm run avatars`, or, for names
- * that aren't people or if the picture is missing, the name's first letter on a warm gradient.
+ * that aren't people or if the picture is missing, the name's first letter on gold or teal.
  */
 export function Avatar({ label, x, size = 42 }: { label: string; x?: string; size?: number }) {
   const [failed, setFailed] = useState(false);

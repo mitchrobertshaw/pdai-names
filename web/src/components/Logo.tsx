@@ -1,37 +1,38 @@
 import { useId } from "react";
 
 /**
- * The HexNS mark, "Route": one network line runs round a hexagon and turns in to end at a node in
- * the centre, your name. One filled path, so it scales cleanly.
+ * The pDAI Names mark, "Coin": a lowercase p whose bowl is a coin, with a node at its centre, your
+ * name. One filled path, so it scales cleanly. The on-chain name cards draw the same path
+ * (src/PdaiNameCard.sol).
  */
-export const ROUTE_PATH =
-  "M33.45 5.989L53.802 17.739A2.9 2.9 0 0 1 50.902 22.761L30.55 11.011A2.9 2.9 0 0 1 33.45 5.989ZM55.252 20.25L55.252 43.75A2.9 2.9 0 0 1 49.452 43.75L49.452 20.25A2.9 2.9 0 0 1 55.252 20.25ZM53.802 46.261L33.45 58.011A2.9 2.9 0 0 1 30.55 52.989L50.902 41.239A2.9 2.9 0 0 1 53.802 46.261ZM30.55 58.011L10.198 46.261A2.9 2.9 0 0 1 13.098 41.239L33.45 52.989A2.9 2.9 0 0 1 30.55 58.011ZM8.748 43.75L8.748 20.25A2.9 2.9 0 0 1 14.548 20.25L14.548 43.75A2.9 2.9 0 0 1 8.748 43.75ZM13.098 17.739L33.45 29.489A2.9 2.9 0 0 1 30.55 34.511L10.198 22.761A2.9 2.9 0 0 1 13.098 17.739ZM24.6 32A7.4 7.4 0 1 1 39.4 32A7.4 7.4 0 1 1 24.6 32Z";
+export const MARK_PATH =
+  "M12.1 25.5A19.9 19.9 0 1 1 51.9 25.5A19.9 19.9 0 1 1 12.1 25.5ZM17.9 25.5A14.1 14.1 0 1 0 46.1 25.5A14.1 14.1 0 1 0 17.9 25.5ZM17.9 25.5L17.9 55.5A2.9 2.9 0 0 1 12.1 55.5L12.1 25.5A2.9 2.9 0 0 1 17.9 25.5ZM24.6 25.5A7.4 7.4 0 1 1 39.4 25.5A7.4 7.4 0 1 1 24.6 25.5Z";
 
-const RATIO = 0.8807; // width / height
+const RATIO = 0.7538; // width / height
 
 /**
- * The mark in the HexNS gradient, `height` pixels tall. Beside the HexNS wordmark it's 1.5 times
- * the wordmark's font size. Decorative: "HexNS" is always written beside it or nearby.
+ * The mark in pDAI Names' gold, `height` pixels tall. Beside the wordmark it's 1.5 times the
+ * wordmark's font size. Decorative: "pDAI Names" is always written beside it or nearby.
  */
 export function Logo({ height = 30 }: { height?: number }) {
-  const id = `hexns-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  const id = `pdains-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   return (
     <svg
       className="logo"
       width={Math.round(height * RATIO * 10) / 10}
       height={height}
-      viewBox="8.748 5.6 46.503 52.8"
+      viewBox="12.1 5.6 39.8 52.8"
       aria-hidden="true"
       focusable="false"
     >
       <defs>
-        <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="10" y1="6" x2="54" y2="58">
-          <stop offset="0" stopColor="#FFC400" />
-          <stop offset="0.5" stopColor="#FF6A1F" />
-          <stop offset="1" stopColor="#E5007A" />
+        <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="12" y1="6" x2="52" y2="58">
+          <stop offset="0" stopColor="#FFCF40" />
+          <stop offset="0.5" stopColor="#F5AC37" />
+          <stop offset="1" stopColor="#D47A16" />
         </linearGradient>
       </defs>
-      <path fill={`url(#${id})`} d={ROUTE_PATH} />
+      <path fill={`url(#${id})`} d={MARK_PATH} />
     </svg>
   );
 }

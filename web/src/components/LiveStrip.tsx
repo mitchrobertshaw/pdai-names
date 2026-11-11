@@ -29,8 +29,8 @@ export function useLiveStats(): LiveStats | null {
 }
 
 /**
- * Under the search: "● LIVE · 1,234 names registered · alice.hex registered 2 min ago · 56 in the
- * last 24 hours", straight from the .hex registry on PulseChain. The latest names take turns.
+ * Under the search: "● LIVE · 1,234 names registered · alice.pdai registered 2 min ago · 56 in the
+ * last 24 hours", straight from the .pdai registry on PulseChain. The latest names take turns.
  * Counts only show once they are worth showing; nothing shows until the contracts are live.
  */
 export function LiveStrip() {
@@ -72,7 +72,7 @@ export function LiveStrip() {
         <li className="live__item live__item--latest" key={`${current.label}-${current.at}`}>
           <b className="live__name">
             {current.label}
-            <span>.hex</span>
+            <span>.pdai</span>
           </b>{" "}
           registered {timeAgo(current.at, now)}
         </li>

@@ -23,8 +23,8 @@ const monthYear = new Intl.DateTimeFormat("en", { month: "short", year: "numeric
 const giveOf = (distance: number, most: number) => Math.sign(distance) * most * (1 - Math.exp(-Math.abs(distance) / 140));
 
 /**
- * "Yours. Not ours.": a name card to try to take, as a stranger or as HexNS (refused, with a
- * honeycomb shield), or to use as its owner: point it somewhere new, renew it, sell it. Once sold,
+ * "Yours. Not ours.": a name card to try to take, as a stranger or as pDAI Names (refused, with a
+ * shield of coins), or to use as its owner: point it somewhere new, renew it, sell it. Once sold,
  * not even the seller can take it back. The card tilts towards the pointer and can be tugged at.
  */
 export function Ownership() {
@@ -42,7 +42,7 @@ export function Ownership() {
 
   const renews = new Date();
   renews.setFullYear(renews.getFullYear() + years);
-  const label = `${name}.hex`;
+  const label = `${name}.pdai`;
 
   function react(ok: boolean) {
     if (ok) {
@@ -52,7 +52,7 @@ export function Ownership() {
       });
       return;
     }
-    // A honeycomb shield lights up around the card.
+    // A shield of coins lights up around the card.
     shield.current?.animate(
       [
         { opacity: 0, transform: "scale(0.96)" },
@@ -83,8 +83,8 @@ export function Ownership() {
   }
 
   const takeAsStranger = () => record(false, "Refused", `Only the wallet that owns ${label} can move it.`);
-  const takeAsHexNS = () =>
-    record(false, "Refused, even for us", "HexNS kept no power to move, cancel or redirect anyone's name.");
+  const takeAsTeam = () =>
+    record(false, "Refused, even for us", "pDAI Names kept no power to move, cancel or redirect anyone's name.");
 
   function pointSomewhereNew() {
     if (sold) return record(false, "Refused", "You sold it, so only its new owner can change where it points.");
@@ -172,7 +172,7 @@ export function Ownership() {
           <p className="kicker">True ownership</p>
           <h2 id="ownership-title">Yours. Not ours.</h2>
           <p className="section__intro">
-            A .hex name is a token in your wallet, not an account on our website. Nobody can take it, move it or
+            A .pdai name is a token in your wallet, not an account on our website. Nobody can take it, move it or
             change where it points: not a stranger, not a scammer, not even us. Go on, try.
           </p>
         </div>
@@ -204,9 +204,9 @@ export function Ownership() {
               </div>
               <p className="name-card__name" style={{ "--length": [...label].length } as CSSProperties}>
                 {name}
-                <span>.hex</span>
+                <span>.pdai</span>
               </p>
-              <p className="name-card__chains">On PulseChain and Ethereum</p>
+              <p className="name-card__chains">On PulseChain</p>
               <dl className="name-card__rows">
                 <div>
                   <dt>Owner</dt>
@@ -255,8 +255,8 @@ export function Ownership() {
               <button type="button" className="attempt attempt--take" onClick={takeAsStranger}>
                 As a stranger
               </button>
-              <button type="button" className="attempt attempt--take" onClick={takeAsHexNS}>
-                As the HexNS team
+              <button type="button" className="attempt attempt--take" onClick={takeAsTeam}>
+                As the pDAI Names team
               </button>
             </div>
           </div>

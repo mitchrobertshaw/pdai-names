@@ -14,7 +14,7 @@ type Line =
   | { id: string; from: "you"; reply: true } // the answer: the address, or the name
   | { id: string; from: "them"; receipt: true };
 
-const ASK: Line = { id: "ask", from: "them", text: "Sending you the 10,000 HEX I owe you. What's your address?" };
+const ASK: Line = { id: "ask", from: "them", text: "Sending you the 50,000 pDAI I owe you. What's your address?" };
 const REPLY: Line = { id: "reply", from: "you", reply: true };
 
 const SCRIPTS: Record<Mode, Line[]> = {
@@ -31,7 +31,7 @@ const SCRIPTS: Record<Mode, Line[]> = {
 const easeInOut = (x: number) => x * x * (3 - 2 * x);
 
 /**
- * "Goodbye 0x…": a chat in which a friend asks where to send some HEX, played first with an
+ * "Goodbye 0x…": a chat in which a friend asks where to send some pDAI, played first with an
  * address, then, by itself, with a name: the address scrambles down into the name. The toggle
  * replays either. Visitors can try it with their own name, which the name card further down
  * picks up too.
@@ -47,8 +47,8 @@ export function Messages() {
   const [scramble, setScramble] = useState<string | null>(null);
   const [invite, setInvite] = useState(false);
   const phone = useRef<HTMLDivElement>(null);
-  const target = useRef(`${name}.hex`);
-  target.current = `${name}.hex`;
+  const target = useRef(`${name}.pdai`);
+  target.current = `${name}.pdai`;
   const playedMode = useRef<Mode | null>(null);
   const touched = useRef(false); // the visitor picked a version or typed a name
   const advanced = useRef(false); // the chat has moved on to the name by itself
@@ -175,7 +175,7 @@ export function Messages() {
   const summary =
     mode === "address"
       ? "Example chat: a friend asks for your address, you send 42 characters, and they have to check it twice."
-      : `Example chat: a friend asks for your address, you send ${name}.hex, and the HEX arrives.`;
+      : `Example chat: a friend asks for your address, you send ${name}.pdai, and the pDAI arrives.`;
 
   return (
     <section className="section section--tint" id="names" aria-labelledby="messages-title">
@@ -183,7 +183,7 @@ export function Messages() {
         <div>
           <p className="kicker">Why a name</p>
           <h2 id="messages-title">
-            Goodbye <span className="nowrap">0x7a3F…91c2</span>. Hello <span className="grad-text">you.hex</span>
+            Goodbye <span className="nowrap">0x7a3F…91c2</span>. Hello <span className="grad-text">you.pdai</span>
           </h2>
           <p className="section__intro">
             An address is 42 random characters, and one wrong one sends your coins somewhere you can&rsquo;t get them
@@ -202,7 +202,7 @@ export function Messages() {
                 className={invite ? "is-inviting" : undefined}
                 onClick={() => choose("name")}
               >
-                With a .hex name
+                With a .pdai name
               </button>
             </div>
             <label className="try__field">
@@ -220,13 +220,13 @@ export function Messages() {
                   onChange={(event) => onType(event.target.value)}
                 />
                 <span className="try__tld" aria-hidden="true">
-                  .hex
+                  .pdai
                 </span>
               </span>
             </label>
             {typed.trim() ? (
               <button type="button" className="try__search" onClick={() => searchFor(name)}>
-                See if {name}.hex is free <ArrowIcon />
+                See if {name}.pdai is free <ArrowIcon />
               </button>
             ) : null}
           </div>
@@ -238,9 +238,9 @@ export function Messages() {
         <div className="phone-wrap" aria-hidden="true">
           <div className="phone" ref={phone}>
             <div className="phone__bar">
-              <span className="phone__avatar">A</span>
+              <span className="phone__avatar">S</span>
               <span className="phone__who">
-                <b>Alex</b>
+                <b>Sam</b>
                 <span>{typing ? "typing…" : "online"}</span>
               </span>
             </div>
@@ -256,7 +256,7 @@ export function Messages() {
                         ) : (
                           <>
                             {name}
-                            <span className="bubble__tld">.hex</span>
+                            <span className="bubble__tld">.pdai</span>
                           </>
                         ))}
                     </p>
@@ -269,9 +269,9 @@ export function Messages() {
                         <CheckIcon size={16} />
                       </span>
                       <span>
-                        <b>Sent 10,000 HEX</b>
+                        <b>Sent 50,000 pDAI</b>
                         <span>
-                          to {name}.hex · {SHORT_ADDRESS}
+                          to {name}.pdai · {SHORT_ADDRESS}
                         </span>
                       </span>
                     </div>

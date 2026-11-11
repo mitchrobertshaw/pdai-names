@@ -1,10 +1,9 @@
-// The chains' own logos, shown where the site names the chains a .hex name works on. PulseChain's
-// is the PLS mark from PulseX's token list (the same mark as pulsechain.com's icon); Ethereum's is
-// eth-diamond-purple.svg from ethereum.org/assets. HexNS isn't affiliated with either.
-import ethereum from "../assets/chains/ethereum.svg";
+// PulseChain's own logo, shown where the site says where a .pdai name lives: the PLS mark from
+// PulseX's token list (the same mark as pulsechain.com's icon). pDAI Names isn't affiliated with
+// PulseChain.
 import pulsechain from "../assets/chains/pulsechain.png";
 
-const LOGOS = { pulsechain, ethereum };
+const LOGOS = { pulsechain };
 
 /** Decorative: the chain's name is always written next to it. */
 export function ChainLogo({ chain, size = 40 }: { chain: keyof typeof LOGOS; size?: number }) {

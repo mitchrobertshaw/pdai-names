@@ -1,11 +1,11 @@
 {
-  "name": "HexNS: Hex Name Service",
-  "short_name": "HexNS",
-  "description": "One .hex name for your wallet on PulseChain and Ethereum.",
+  "name": "pDAI Names: pDAI Name Service",
+  "short_name": "pDAI Names",
+  "description": "One .pdai name for your wallet on PulseChain.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#130b18",
-  "theme_color": "#130b18",
+  "background_color": "#0b1714",
+  "theme_color": "#0b1714",
   "icons": [
     {
       "src": "/icon-192.png",

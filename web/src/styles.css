@@ -1,38 +1,41 @@
-/* HexNS: warm HEX-style colours, light and dark. */
+/* pDAI Names: pDAI's gold, with teal for what you click, light and dark. */
 
 :root {
   color-scheme: light;
-  --bg: #fff9f4;
-  --bg-tint: #fff2e8;
+  --bg: #fffbf2;
+  --bg-tint: #fdf5e4;
   --surface: #ffffff;
-  --surface-2: #fff4ec;
-  --text: #1d1424;
-  --muted: #6b5d74;
-  --border: #f0e1d5;
-  --accent: #d6005f;
-  --accent-hover: #b5004f;
-  --accent-soft: #ffe4ef;
+  --surface-2: #fdf6e8;
+  --text: #142019;
+  --muted: #5b6a63;
+  --border: #ece2cc;
+  --accent: #0b7a6c;
+  --accent-hover: #086257;
+  --accent-soft: #e2f4ef;
   --on-accent: #ffffff;
-  --ok: #0b8457;
-  --ok-soft: #dcf5e9;
+  /* Dark ink, for words on the gold: white on it would be hard to read. */
+  --ink: #2b1d05;
+  --ok: #0a7c52;
+  --ok-soft: #e3f7ee;
   --warn: #a65000;
   --warn-soft: #fff0dc;
   --bad: #c1272d;
   --bad-soft: #ffe5e5;
-  --grad: linear-gradient(110deg, #ffb800 0%, #ff6a1f 38%, #ff3d5a 68%, #e5007a 100%);
-  --grad-text: linear-gradient(100deg, #ff7a00 0%, #ff3d3d 48%, #e5007a 100%);
-  --blob-1: rgb(255 184 0 / 24%);
-  --blob-2: rgb(229 0 122 / 16%);
-  --blob-3: rgb(255 106 31 / 16%);
-  --hero-1: rgb(255 196 0 / 34%);
-  --hero-2: rgb(229 0 122 / 20%);
-  --hero-3: rgb(255 106 31 / 24%);
+  --grad: linear-gradient(110deg, #ffd84d 0%, #f5ac37 50%, #e08a1e 100%);
+  --grad-text: linear-gradient(100deg, #c27c00 0%, #b06300 55%, #9a5200 100%);
+  --blob-1: rgb(255 207 64 / 24%);
+  --blob-2: rgb(26 171 155 / 14%);
+  --blob-3: rgb(224 138 30 / 16%);
+  --hero-1: rgb(255 207 64 / 36%);
+  --hero-2: rgb(26 171 155 / 18%);
+  --hero-3: rgb(245 172 55 / 24%);
   --hero-sheen: rgb(255 255 255 / 70%);
-  --hero-base: #ffefe3;
-  --dots: rgb(29 20 36 / 7%);
-  --shadow-sm: 0 1px 2px rgb(60 30 50 / 6%), 0 4px 12px rgb(60 30 50 / 6%);
-  --shadow-md: 0 2px 6px rgb(60 30 50 / 6%), 0 14px 36px rgb(60 30 50 / 10%);
-  --honeycomb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24.25' height='42' viewBox='0 0 24.25 42'%3E%3Cpath d='M12.12 0 24.25 7v14l-12.13 7L0 21V7zm0 28v14' fill='none' stroke='%23000' stroke-width='1.2'/%3E%3C/svg%3E");
+  --hero-base: #fdf2da;
+  --dots: rgb(20 32 25 / 7%);
+  --shadow-sm: 0 1px 2px rgb(30 45 35 / 6%), 0 4px 12px rgb(30 45 35 / 6%);
+  --shadow-md: 0 2px 6px rgb(30 45 35 / 6%), 0 14px 36px rgb(30 45 35 / 10%);
+  /* Rings packed like coins on a table: the texture behind the pictures and the vault. */
+  --coins: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='41.57' viewBox='0 0 24 41.57'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.2'%3E%3Ccircle cx='12' cy='10.39' r='7'/%3E%3Ccircle cx='0' cy='31.18' r='7'/%3E%3Ccircle cx='24' cy='31.18' r='7'/%3E%3C/g%3E%3C/svg%3E");
   --font-body: "Inter Variable", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-display: "Space Grotesk Variable", "Inter Variable", system-ui, sans-serif;
 }
@@ -40,32 +43,33 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #130b18;
-    --bg-tint: #1a1020;
-    --surface: #1f1527;
-    --surface-2: #281b32;
-    --text: #fbf5ff;
-    --muted: #b9abc3;
-    --border: #36283f;
-    --accent: #ff5ca8;
-    --accent-hover: #ff86c0;
-    --accent-soft: #3b1631;
-    --on-accent: #1d1424;
+    --bg: #0b1714;
+    --bg-tint: #0f1d19;
+    --surface: #12221e;
+    --surface-2: #182c27;
+    --text: #f2f8f5;
+    --muted: #a3b5ae;
+    --border: #22362f;
+    --accent: #3cc7b2;
+    --accent-hover: #6ad8c6;
+    --accent-soft: #0f3029;
+    --on-accent: #062019;
+    --ink: #2b1d05;
     --ok: #4fd6a0;
     --ok-soft: #10301f;
     --warn: #ffb35c;
     --warn-soft: #34220c;
     --bad: #ff7a7f;
     --bad-soft: #3b1518;
-    --grad-text: linear-gradient(100deg, #ffc23d 0%, #ff6a4d 48%, #ff4fa0 100%);
-    --blob-1: rgb(255 184 0 / 13%);
-    --blob-2: rgb(229 0 122 / 18%);
-    --blob-3: rgb(255 106 31 / 10%);
-    --hero-1: rgb(255 184 0 / 16%);
-    --hero-2: rgb(229 0 122 / 24%);
-    --hero-3: rgb(255 106 31 / 14%);
+    --grad-text: linear-gradient(100deg, #ffe07a 0%, #f5ac37 55%, #ffc35c 100%);
+    --blob-1: rgb(245 172 55 / 13%);
+    --blob-2: rgb(26 171 155 / 16%);
+    --blob-3: rgb(224 138 30 / 10%);
+    --hero-1: rgb(255 207 64 / 15%);
+    --hero-2: rgb(26 171 155 / 22%);
+    --hero-3: rgb(224 138 30 / 13%);
     --hero-sheen: rgb(255 255 255 / 3%);
-    --hero-base: #1d1226;
+    --hero-base: #0f1e1a;
     --dots: rgb(255 255 255 / 6%);
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 30%), 0 4px 12px rgb(0 0 0 / 22%);
     --shadow-md: 0 2px 6px rgb(0 0 0 / 30%), 0 14px 36px rgb(0 0 0 / 38%);
@@ -75,32 +79,33 @@
 /* Chosen with the toggle in the nav. */
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #130b18;
-  --bg-tint: #1a1020;
-  --surface: #1f1527;
-  --surface-2: #281b32;
-  --text: #fbf5ff;
-  --muted: #b9abc3;
-  --border: #36283f;
-  --accent: #ff5ca8;
-  --accent-hover: #ff86c0;
-  --accent-soft: #3b1631;
-  --on-accent: #1d1424;
+  --bg: #0b1714;
+  --bg-tint: #0f1d19;
+  --surface: #12221e;
+  --surface-2: #182c27;
+  --text: #f2f8f5;
+  --muted: #a3b5ae;
+  --border: #22362f;
+  --accent: #3cc7b2;
+  --accent-hover: #6ad8c6;
+  --accent-soft: #0f3029;
+  --on-accent: #062019;
+  --ink: #2b1d05;
   --ok: #4fd6a0;
   --ok-soft: #10301f;
   --warn: #ffb35c;
   --warn-soft: #34220c;
   --bad: #ff7a7f;
   --bad-soft: #3b1518;
-  --grad-text: linear-gradient(100deg, #ffc23d 0%, #ff6a4d 48%, #ff4fa0 100%);
-  --blob-1: rgb(255 184 0 / 13%);
-  --blob-2: rgb(229 0 122 / 18%);
-  --blob-3: rgb(255 106 31 / 10%);
-  --hero-1: rgb(255 184 0 / 16%);
-  --hero-2: rgb(229 0 122 / 24%);
-  --hero-3: rgb(255 106 31 / 14%);
+  --grad-text: linear-gradient(100deg, #ffe07a 0%, #f5ac37 55%, #ffc35c 100%);
+  --blob-1: rgb(245 172 55 / 13%);
+  --blob-2: rgb(26 171 155 / 16%);
+  --blob-3: rgb(224 138 30 / 10%);
+  --hero-1: rgb(255 207 64 / 15%);
+  --hero-2: rgb(26 171 155 / 22%);
+  --hero-3: rgb(224 138 30 / 13%);
   --hero-sheen: rgb(255 255 255 / 3%);
-  --hero-base: #1d1226;
+  --hero-base: #0f1e1a;
   --dots: rgb(255 255 255 / 6%);
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 30%), 0 4px 12px rgb(0 0 0 / 22%);
   --shadow-md: 0 2px 6px rgb(0 0 0 / 30%), 0 14px 36px rgb(0 0 0 / 38%);
@@ -296,7 +301,7 @@ img {
   letter-spacing: -0.01em;
 }
 
-/* "HEX Name Service", small beneath the wordmark, as in the lockup. */
+/* "pDAI Name Service", small beneath the wordmark, as in the lockup. */
 .brand__tagline {
   color: var(--muted);
   font-size: 11px;
@@ -384,11 +389,10 @@ img {
 .hero {
   --nav-height: 64px;
   --content-shift: 0px;
-  /* The bottom edge: half a hexagon. Each lower corner is cut away at 60 degrees, a hexagon's angle,
-     so the page shows through. Kept shallow, so it's a quiet edge rather than a feature. Nothing is
-     drawn in those corners: on wide screens they're empty, and on phones the names fade out there. */
-  --cut: 32px;
-  --cut-x: calc(var(--cut) * 0.577);
+  /* The bottom edge: a shallow arc, like the rim of a coin, so the page shows through at the
+     corners. Kept shallow, so it's a quiet edge rather than a feature. Nothing is drawn in those
+     corners: on wide screens they're empty, and on phones the names fade out there. */
+  --rim: 32px;
   position: relative;
   isolation: isolate;
   display: flex;
@@ -400,24 +404,17 @@ img {
   padding: 40px 0 24px;
   text-align: center;
   background: linear-gradient(var(--bg) 35%, var(--hero-base));
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% calc(100% - var(--cut)),
-    calc(100% - var(--cut-x)) 100%,
-    var(--cut-x) 100%,
-    0 calc(100% - var(--cut))
-  );
+  border-radius: 0 0 50% 50% / 0 0 var(--rim) var(--rim);
 }
 
 @media (min-width: 900px) {
   .hero {
-    --cut: 48px;
+    --rim: 56px;
   }
 }
 
-/* A light wash of the HEX colours: warm yellow top left, pink top right, orange below, drifting
-   slowly, and fading out into the warm tint at the bottom. */
+/* A light wash of gold and teal: gold top left, teal top right, amber below, drifting slowly, and
+   fading out into the warm tint at the bottom. */
 .hero::before {
   content: "";
   position: absolute;
@@ -771,7 +768,7 @@ img {
 .pill .avatar {
   box-shadow:
     0 0 0 2px var(--surface),
-    0 4px 14px rgb(60 30 50 / 18%);
+    0 4px 14px rgb(30 45 35 / 18%);
 }
 
 /* In the colour of the person's profile picture (src/data/featured.ts), or the accent. */
@@ -859,7 +856,7 @@ img {
 .floater.is-held .avatar {
   box-shadow:
     0 0 0 2px var(--surface),
-    0 12px 26px rgb(60 30 50 / 30%);
+    0 12px 26px rgb(30 45 35 / 30%);
 }
 
 /* Each name drifts gently on its own path and pace, and leans in a little under the pointer. */
@@ -1247,7 +1244,7 @@ img {
   height: 38px;
   border-radius: 50%;
   background: var(--grad);
-  color: #fff;
+  color: var(--ink);
   font-weight: 800;
 }
 
@@ -1400,18 +1397,49 @@ img {
   text-align: center;
 }
 
-/* Both chains */
+/* Made for PulseChain */
 
-.chains {
+.pulse {
   display: grid;
   gap: 16px;
 }
 
 @media (min-width: 900px) {
-  .chains {
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
+  .pulse {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
   }
+}
+
+.perks {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.perk {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 22px 24px;
+}
+
+.perk__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--grad);
+  color: var(--ink);
+}
+
+.perk h3 {
+  margin-bottom: 4px;
+  font-size: 1.1rem;
 }
 
 .chain {
@@ -1428,10 +1456,6 @@ img {
 
 .chain--pulsechain::before {
   background: linear-gradient(90deg, #00eaff, #0080ff 25%, #8000ff 50%, #e619e6 75%, #f00);
-}
-
-.chain--ethereum::before {
-  background: linear-gradient(90deg, #8a92b2, #62688f 55%, #454a75);
 }
 
 .chain__top {
@@ -1488,36 +1512,6 @@ img {
   font-size: 14px;
 }
 
-.chains__link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  color: var(--accent);
-  font-size: 13px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.chains__link svg {
-  transform: rotate(90deg);
-}
-
-@media (min-width: 900px) {
-  .chains__link {
-    max-width: 96px;
-  }
-
-  .chains__link svg {
-    transform: none;
-  }
-}
-
-.ticks--grid {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  margin-top: 28px;
-}
-
 /* Features and steps */
 
 .steps {
@@ -1571,15 +1565,15 @@ img {
     var(--bg-tint);
 }
 
-/* A faint honeycomb behind each picture. */
+/* Faint coins behind each picture. */
 .bento__art::before {
   content: "";
   position: absolute;
   inset: 0;
   background: var(--text);
   opacity: 0.045;
-  -webkit-mask: var(--honeycomb) center / 24.25px 42px repeat;
-  mask: var(--honeycomb) center / 24.25px 42px repeat;
+  -webkit-mask: var(--coins) center / 24px 41.57px repeat;
+  mask: var(--coins) center / 24px 41.57px repeat;
   pointer-events: none;
 }
 
@@ -1591,12 +1585,29 @@ img {
   padding: 22px 26px 26px;
 }
 
-/* One price, both chains: the two chains, wired to one name. */
-.art-chains .chain-logo {
-  filter: drop-shadow(0 8px 16px rgb(40 10 50 / 18%));
+/* Pay with pDAI: a pDAI coin, wired to your name, on PulseChain. */
+.art-pay .chain-logo {
+  filter: drop-shadow(0 8px 16px rgb(30 45 35 / 18%));
 }
 
-.art-chains__wire {
+.art-pay__coin {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--grad);
+  box-shadow:
+    inset 0 0 0 3px rgb(255 255 255 / 35%),
+    0 8px 16px rgb(224 138 30 / 28%);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.art-pay__wire {
   flex: 1;
   max-width: 110px;
   min-width: 18px;
@@ -1614,7 +1625,7 @@ img {
   }
 }
 
-.art-chains__name {
+.art-pay__name {
   display: grid;
   justify-items: center;
   padding: 12px 22px;
@@ -1629,7 +1640,7 @@ img {
   white-space: nowrap;
 }
 
-.art-chains__name small {
+.art-pay__name small {
   margin-top: 2px;
   color: var(--muted);
   font-family: var(--font-body);
@@ -1639,33 +1650,43 @@ img {
 
 /* On phones the row has to fit in the card. */
 @media (max-width: 520px) {
-  .art-chains .chain-logo {
+  .art-pay .chain-logo,
+  .art-pay__coin {
     width: 40px;
     height: 40px;
   }
 
-  .art-chains__wire {
+  .art-pay__coin {
+    font-size: 11px;
+  }
+
+  .art-pay__wire {
     min-width: 10px;
     margin: 0 6px;
   }
 
-  .art-chains__name {
+  .art-pay__name {
     padding: 10px 14px;
     font-size: 22px;
   }
 
-  .art-chains__name small {
+  .art-pay__name small {
     font-size: 12px;
   }
 }
 
 @media (max-width: 360px) {
-  .art-chains .chain-logo {
+  .art-pay .chain-logo,
+  .art-pay__coin {
     width: 32px;
     height: 32px;
   }
 
-  .art-chains__name {
+  .art-pay__coin {
+    font-size: 9px;
+  }
+
+  .art-pay__name {
     padding: 8px 12px;
     font-size: 20px;
   }
@@ -1712,8 +1733,8 @@ img {
   padding: 7px 18px;
   border-radius: 999px;
   background: var(--grad);
-  box-shadow: 0 8px 20px rgb(229 0 122 / 22%);
-  color: #fff;
+  box-shadow: 0 8px 20px rgb(224 138 30 / 26%);
+  color: var(--ink);
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: 700;
@@ -1770,24 +1791,24 @@ img {
   padding: 18px 22px;
   border: 1px solid rgb(255 255 255 / 8%);
   border-radius: 16px;
-  background: #1c1022;
+  background: #0e1c18;
   box-shadow: var(--shadow-md);
-  color: #f3e9fb;
+  color: #eef7f3;
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   font-size: 14.5px;
   line-height: 1.55;
 }
 
 .art-code__comment {
-  color: #9b88a6;
+  color: #86a097;
 }
 
 .art-code__fn {
-  color: #ffc23d;
+  color: #6fd8c6;
 }
 
 .art-code__str {
-  color: #ff86c0;
+  color: #ffcf6b;
 }
 
 .art-code__out {
@@ -1811,15 +1832,15 @@ img {
 /* True ownership: a dark "vault" band in both themes, with a name card to try to take */
 
 .section--vault {
-  --bg: #150a1b;
-  --text: #fbf5ff;
-  --muted: #c4b5cf;
+  --bg: #07120f;
+  --text: #f2f8f5;
+  --muted: #a9bcb5;
   --border: rgb(255 255 255 / 12%);
   --surface: rgb(255 255 255 / 5%);
   --surface-2: rgb(255 255 255 / 10%);
-  --accent: #ff5ca8;
-  --accent-soft: rgb(255 92 168 / 22%);
-  --on-accent: #1d1424;
+  --accent: #f5ac37;
+  --accent-soft: rgb(245 172 55 / 20%);
+  --on-accent: #2b1d05;
   --ok: #4fd6a0;
   --ok-soft: rgb(79 214 160 / 16%);
   --bad: #ff7a7f;
@@ -1827,20 +1848,20 @@ img {
   position: relative;
   color-scheme: dark;
   background:
-    radial-gradient(45% 60% at 80% 35%, rgb(229 0 122 / 26%), transparent 70%),
-    radial-gradient(40% 50% at 8% 95%, rgb(255 184 0 / 12%), transparent 70%),
+    radial-gradient(45% 60% at 80% 35%, rgb(26 171 155 / 24%), transparent 70%),
+    radial-gradient(40% 50% at 8% 95%, rgb(245 172 55 / 14%), transparent 70%),
     var(--bg);
   color: var(--text);
 }
 
-/* A faint honeycomb, brightest behind the card. */
+/* Faint coins, brightest behind the card. */
 .section--vault::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(40% 55% at 76% 42%, rgb(255 106 77 / 42%), transparent 75%);
-  -webkit-mask: var(--honeycomb) 0 0 / 24.25px 42px repeat;
-  mask: var(--honeycomb) 0 0 / 24.25px 42px repeat;
+  background: radial-gradient(40% 55% at 76% 42%, rgb(245 172 55 / 40%), transparent 75%);
+  -webkit-mask: var(--coins) 0 0 / 24px 41.57px repeat;
+  mask: var(--coins) 0 0 / 24px 41.57px repeat;
   pointer-events: none;
 }
 
@@ -1903,9 +1924,9 @@ img {
 .vault__shield span {
   position: absolute;
   inset: 0;
-  background: linear-gradient(110deg, #ffdb01, #ff851f 35%, #ff3d3d 60%, #fe01fa);
-  -webkit-mask: var(--honeycomb) center / 24.25px 42px repeat;
-  mask: var(--honeycomb) center / 24.25px 42px repeat;
+  background: linear-gradient(110deg, #ffe07a, #f5ac37 40%, #e08a1e 70%, #3cc7b2);
+  -webkit-mask: var(--coins) center / 24px 41.57px repeat;
+  mask: var(--coins) center / 24px 41.57px repeat;
 }
 
 .vault__glow {
@@ -1931,11 +1952,11 @@ img {
   border-radius: 24px;
   background:
     radial-gradient(70% 70% at var(--mx, 25%) var(--my, 15%), rgb(255 255 255 / 13%), transparent 70%),
-    linear-gradient(150deg, #3d1344 0%, #1e0b26 52%, #2d0e1c 100%);
+    linear-gradient(150deg, #134a40 0%, #0b241f 52%, #2a2008 100%);
   box-shadow:
     0 34px 60px -24px rgb(0 0 0 / 75%),
     inset 0 1px 0 rgb(255 255 255 / 14%);
-  color: #fbf5ff;
+  color: #f2f8f5;
   transform: perspective(1000px) translate(var(--tx, 0px), var(--ty, 0px)) rotate(var(--rz, 0deg))
     rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.2);
@@ -1954,7 +1975,7 @@ img {
   cursor: grabbing;
 }
 
-/* A foil sheen that follows the pointer, and a honeycomb watermark. */
+/* A foil sheen that follows the pointer, and a watermark of coins. */
 .name-card::before,
 .name-card::after {
   content: "";
@@ -1967,9 +1988,9 @@ img {
   background: linear-gradient(
     115deg,
     transparent 25%,
-    rgb(255 219 1 / 20%) 40%,
-    rgb(255 61 61 / 20%) 50%,
-    rgb(254 1 250 / 20%) 60%,
+    rgb(255 224 122 / 22%) 40%,
+    rgb(245 172 55 / 22%) 50%,
+    rgb(60 199 178 / 20%) 60%,
     transparent 75%
   );
   background-position: var(--mx, 25%) var(--my, 15%);
@@ -1979,8 +2000,8 @@ img {
 
 .name-card::after {
   background: linear-gradient(200deg, rgb(255 255 255 / 9%), transparent 60%);
-  -webkit-mask: var(--honeycomb) 0 0 / 24.25px 42px repeat;
-  mask: var(--honeycomb) 0 0 / 24.25px 42px repeat;
+  -webkit-mask: var(--coins) 0 0 / 24px 41.57px repeat;
+  mask: var(--coins) 0 0 / 24px 41.57px repeat;
 }
 
 .name-card > * {
@@ -2022,7 +2043,7 @@ img {
 }
 
 .name-card__name span {
-  background: linear-gradient(100deg, #ffc23d, #ff6a4d 48%, #ff4fa0);
+  background: linear-gradient(100deg, #ffe07a, #f5ac37 55%, #ffc35c);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -2490,7 +2511,7 @@ html:has(.checkout[open]) {
 }
 
 .checkout::backdrop {
-  background: rgb(20 10 25 / 55%);
+  background: rgb(5 15 12 / 55%);
   backdrop-filter: blur(4px);
 }
 
@@ -2804,7 +2825,7 @@ html:has(.checkout[open]) {
   .name-card__changed,
   .ledger li,
   .checkout[open],
-  .art-chains__wire,
+  .art-pay__wire,
   .price-more[open] > :not(summary) {
     animation: none;
   }

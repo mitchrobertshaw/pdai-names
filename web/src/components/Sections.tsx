@@ -4,7 +4,7 @@ import { MAX_YEARS, PRICES, priceFor, YEARLY_PRICE } from "../lib/names";
 import { appUrl } from "../site";
 import { AddPulseChain } from "./AddPulseChain";
 import { ChainLogo } from "./ChainLogo";
-import { ArrowIcon, CheckIcon, CrossIcon } from "./icons";
+import { ArrowIcon, BoltIcon, CheckIcon, ClockIcon, CoinsIcon, CrossIcon } from "./icons";
 
 const PRICE = `$${YEARLY_PRICE}`;
 
@@ -18,33 +18,47 @@ function SectionHeading({ kicker, title, children }: { kicker: string; title: Re
   );
 }
 
-function Resolves({ chain }: { chain: string }) {
+function Resolves() {
   return (
     <p className="resolves">
       <span className="resolves__name">
-        you<span className="pill__tld">.hex</span>
+        you<span className="pill__tld">.pdai</span>
       </span>
       <span className="resolves__arrow" aria-hidden="true">
         →
       </span>
       <span className="resolves__address">0x7a3F…91c2</span>
-      <span className="visually-hidden"> on {chain}</span>
     </p>
   );
 }
 
-export function BothChains() {
+const PERKS: { icon: ReactNode; title: string; text: string }[] = [
+  {
+    icon: <ClockIcon />,
+    title: "Yours in a couple of minutes",
+    text: "Reserve it, wait a minute so nobody can grab it first, then pay. It points to your wallet straight away.",
+  },
+  {
+    icon: <BoltIcon />,
+    title: "Fees of a fraction of a cent",
+    text: "Buying, renewing or sending a name costs next to nothing in network fees on top of its price, paid in PLS.",
+  },
+  {
+    icon: <CoinsIcon />,
+    title: "Paid for in pDAI, if you like",
+    text: "Or in PLS, HEX and more. Whatever you pay with is swapped into dollars at checkout, so the price stays put.",
+  },
+];
+
+export function MadeForPulseChain() {
   return (
-    <section className="section" id="chains" aria-labelledby="chains-title">
+    <section className="section" id="pulsechain" aria-labelledby="pulsechain-title">
       <div className="container">
-        <SectionHeading
-          kicker="PulseChain and Ethereum"
-          title={<span id="chains-title">One name, covered on both chains</span>}
-        >
-          Live on PulseChain, still on Ethereum, or somewhere in between? Your .hex name works on both, so you&rsquo;re
-          covered wherever you end up. From {PRICE} a year, for both chains.
+        <SectionHeading kicker="Made for PulseChain" title={<span id="pulsechain-title">One chain, one name, no waiting</span>}>
+          Your .pdai name lives on PulseChain, where it&rsquo;s bought, renewed and managed. Every change shows up
+          straight away. From {PRICE} a year.
         </SectionHeading>
-        <div className="chains">
+        <div className="pulse">
           <article className="card chain chain--pulsechain">
             <div className="chain__top">
               <ChainLogo chain="pulsechain" size={48} />
@@ -52,40 +66,26 @@ export function BothChains() {
             </div>
             <h3>PulseChain</h3>
             <p>
-              Buy, renew and manage your name here, and sell it on PulseChain NFT marketplaces. Changes show up straight
-              away.
+              Buy, renew and manage your name here, and sell it on PulseChain NFT marketplaces. It points to your wallet
+              from the moment it&rsquo;s yours.
             </p>
-            <Resolves chain="PulseChain" />
+            <Resolves />
             <AddPulseChain />
           </article>
-          <div className="chains__link" aria-hidden="true">
-            <ArrowIcon />
-            <span>Copied automatically</span>
-          </div>
-          <article className="card chain chain--ethereum">
-            <div className="chain__top">
-              <ChainLogo chain="ethereum" size={48} />
-              <p className="chain__badge">Copied automatically</p>
-            </div>
-            <h3>Ethereum</h3>
-            <p>Every name is copied here, usually about 15 minutes after a change, so Ethereum wallets and apps find it too.</p>
-            <Resolves chain="Ethereum" />
-          </article>
+          <ul className="perks">
+            {PERKS.map((perk) => (
+              <li className="card perk" key={perk.title}>
+                <span className="perk__icon" aria-hidden="true">
+                  {perk.icon}
+                </span>
+                <span>
+                  <h3>{perk.title}</h3>
+                  <p>{perk.text}</p>
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="ticks ticks--grid">
-          <li>
-            <CheckIcon size={18} /> Buy once on PulseChain, and it&rsquo;s yours on both
-          </li>
-          <li>
-            <CheckIcon size={18} /> Points to your wallet on both chains
-          </li>
-          <li>
-            <CheckIcon size={18} /> Renew once and both chains stay yours
-          </li>
-          <li>
-            <CheckIcon size={18} /> Chain agnostic? You&rsquo;re covered either way, just in case
-          </li>
-        </ul>
       </div>
     </section>
   );
@@ -97,26 +97,26 @@ export function Features() {
   return (
     <section className="section" aria-labelledby="features-title">
       <div className="container">
-        <SectionHeading kicker="What you get" title={<span id="features-title">A name that works for Hexicans</span>} />
+        <SectionHeading kicker="What you get" title={<span id="features-title">A name made for pDAI holders</span>} />
         <div className="bento">
           <article className="card bento__item bento__item--wide">
-            <div className="bento__art art-chains" aria-hidden="true">
-              <ChainLogo chain="pulsechain" size={56} />
-              <span className="art-chains__wire" />
-              <span className="art-chains__name">
+            <div className="bento__art art-pay" aria-hidden="true">
+              <span className="art-pay__coin">pDAI</span>
+              <span className="art-pay__wire" />
+              <span className="art-pay__name">
                 <span>
-                  you<span className="pill__tld">.hex</span>
+                  you<span className="pill__tld">.pdai</span>
                 </span>
-                <small>From {PRICE} a year, both chains</small>
+                <small>From {PRICE} a year</small>
               </span>
-              <span className="art-chains__wire" />
-              <ChainLogo chain="ethereum" size={56} />
+              <span className="art-pay__wire" />
+              <ChainLogo chain="pulsechain" size={56} />
             </div>
             <div className="bento__text">
-              <h3>One price, both chains</h3>
+              <h3>Pay with pDAI</h3>
               <p>
-                One yearly price, from {PRICE}, covers your name on PulseChain and Ethereum. No paying twice, no
-                keeping two names in step.
+                Pay with the pDAI in your wallet. It&rsquo;s swapped at its PulseX price when you pay, so a name costs the
+                same in dollars whatever pDAI is doing, and you see exactly how much pDAI before you confirm.
               </p>
             </div>
           </article>
@@ -136,10 +136,10 @@ export function Features() {
               <span className="art-tokens__total">From {PRICE} a year</span>
             </div>
             <div className="bento__text">
-              <h3>Pay with your bag</h3>
+              <h3>Or the rest of your bag</h3>
               <p>
-                PLS, HEX, eHEX, PLSX, WETH, USDC, USDT or DAI, on PulseChain. It&rsquo;s swapped at checkout, so prices stay
-                in dollars.
+                PLS, HEX, eHEX, PLSX, WETH, USDC, USDT or DAI, on PulseChain. Holding something else? Swap it for PLS on
+                PulseX first.
               </p>
             </div>
           </article>
@@ -174,10 +174,10 @@ export function Features() {
           <article className="card bento__item bento__item--wide">
             <div className="bento__art art-code" aria-hidden="true">
               <span className="art-code__window">
-                <span className="art-code__comment">{"// wallets look up .hex like .eth"}</span>
+                <span className="art-code__comment">{"// wallets look up .pdai like .eth"}</span>
                 <span>
                   <span className="art-code__fn">lookup</span>(
-                  <span className="art-code__str">&quot;you.hex&quot;</span>)
+                  <span className="art-code__str">&quot;you.pdai&quot;</span>)
                 </span>
                 <span className="art-code__out">→ 0x7a3F…91c2</span>
               </span>
@@ -185,7 +185,7 @@ export function Features() {
             <div className="bento__text">
               <h3>Built on ENS v2</h3>
               <p>
-                Made from the open-source code of the next version of ENS, so wallets and apps can add .hex with lookups
+                Made from the open-source code of the next version of ENS, so wallets and apps can add .pdai with lookups
                 they already use.
               </p>
             </div>
@@ -199,15 +199,15 @@ export function Features() {
 const STEPS = [
   {
     title: "Search",
-    text: `Find a name you like. Names of 5 characters or more are ${PRICE} a year, for both chains.`,
+    text: `Find a name you like. Names of 5 characters or more are ${PRICE} a year.`,
   },
   {
-    title: "Buy it on PulseChain",
-    text: "Pay with PLS, HEX, PLSX, eHEX, WETH, USDC, USDT or DAI. Money on another chain? LibertySwap brings it over in minutes.",
+    title: "Pay on PulseChain",
+    text: "With pDAI, PLS, HEX, PLSX, eHEX, WETH, USDC, USDT or DAI. Money on another chain? LibertySwap brings it over in minutes.",
   },
   {
-    title: "Use it everywhere",
-    text: "Share yourname.hex instead of your address. It points to your wallet on both chains.",
+    title: "Share it",
+    text: "Give people yourname.pdai instead of your address. It points to your wallet.",
   },
 ];
 
@@ -215,7 +215,7 @@ export function HowItWorks() {
   return (
     <section className="section section--tint" id="how" aria-labelledby="how-title">
       <div className="container">
-        <SectionHeading kicker="How it works" title={<span id="how-title">Three steps to your name</span>} />
+        <SectionHeading kicker="How it works" title={<span id="how-title">Three steps to yourname.pdai</span>} />
         <ol className="steps">
           {STEPS.map((step, i) => (
             <li className="card step" key={step.title}>
@@ -236,16 +236,14 @@ export function Pricing() {
       <div className="container pricing">
         <div>
           <p className="kicker">Pricing</p>
-          <h2 id="pricing-title">One price for both chains</h2>
-          <p className="section__intro">
-            One name on PulseChain and Ethereum, for one yearly price, whatever you pay with.
-          </p>
+          <h2 id="pricing-title">One simple price</h2>
+          <p className="section__intro">One yearly price in dollars, whatever you pay with.</p>
           <ul className="ticks">
             <li>
-              <CheckIcon size={18} /> No paying twice for two chains
+              <CheckIcon size={18} /> Pay in pDAI, PLS, HEX, eHEX, PLSX, WETH, USDC, USDT or DAI
             </li>
             <li>
-              <CheckIcon size={18} /> Pay in PLS, HEX, eHEX, PLSX, WETH, USDC, USDT or DAI
+              <CheckIcon size={18} /> 5 years for the price of 2
             </li>
             <li>
               <CheckIcon size={18} /> 28 days&rsquo; grace to renew if you forget
@@ -257,7 +255,7 @@ export function Pricing() {
             <span className="grad-text">{PRICE}</span>
             <span className="price__unit">a year</span>
           </p>
-          <p className="price__for">for names of 5 characters or more, on both chains</p>
+          <p className="price__for">for names of 5 characters or more</p>
           <a className="button button--primary price-card__cta" href="#top">
             Find your name
           </a>
@@ -268,7 +266,7 @@ export function Pricing() {
           <details className="price-more">
             <summary>Shorter names, and 5 years for the price of 2</summary>
             <table className="price-table">
-              <caption className="visually-hidden">Yearly price by name length, covering both chains</caption>
+              <caption className="visually-hidden">Yearly price by name length</caption>
               <thead>
                 <tr>
                   <th scope="col">Name length</th>
@@ -311,32 +309,28 @@ export function Pricing() {
 
 const FAQS: { q: string; a: ReactNode }[] = [
   {
-    q: "What is a .hex name?",
-    a: "A short, readable name like alice.hex that points to your wallet. People send to the name instead of copying your 0x… address.",
+    q: "What is a .pdai name?",
+    a: "A short, readable name like alice.pdai that points to your wallet. People send to the name instead of copying your 0x… address.",
   },
   {
-    q: "Which chains does it work on?",
-    a: "PulseChain and Ethereum, for one price. Your name lives on PulseChain, where it's bought and managed, and is copied to Ethereum automatically, about 15 minutes after any change: a purchase, a renewal or a transfer. When Ethereum is unusually busy, a new name's or renewal's copy can wait for its fees to fall (see the next question). If you use both chains, or might one day, you're covered either way.",
+    q: "Which chain does it work on?",
+    a: "PulseChain. Your name lives there: it's bought, renewed and managed on PulseChain, and every change shows up straight away. It isn't copied to Ethereum or any other chain.",
   },
   {
-    q: "Is there ever a fee to copy my name to Ethereum?",
-    a: "Rarely, and only if you choose to pay it. Each copy costs Ethereum's network fee, and HexNS pays up to $2 of it, which covers it at Ethereum's usual prices. When Ethereum is unusually busy and a copy costs more, you choose when you buy or renew: let it copy free once Ethereum's fees fall (usually within hours), or pay the difference to copy it at once, shown as its own line before you pay. Sending a name to another wallet in the app pays it too, so the new owner shows on Ethereum at once. When Ethereum is extremely busy, you can copy it yourself instead, paying Ethereum's fee in ETH from your own wallet: choose it when you buy or renew, or do it from your name's page about 15 minutes after a change. That works however busy Ethereum gets. Your name works on PulseChain straight away either way.",
+    q: "Can I pay with pDAI?",
+    a: "Yes. pDAI, the DAI copied when PulseChain launched, is swapped into USDC at checkout at its price on PulseX, so a name costs the same in dollars whatever pDAI is trading at. The app shows exactly how much pDAI it takes before you pay.",
   },
   {
-    q: `Why ${PRICE} a year?`,
-    a: "It covers your name on both chains: on PulseChain, where it lives, and its copy on Ethereum, which costs gas to keep up to date.",
+    q: "What else can I pay with?",
+    a: "PLS, HEX or PLSX, or USDC, USDT, DAI, WETH or HEX (eHEX) bridged from Ethereum. It's all swapped into USDC at checkout, so the price stays in dollars. Holding another token? Swap it for PLS on PulseX first. Money on Ethereum or another chain? Send USDC with LibertySwap (libertyswap.finance), choosing PLS on PulseChain to receive: it arrives in a few minutes, for a 0.3% fee (send at least $10), and the PLS pays for your name and the network fee.",
   },
   {
     q: "Which wallets will support it?",
-    a: "We're bringing .hex to wallets, starting with a MetaMask Snap, then a library any wallet, explorer or app can use. Until yours supports .hex, keep using your 0x… address as normal.",
-  },
-  {
-    q: "What can I pay with?",
-    a: "Names are bought on PulseChain, with PLS, HEX or PLSX, or with USDC, USDT, DAI, WETH or HEX (eHEX) bridged from Ethereum. It's swapped into USDC at checkout, so the price stays in dollars. Holding another token? Swap it for PLS on PulseX first. Money on Ethereum or another chain? Send USDC with LibertySwap (libertyswap.finance), choosing PLS on PulseChain to receive: it arrives in a few minutes, for a 0.3% fee (send at least $10), and the PLS pays for your name and the network fee.",
+    a: "We're bringing .pdai to wallets, starting with a MetaMask Snap, then a library any wallet, explorer or app can use. Until yours supports .pdai, keep using your 0x… address as normal.",
   },
   {
     q: "Can I sell my name?",
-    a: "Yes. Like a .eth name, each .hex name is an NFT, on PulseChain, where it lives. Sell it on a PulseChain NFT marketplace, which shows it as a card with its name and when it's paid until, and hands it over as the payment arrives. The buyer gets the time already paid for, and the copy on Ethereum follows them by itself (on its own, the copy can't be sold). HexNS takes no cut. Your name's page in the app has the details.",
+    a: "Yes. Like a .eth name, each .pdai name is an NFT, on PulseChain. Sell it on a PulseChain NFT marketplace, which shows it as a card with its name and when it's paid until, and hands it over as the payment arrives. The buyer gets the time already paid for. pDAI Names takes no cut. Your name's page in the app has the details.",
   },
   {
     q: "What happens if I forget to renew?",
@@ -344,19 +338,19 @@ const FAQS: { q: string; a: ReactNode }[] = [
   },
   {
     q: "Can anyone take my name?",
-    a: "No. Nobody can take, move or redirect a name someone owns, including the HexNS team.",
+    a: "No. Nobody can take, move or redirect a name someone owns, including the pDAI Names team.",
   },
   {
-    q: "Is alice.hex the same as alice.hex.eth?",
-    a: "No. .hex names never end in .eth. alice.hex.eth is a different name that HexNS doesn't control, so always type a .hex name exactly as name.hex.",
+    q: "Is alice.pdai the same as alice.pdai.eth?",
+    a: "No. .pdai names never end in .eth. alice.pdai.eth would be a different name, on ENS, so always type a .pdai name exactly as name.pdai.",
   },
   {
     q: "Is it safe?",
-    a: "HexNS is built on the code of ENS v2, which has been audited. HexNS's own contracts will be independently reviewed before launch.",
+    a: "pDAI Names is built on the code of ENS v2, which has been audited. pDAI Names' own contracts will be independently reviewed before launch.",
   },
   {
-    q: "Is HexNS part of HEX or PulseChain?",
-    a: "No. HexNS is an independent community project for Hexicans. It isn't run by, or affiliated with, HEX, PulseChain or ENS.",
+    q: "Is pDAI Names part of pDAI or PulseChain?",
+    a: "No. pDAI Names is an independent community project for the pDAI community. It isn't run by, or affiliated with, PulseChain, MakerDAO (now Sky), which made the original DAI, or ENS.",
   },
 ];
 
@@ -383,10 +377,8 @@ export function Cta() {
     <section className="section section--tight" aria-labelledby="cta-title">
       <div className="container">
         <div className="cta">
-          <h2 id="cta-title">Claim your name before someone else does</h2>
-          <p>
-            Every name exists once. Search for yours, buy it on PulseChain, and it&rsquo;s yours on both chains.
-          </p>
+          <h2 id="cta-title">Claim your .pdai name before someone else does</h2>
+          <p>Every name exists once. Search for yours, pay with pDAI or PLS on PulseChain, and it&rsquo;s yours.</p>
           <div className="cta__actions">
             <a className="button button--primary" href="#top">
               Search for a name

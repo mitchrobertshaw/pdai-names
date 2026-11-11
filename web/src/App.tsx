@@ -3,7 +3,7 @@ import { Hero } from "./components/Hero";
 import { Messages } from "./components/Messages";
 import { Nav } from "./components/Nav";
 import { Ownership } from "./components/Ownership";
-import { BothChains, Cta, Faq, Features, HowItWorks, Pricing } from "./components/Sections";
+import { Cta, Faq, Features, HowItWorks, MadeForPulseChain, Pricing } from "./components/Sections";
 
 export function App() {
   return (
@@ -14,7 +14,7 @@ export function App() {
       <Nav />
       <main id="main">
         <Hero />
-        <BothChains />
+        <MadeForPulseChain />
         <Messages />
         <Features />
         <HowItWorks />

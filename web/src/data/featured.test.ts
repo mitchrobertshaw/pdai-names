@@ -7,7 +7,7 @@ import { featuredNames } from "./featured";
 describe("featured names", () => {
   it("only shows people whose names are reserved", () => {
     for (const f of featuredNames.filter((f) => f.person)) {
-      expect(reservedNames.has(f.label), `${f.label}.hex must be in script/reserved-names.csv`).toBe(true);
+      expect(reservedNames.has(f.label), `${f.label}.pdai must be in script/reserved-names.csv`).toBe(true);
     }
   });
 
@@ -15,7 +15,7 @@ describe("featured names", () => {
     const saved = Object.keys(import.meta.glob("../assets/avatars/*.jpg"));
     for (const f of featuredNames.filter((f) => f.person)) {
       const key = f.picture ?? f.x;
-      expect(key, `${f.label}.hex needs an X handle or a picture`).toBeDefined();
+      expect(key, `${f.label}.pdai needs an X handle or a picture`).toBeDefined();
       expect(saved, f.x && !f.picture ? `run "npm run avatars" to save @${f.x}'s picture` : `save ${key}.jpg`).toContain(
         `../assets/avatars/${key!.toLowerCase()}.jpg`,
       );
@@ -26,7 +26,7 @@ describe("featured names", () => {
     for (const f of featuredNames) expect(ens_normalize(f.label)).toBe(f.label);
   });
 
-  it("give every person's .hex their colour, easy to read in both themes", () => {
+  it("give every person's .pdai their colour, easy to read in both themes", () => {
     // WCAG contrast against the pill: 3:1 on white (the names are decoration), 4.5:1 on dark.
     const luminance = (hex: string) => {
       const [r, g, b] = [1, 3, 5].map((i) => {
@@ -40,11 +40,11 @@ describe("featured names", () => {
       return (hi + 0.05) / (lo + 0.05);
     };
     for (const f of featuredNames.filter((f) => f.person)) {
-      expect(f.tone, `${f.label}.hex needs a tone picked from their picture`).toBeDefined();
+      expect(f.tone, `${f.label}.pdai needs a tone picked from their picture`).toBeDefined();
       expect(f.tone!.light).toMatch(/^#[0-9a-f]{6}$/);
       expect(f.tone!.dark).toMatch(/^#[0-9a-f]{6}$/);
-      expect(contrast(f.tone!.light, "#ffffff"), `${f.label}.hex on the light theme`).toBeGreaterThanOrEqual(3);
-      expect(contrast(f.tone!.dark, "#1f1527"), `${f.label}.hex on the dark theme`).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(f.tone!.light, "#ffffff"), `${f.label}.pdai on the light theme`).toBeGreaterThanOrEqual(3);
+      expect(contrast(f.tone!.dark, "#12221e"), `${f.label}.pdai on the dark theme`).toBeGreaterThanOrEqual(4.5);
     }
   });
 

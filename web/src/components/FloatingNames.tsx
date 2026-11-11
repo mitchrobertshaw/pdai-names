@@ -22,14 +22,14 @@ const SLOTS: { side: "left" | "right"; x: number; y: number; scale: number }[] =
 ];
 
 function Pill({ name }: { name: FeaturedName }) {
-  // The .hex takes the colour of the person's profile picture.
+  // The .pdai takes the colour of the person's profile picture.
   const tone = name.tone ? ({ "--tld-light": name.tone.light, "--tld-dark": name.tone.dark } as CSSProperties) : undefined;
   return (
     <span className="pill" style={tone} title={name.person ? `Reserved for ${name.person}` : undefined}>
       <Avatar label={name.label} x={name.picture ?? name.x} />
       <span className="pill__name">
         {name.label}
-        <span className="pill__tld">.hex</span>
+        <span className="pill__tld">.pdai</span>
       </span>
     </span>
   );
@@ -138,7 +138,7 @@ function Floater({ name, style }: { name: FeaturedName; style: CSSProperties }) 
   );
 }
 
-/** The KOLs' names: around the words on wide screens, a slowly scrolling row on narrow ones. */
+/** The featured names: around the words on wide screens, a slowly scrolling row on narrow ones. */
 export function FloatingNames({ variant }: { variant: "scatter" | "marquee" }) {
   if (variant === "scatter") {
     return (

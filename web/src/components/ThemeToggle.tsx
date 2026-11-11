@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { MoonIcon, SunIcon } from "./icons";
 
 type Theme = "light" | "dark";
-const STORAGE_KEY = "hexns-theme"; // also read by the script in index.html
+const STORAGE_KEY = "pdains-theme"; // also read by the script in index.html
 
 function systemTheme(): Theme {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
