@@ -13,19 +13,25 @@ interface IHasLabelStore {
     function LABEL_STORE() external view returns (ILabelStore);
 }
 
-/// @title HexNameCard
-/// @notice What wallets and NFT marketplaces show for a .hex name, as ENS's metadata service does
-///         for .eth names: a card with the name on the HexNS gradient, its length, when it's paid
+/// @title PdaiNameCard
+/// @notice What wallets and NFT marketplaces show for a .pdai name, as ENS's metadata service does
+///         for .eth names: a card with the name on pDAI Names' gold, its length, when it's paid
 ///         until and whether it has expired, and a link to its page in the app. Made on-chain, so
 ///         nothing has to stay online for names to show properly.
-/// @dev The .hex registry's URI renderer (PermissionedRegistry.setURI). Labels are whatever was
+/// @dev The .pdai registry's URI renderer (PermissionedRegistry.setURI). Labels are whatever was
 ///      registered, so every one is escaped for the JSON, the SVG and the link it goes into.
-contract HexNameCard is IRegistryURIRenderer {
+contract PdaiNameCard is IRegistryURIRenderer {
     using Strings for uint256;
 
-    /// @dev The HexNS mark ("Route"), as in web/src/components/Logo.tsx.
-    string internal constant ROUTE_PATH =
-        "M33.45 5.989L53.802 17.739A2.9 2.9 0 0 1 50.902 22.761L30.55 11.011A2.9 2.9 0 0 1 33.45 5.989ZM55.252 20.25L55.252 43.75A2.9 2.9 0 0 1 49.452 43.75L49.452 20.25A2.9 2.9 0 0 1 55.252 20.25ZM53.802 46.261L33.45 58.011A2.9 2.9 0 0 1 30.55 52.989L50.902 41.239A2.9 2.9 0 0 1 53.802 46.261ZM30.55 58.011L10.198 46.261A2.9 2.9 0 0 1 13.098 41.239L33.45 52.989A2.9 2.9 0 0 1 30.55 58.011ZM8.748 43.75L8.748 20.25A2.9 2.9 0 0 1 14.548 20.25L14.548 43.75A2.9 2.9 0 0 1 8.748 43.75ZM13.098 17.739L33.45 29.489A2.9 2.9 0 0 1 30.55 34.511L10.198 22.761A2.9 2.9 0 0 1 13.098 17.739ZM24.6 32A7.4 7.4 0 1 1 39.4 32A7.4 7.4 0 1 1 24.6 32Z";
+    /// @dev The pDAI Names mark ("Coin"), as in web/src/components/Logo.tsx: a lowercase p whose
+    ///      bowl is a coin, with your name at its centre. Its box is 39.8 by 52.8, from (12.1, 5.6).
+    string internal constant MARK_PATH =
+        "M12.1 25.5A19.9 19.9 0 1 1 51.9 25.5A19.9 19.9 0 1 1 12.1 25.5ZM17.9 25.5A14.1 14.1 0 1 0 46.1 25.5A14.1 14.1 0 1 0 17.9 25.5ZM17.9 25.5L17.9 55.5A2.9 2.9 0 0 1 12.1 55.5L12.1 25.5A2.9 2.9 0 0 1 17.9 25.5ZM24.6 25.5A7.4 7.4 0 1 1 39.4 25.5A7.4 7.4 0 1 1 24.6 25.5Z";
+
+    /// @dev The ink on a live card, dark on the gold, and on an expired one, white on grey: both
+    ///      easy to read (white on gold would not be).
+    string internal constant INK = "#2B1D05";
+    string internal constant EXPIRED_INK = "#FFFFFF";
 
     /// @dev The card's lettering: the app's own font first, then ones most devices have.
     string internal constant FONT = "Space Grotesk,Inter,Helvetica,Arial,sans-serif";
@@ -56,15 +62,11 @@ contract HexNameCard is IRegistryURIRenderer {
     uint8 internal constant JOINER = 2;
     uint8 internal constant FLAG_LETTER = 3;
 
-    /// @notice The app's address for names, which "<label>.hex" is added to: each card links there.
+    /// @notice The app's address for names, which "<label>.pdai" is added to: each card links there.
     string public appUrl;
 
-    /// @notice Whether these are the Ethereum copy's cards, which say where the name lives.
-    bool public immutable ETHEREUM_COPY;
-
-    constructor(string memory appUrl_, bool ethereumCopy) {
+    constructor(string memory appUrl_) {
         appUrl = appUrl_;
-        ETHEREUM_COPY = ethereumCopy;
     }
 
     /// @inheritdoc IRegistryURIRenderer
@@ -77,7 +79,7 @@ contract HexNameCard is IRegistryURIRenderer {
         string memory label = IHasLabelStore(address(registry)).LABEL_STORE().getLabel(tokenId);
         uint64 expiry = IStandardRegistry(address(registry)).getExpiry(tokenId);
         bool expired = expiry <= block.timestamp;
-        string memory name = bytes(label).length == 0 ? "a .hex name" : string.concat(label, ".hex");
+        string memory name = bytes(label).length == 0 ? "a .pdai name" : string.concat(label, ".pdai");
         string memory head = string.concat(
             '{"name":"',
             _jsonEscape(name),
@@ -88,57 +90,53 @@ contract HexNameCard is IRegistryURIRenderer {
             '","external_url":"',
             appUrl,
             _urlEncode(label),
-            '.hex"'
+            '.pdai"'
         );
         return string.concat(head, ',"attributes":', _attributes(label, expiry, expired), "}");
     }
 
     /// @notice What the card says about the name, in a sentence or two.
-    function description(string memory name, bool expired) public view returns (string memory) {
-        if (ETHEREUM_COPY) {
-            return string.concat(
-                "The Ethereum copy of ",
-                name,
-                ", a name that lives on PulseChain. It follows the name there by itself, and can't be sold or moved on Ethereum: trade ",
-                name,
-                " on PulseChain."
-            );
-        }
+    function description(string memory name, bool expired) public pure returns (string memory) {
         if (expired) {
             return string.concat(
                 name,
                 " has expired. Its owner can still renew it during its 28-day grace period; after that anyone can buy it."
             );
         }
-        return string.concat(name, ": one name for a wallet, on PulseChain and Ethereum. hexns.domains");
+        return string.concat(name, ": one name for a wallet, on PulseChain. pdains.domains");
     }
 
-    /// @notice The card: the name on the HexNS gradient (grey once expired), with the HexNS mark.
-    function svg(string memory label, bool expired) public view returns (string memory) {
+    /// @notice The card: the name on pDAI Names' gold (grey once expired), with the pDAI Names mark.
+    function svg(string memory label, bool expired) public pure returns (string memory) {
         (string memory shown, uint256 size) = _fit(label);
+        string memory ink = expired ? EXPIRED_INK : INK;
         string memory top = string.concat(
             '<svg xmlns="http://www.w3.org/2000/svg" width="270" height="270" viewBox="0 0 270 270">',
             '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">',
-            '<stop offset="0" stop-color="#FFB800"/><stop offset="0.38" stop-color="#FF6A1F"/>',
-            '<stop offset="0.68" stop-color="#FF3D5A"/><stop offset="1" stop-color="#E5007A"/></linearGradient></defs>',
+            '<stop offset="0" stop-color="#FFD84D"/><stop offset="0.55" stop-color="#F5AC37"/>',
+            '<stop offset="1" stop-color="#E08A1E"/></linearGradient></defs>',
             expired
                 ? '<rect width="270" height="270" fill="#6E6A78"/>'
                 : '<rect width="270" height="270" fill="url(#g)"/>',
-            '<path transform="translate(24 22) scale(0.72) translate(-8.748 -5.6)" fill="#FFFFFF" d="',
-            ROUTE_PATH,
+            '<path transform="translate(24 22) scale(0.72) translate(-12.1 -5.6)" fill="',
+            ink,
+            '" d="',
+            MARK_PATH,
             '"/>'
         );
         string memory tag = string.concat(
             '<text x="246" y="44" text-anchor="end" font-family="',
             FONT,
-            '" font-size="12" font-weight="700" fill="#FFFFFF" fill-opacity="0.9">',
-            ETHEREUM_COPY ? "Ethereum copy" : "HexNS",
-            "</text>",
+            '" font-size="12" font-weight="700" fill="',
+            ink,
+            '" fill-opacity="0.9">pDAI Names</text>',
             expired
                 ? string.concat(
                     '<text x="246" y="64" text-anchor="end" font-family="',
                     FONT,
-                    '" font-size="11" font-weight="700" fill="#FFFFFF">EXPIRED</text>'
+                    '" font-size="11" font-weight="700" fill="',
+                    ink,
+                    '">EXPIRED</text>'
                 )
                 : ""
         );
@@ -147,7 +145,9 @@ contract HexNameCard is IRegistryURIRenderer {
             FONT,
             '" font-size="',
             size.toString(),
-            '" font-weight="700" fill="#FFFFFF">',
+            '" font-weight="700" fill="',
+            ink,
+            '">',
             _xmlEscape(shown),
             "</text></svg>"
         );
@@ -174,12 +174,12 @@ contract HexNameCard is IRegistryURIRenderer {
         }
     }
 
-    /// @dev "<label>.hex" as the card shows it, and its font size: as large as fits in ROOM, up to
+    /// @dev "<label>.pdai" as the card shows it, and its font size: as large as fits in ROOM, up to
     ///      MAX_SIZE. A name that doesn't fit even at MIN_SIZE is cut within the label, with an
     ///      ellipsis, and never inside an emoji: not before a skin tone, a joined emoji or a
     ///      flag's second letter.
     function _fit(string memory label) internal pure returns (string memory shown, uint256 size) {
-        bytes memory b = bytes(string.concat(label, ".hex"));
+        bytes memory b = bytes(string.concat(label, ".pdai"));
         uint256 most = (ROOM * 100) / MIN_SIZE; // the widest that fits, in hundredths of the font size
         uint256 width = 0;
         uint256 cut = 0; // the last place a cut can go, leaving room for the ellipsis

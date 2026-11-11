@@ -1,12 +1,8 @@
 name: deploy
 
-# Run by hand from the Actions tab: Actions > deploy > Run workflow. Three steps, in order:
-#   1. Deploy on PulseChain                -> gives PULSECHAIN_MIRROR_SYNC and PULSECHAIN_ORDER_FILLER
-#   2. Deploy on Ethereum and link it      -> needs those two; gives ETHEREUM_MIRROR_REGISTRAR and ETHEREUM_ORDER_BOOK
-#   3. Link PulseChain                     -> needs all four
-# Pick the network: the testnets (PulseChain Testnet v4 + Sepolia) to rehearse, then mainnet.
-# Leave "broadcast" unticked for a dry run, which simulates the step and sends nothing.
-# Use the same deployer key for all three steps of a network: only it can link the chains, once.
+# Run by hand from the Actions tab: Actions > deploy > Run workflow. One step deploys everything.
+# Pick the network: the testnet (PulseChain Testnet v4) to rehearse, then mainnet (PulseChain).
+# Leave "broadcast" unticked for a dry run, which simulates the deployment and sends nothing.
 # Each network has its own deployer key, in a repository secret (Settings > Secrets and variables >
 # Actions): DEPLOYER_PRIVATE_KEY_TESTNET and DEPLOYER_PRIVATE_KEY_MAINNET. Repository secrets work on
 # every GitHub plan; environment secrets don't, in a private repository on GitHub Free.
@@ -21,16 +17,8 @@ on:
         required: true
         type: choice
         options:
-          - "Testnet: PulseChain Testnet v4 + Sepolia"
-          - "Mainnet: PulseChain + Ethereum"
-      step:
-        description: "Step"
-        required: true
-        type: choice
-        options:
-          - "1. Deploy on PulseChain"
-          - "2. Deploy on Ethereum and link it"
-          - "3. Link PulseChain"
+          - "Testnet: PulseChain Testnet v4"
+          - "Mainnet: PulseChain"
       broadcast:
         description: "Send it for real (leave unticked for a dry run)"
         required: true
@@ -41,47 +29,30 @@ on:
         required: false
         type: string
       admin:
-        description: "Admin wallet (steps 1 and 2): a plain wallet or a Safe"
-        required: false
+        description: "Admin wallet: a plain wallet or a Safe"
+        required: true
         type: string
       beneficiary:
-        description: "Who receives every payment for names (step 1). Fixed for good once deployed"
+        description: "Who receives every payment for names. Fixed for good once deployed"
         required: false
         type: string
         default: "0x102785E63DCD7C2ba1146E96da7fE429155602C6"
-      pulsechain_mirror_sync:
-        description: "PULSECHAIN_MIRROR_SYNC from step 1 (steps 2 and 3)"
-        required: false
-        type: string
-      pulsechain_order_filler:
-        description: "PULSECHAIN_ORDER_FILLER from step 1 (steps 2 and 3)"
-        required: false
-        type: string
-      ethereum_mirror_registrar:
-        description: "ETHEREUM_MIRROR_REGISTRAR from step 2 (step 3)"
-        required: false
-        type: string
-      ethereum_order_book:
-        description: "ETHEREUM_ORDER_BOOK from step 2 (step 3)"
-        required: false
-        type: string
 
 permissions:
   contents: read
 
 jobs:
   deploy:
-    name: ${{ inputs.step }} (${{ startsWith(inputs.network, 'Testnet') && 'testnet' || 'mainnet' }})
+    name: Deploy on PulseChain (${{ startsWith(inputs.network, 'Testnet') && 'testnet' || 'mainnet' }})
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
       - name: Install Foundry
-        # Foundry 1.9.0, which knows Sepolia's new gas costs: creating a contract there costs about 7
-        # times what it does on Ethereum, and older versions give step 2 too little gas on Sepolia.
-        # Straight from its release and checked against its SHA-256, rather than through the
-        # foundryup installer, whose 2.0.0 release couldn't be downloaded on 8 November 2026. To
-        # move to a newer Foundry, change FOUNDRY_VERSION and FOUNDRY_SHA256 together.
+        # Foundry 1.9.0, the same as the test workflow, straight from its release and checked
+        # against its SHA-256, rather than through the foundryup installer, whose 2.0.0 release
+        # couldn't be downloaded on 8 November 2026. To move to a newer Foundry, change
+        # FOUNDRY_VERSION and FOUNDRY_SHA256 together.
         env:
           FOUNDRY_VERSION: v1.9.0
           FOUNDRY_SHA256: 8d17599b42e3139f1a9c171be3798c4ed8e743ae17b84cc3435e57bf2a51ae99
@@ -107,9 +78,8 @@ jobs:
       - name: Run the unit tests first
         run: forge test --no-match-path "test/fork/*"
 
-      - name: Run the step
+      - name: Deploy
         env:
-          STEP: ${{ inputs.step }}
           NETWORK: ${{ inputs.network }}
           BROADCAST: ${{ inputs.broadcast }}
           CONFIRM: ${{ inputs.confirm }}
@@ -117,24 +87,16 @@ jobs:
           DEPLOYER_PRIVATE_KEY_TESTNET: ${{ secrets.DEPLOYER_PRIVATE_KEY_TESTNET }}
           DEPLOYER_PRIVATE_KEY_MAINNET: ${{ secrets.DEPLOYER_PRIVATE_KEY_MAINNET }}
           # Optional repository variables (Settings > Secrets and variables > Actions > Variables)
-          # point a network at your own RPC providers.
+          # point a network at your own RPC provider.
           PULSECHAIN_RPC_URL: >-
             ${{ startsWith(inputs.network, 'Testnet')
               && (vars.PULSECHAIN_TESTNET_RPC_URL || 'https://rpc.v4.testnet.pulsechain.com')
               || (vars.PULSECHAIN_RPC_URL || 'https://rpc.pulsechain.com') }}
-          ETHEREUM_RPC_URL: >-
-            ${{ startsWith(inputs.network, 'Testnet')
-              && (vars.SEPOLIA_RPC_URL || 'https://ethereum-sepolia-rpc.publicnode.com')
-              || (vars.ETHEREUM_RPC_URL || 'https://ethereum-rpc.publicnode.com') }}
           ADMIN: ${{ inputs.admin }}
           BENEFICIARY: ${{ inputs.beneficiary }}
-          PULSECHAIN_MIRROR_SYNC: ${{ inputs.pulsechain_mirror_sync }}
-          PULSECHAIN_ORDER_FILLER: ${{ inputs.pulsechain_order_filler }}
-          ETHEREUM_MIRROR_REGISTRAR: ${{ inputs.ethereum_mirror_registrar }}
-          ETHEREUM_ORDER_BOOK: ${{ inputs.ethereum_order_book }}
         run: |
-          # Leave out inputs that were left empty, so the scripts use their defaults or say what is missing.
-          for v in ADMIN BENEFICIARY PULSECHAIN_MIRROR_SYNC PULSECHAIN_ORDER_FILLER ETHEREUM_MIRROR_REGISTRAR ETHEREUM_ORDER_BOOK; do
+          # Leave out inputs that were left empty, so the script uses its defaults or says what is missing.
+          for v in ADMIN BENEFICIARY; do
             if [ -z "${!v}" ]; then unset "$v"; fi
           done
           # This network's deployer key, and only this network's.
@@ -142,21 +104,11 @@ jobs:
           DEPLOYER_PRIVATE_KEY="${!key_name}"
           unset DEPLOYER_PRIVATE_KEY_TESTNET DEPLOYER_PRIVATE_KEY_MAINNET
           if [ -n "$DEPLOYER_PRIVATE_KEY" ]; then export DEPLOYER_PRIVATE_KEY; else unset DEPLOYER_PRIVATE_KEY; fi
-          case "$STEP" in
-            1.*) target="script/pulsechain/DeployPulseChain.s.sol:DeployPulseChain"; rpc="$PULSECHAIN_RPC_URL" ;;
-            2.*) target="script/ethereum/DeployEthereum.s.sol:DeployEthereum"; rpc="$ETHEREUM_RPC_URL" ;;
-            3.*) target="script/pulsechain/LinkPulseChain.s.sol:LinkPulseChain"; rpc="$PULSECHAIN_RPC_URL" ;;
-            *) echo "::error::Unknown step: $STEP"; exit 1 ;;
-          esac
-          args=(script "$target" --rpc-url "$rpc" --slow)
-          # On the testnets, set the fees. PulseChain Testnet v4's validators skip tips below
-          # 0.001 gwei, and Foundry would offer 1 wei there. Sepolia includes tiny tips, and Foundry
-          # would offer about 1 gwei, so step 2 would cost about 0.15 Sepolia ETH instead of 0.002.
+          args=(script script/DeployPulseChain.s.sol:DeployPulseChain --rpc-url "$PULSECHAIN_RPC_URL" --slow)
+          # On the testnet, set the fees: PulseChain Testnet v4's validators skip tips below
+          # 0.001 gwei, and Foundry would offer 1 wei there.
           if [[ "$NETWORK" == Testnet* ]]; then
-            case "$STEP" in
-              2.*) args+=(--with-gas-price 0.05gwei --priority-gas-price 0.01gwei) ;;
-              *) args+=(--with-gas-price 2gwei --priority-gas-price 1gwei) ;;
-            esac
+            args+=(--with-gas-price 2gwei --priority-gas-price 1gwei)
           fi
           if [ "$BROADCAST" = "true" ]; then
             if [ -z "${DEPLOYER_PRIVATE_KEY:-}" ]; then
@@ -174,22 +126,22 @@ jobs:
           forge "${args[@]}" 2>&1 | tee output.txt
           status=${PIPESTATUS[0]}
           {
-            echo "## $STEP"
+            echo "## Deploy on PulseChain"
             echo "$NETWORK"
             if [ "$BROADCAST" = "true" ]; then echo "Sent for real."; else echo "Dry run: nothing was sent."; fi
             echo '```'
-            grep -E "^\s+(Network|PULSECHAIN_|ETHEREUM_|START_BLOCK_|Payments go to|UniversalResolver|\.hex|Root|Default|Price|Name rules|Resolver|Label|Reserved|Deployer|Linked)" output.txt || true
+            grep -E "^\s+(Network|Deployer|=== |PDAI_REGISTRY|REGISTRAR|CHECKOUT|USDC|START_BLOCK|Payments go to|UniversalResolver|Root|Default|Price|Name rules|Resolver|Label|Name cards|Reserved)" output.txt || true
             # What it costs, and whether every transaction went through.
             grep -E "^(Estimated (total gas used|amount required)|ONCHAIN EXECUTION)" output.txt || true
             echo '```'
-            # After a real run, the bot's settings from this step, ready to paste into Railway.
-            bot=$(grep -E "^\s+(PULSECHAIN_(MIRROR_SYNC|ORDER_FILLER|REGISTRAR|HEX_REGISTRY|USDC|CHECKOUT)|ETHEREUM_(MIRROR_REGISTRAR|ORDER_BOOK)|START_BLOCK_(PULSECHAIN|ETHEREUM))\s" output.txt | awk '{print $1 "=" $2}' || true)
-            if [ "$BROADCAST" = "true" ] && [ "$status" = "0" ] && [ -n "$bot" ]; then
+            # After a real run, the addresses the website needs, ready to paste.
+            site=$(grep -E "^\s+(PDAI_REGISTRY|REGISTRAR|CHECKOUT|USDC|START_BLOCK)\s" output.txt | awk '{print $1 "=" $2}' || true)
+            if [ "$BROADCAST" = "true" ] && [ "$status" = "0" ] && [ -n "$site" ]; then
               net=$([[ "$NETWORK" == Testnet* ]] && echo testnet || echo mainnet)
-              echo "### For the bot"
-              echo "On Railway, in the bot's ${net/mainnet/production} environment: Variables, RAW Editor. Add these lines, then deploy the change."
+              echo "### For the website"
+              echo "Fill these in to the $net entry of web/src/deployment.ts, as deploy/website/README.md shows."
               echo '```'
-              echo "$bot"
+              echo "$site"
               echo '```'
             fi
           } >> "$GITHUB_STEP_SUMMARY"

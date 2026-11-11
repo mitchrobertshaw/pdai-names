@@ -12,15 +12,16 @@ import {IRegistry} from "@ensv2/registry/interfaces/IRegistry.sol";
 import {LibRegistry} from "@ensv2/universalResolver/libraries/LibRegistry.sol";
 
 /// @title OwnerResolver
-/// @notice The default resolver for .hex: a name resolves to its owner's address, on Ethereum and
-///         on PulseChain, from the moment it is registered.
-/// @dev Set as the resolver of `hex` in the root registry. ENSv2 lookups use the closest resolver
-///      above a name, so every .hex name without a resolver of its own falls back to this one
+/// @notice The default resolver for .pdai: a name resolves to its owner's address from the moment
+///         it is registered.
+/// @dev Set as the resolver of `pdai` in the root registry. ENSv2 lookups use the closest resolver
+///      above a name, so every .pdai name without a resolver of its own falls back to this one
 ///      (ENSIP-10). Owners who want other records point their name at their own resolver.
 ///
-///      Only the coin types for Ethereum (60), PulseChain (ENSIP-11) and the default EVM address
-///      (ENSIP-19) are answered. A wallet that is a smart contract may not control the same address
-///      on the other chain, so such owners should set their own resolver.
+///      Only three coin types are answered: 60, the one wallets ask for by default (`addr(node)`,
+///      named for Ethereum but how EVM wallets on PulseChain ask too), PulseChain's own (ENSIP-11)
+///      and the default EVM address (ENSIP-19). A wallet that is a smart contract may not control
+///      the same address on other chains, so such owners should set their own resolver.
 contract OwnerResolver is ERC165, IExtendedResolver {
     /// @notice ENSIP-11 coin type for PulseChain (chain id 369).
     uint256 public constant COIN_TYPE_PULSECHAIN = COIN_TYPE_DEFAULT | 369;

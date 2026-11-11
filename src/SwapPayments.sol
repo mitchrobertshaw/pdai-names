@@ -4,13 +4,13 @@ pragma solidity ^0.8.25;
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-import {ISwapRouterLike} from "../interfaces/ISwapRouterLike.sol";
-import {IWrappedNative} from "../interfaces/IWrappedNative.sol";
+import {ISwapRouterLike} from "./interfaces/ISwapRouterLike.sol";
+import {IWrappedNative} from "./interfaces/IWrappedNative.sol";
 import {ZeroAddress} from "./Errors.sol";
 
 /// @title SwapPayments
-/// @notice Takes payment in any token with a pool, or in the chain's native coin, and turns it into
-///         one stablecoin. Shared by `AnyTokenCheckout` on PulseChain and `HexOrderBook` on Ethereum.
+/// @notice Takes payment in any token with a pool, or in PLS, and turns it into one stablecoin. The
+///         part of `AnyTokenCheckout` that handles the money.
 /// @dev Every amount is measured as a balance change, so tokens that charge a transfer tax work,
 ///      and tokens sent to the contract directly are never counted towards anyone's payment.
 ///      Swaps only use routers fixed at deployment.
@@ -21,7 +21,7 @@ abstract contract SwapPayments {
     /// @dev Leave `path` empty, and `router` zero, when paying with `PAYMENT_TOKEN` itself.
     struct Swap {
         address router; // an allow-listed Uniswap-V2-style router
-        address[] path; // path[0] = input token (the wrapped coin for native payments), last = PAYMENT_TOKEN
+        address[] path; // path[0] = input token (WPLS for payments in PLS), last = PAYMENT_TOKEN
         uint256 amountOutMin; // the least PAYMENT_TOKEN the swap may return
         uint256 deadline; // unix time after which the swap reverts
     }
@@ -29,7 +29,7 @@ abstract contract SwapPayments {
     /// @notice The stablecoin every payment is turned into.
     IERC20 public immutable PAYMENT_TOKEN;
 
-    /// @notice The chain's wrapped native coin (WPLS or WETH), used for native payments.
+    /// @notice Wrapped PLS, used for payments in PLS.
     IERC20 public immutable WRAPPED_NATIVE;
 
     /// @notice Routers that swaps may use. Set once, in the constructor.
@@ -42,7 +42,7 @@ abstract contract SwapPayments {
     error RouterNotAllowed(address router);
     /// @notice The swap path does not run from the input token to `PAYMENT_TOKEN`.
     error InvalidPath();
-    /// @notice A native-coin payment was called without any coins.
+    /// @notice A payment in PLS was called without any PLS.
     error NoValue();
     /// @notice The payment came to less than was needed.
     error InsufficientPayment(uint256 received, uint256 needed);

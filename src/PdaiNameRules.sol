@@ -5,21 +5,21 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import {IRentPriceOracle} from "@ensv2/registrar/interfaces/IRentPriceOracle.sol";
 
-/// @title HexNameRules
-/// @notice Sits between the .hex registrar and its price oracle, and keeps three rules:
+/// @title PdaiNameRules
+/// @notice Sits between the .pdai registrar and its price oracle, and keeps three rules:
 ///         - New names are plain: lowercase letters a to z, digits 0 to 9 and hyphens, the names
 ///           the app sells, without "--" as their 3rd and 4th characters, which ENS's rules keep
 ///           for encoded names such as "xn--". So nobody can buy a name the app wouldn't sell by
 ///           going around it: no capitals, spaces, symbols, emoji or look-alike letters.
 ///         - New names are at most 63 characters: the most one part of a web address can hold, so
-///           every .hex name can also work as one.
+///           every .pdai name can also work as one.
 ///         - A name is paid for at most 5 years ahead: a registration is at most 5 years, and a
 ///           renewal can't take the expiry more than 5 years past today. An owner can always renew
 ///           back up to 5 years ahead, so nobody is ever kept from keeping their name.
 ///         A name that breaks either of the first two rules can't be priced, so it can't be
 ///         registered: it fails with the oracle's own `NotValid`, as a name that's too short does.
 ///         Prices are the oracle's, and the admin still manages them there.
-contract HexNameRules is IRentPriceOracle, IERC165 {
+contract PdaiNameRules is IRentPriceOracle, IERC165 {
     /// @notice The longest name that can be registered, in bytes: 63 characters, as a name's
     ///         letters, digits and hyphens are a byte each.
     uint256 public constant MAX_LENGTH = 63;
@@ -61,7 +61,7 @@ contract HexNameRules is IRentPriceOracle, IERC165 {
         return ORACLE.getRenewPrice(label, expiry, duration, paymentToken);
     }
 
-    /// @notice Whether `label` is made only of what a new .hex name may use: lowercase letters a
+    /// @notice Whether `label` is made only of what a new .pdai name may use: lowercase letters a
     ///         to z, digits 0 to 9 and hyphens, and doesn't have "--" as its 3rd and 4th characters.
     function isPlain(string calldata label) public pure returns (bool) {
         bytes calldata b = bytes(label);

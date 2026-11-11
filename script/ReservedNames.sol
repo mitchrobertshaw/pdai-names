@@ -3,12 +3,12 @@ pragma solidity ^0.8.25;
 
 import {Vm} from "forge-std/Vm.sol";
 
-/// @notice A .hex name set aside at deployment, before anyone can buy names.
+/// @notice A .pdai name set aside at deployment, before anyone can buy names.
 /// @dev With an owner, the name is registered to that owner straight away, as if they had bought
 ///      it. Without one, it is held: nobody can buy it, and the admin hands it over once its
 ///      rightful owner has proved who they are.
 struct ReservedName {
-    string label; // the name without .hex, e.g. "yourfriendsommi"
+    string label; // the name without .pdai, e.g. "yourfriendsommi"
     address owner; // who gets it now, or zero to hold it
 }
 

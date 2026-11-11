@@ -11,14 +11,14 @@ import {IRegistry} from "@ensv2/registry/interfaces/IRegistry.sol";
 import {RegistryRolesLib} from "@ensv2/registry/libraries/RegistryRolesLib.sol";
 
 import {ReservedName, ReservedNames} from "../../script/ReservedNames.sol";
-import {HexOrderFiller} from "../../src/pulsechain/HexOrderFiller.sol";
-import {HexTestBase} from "../helpers/HexTestBase.sol";
+import {AnyTokenCheckout} from "../../src/AnyTokenCheckout.sol";
+import {PdaiTestBase} from "../helpers/PdaiTestBase.sol";
 
 /// @notice Names set aside at deployment: one given straight to its owner's wallet, one held until
 ///         the admin hands it over.
-contract ReservedTest is HexTestBase {
+contract ReservedTest is PdaiTestBase {
     uint256 internal constant ROOT = 0;
-    uint64 internal constant DEPLOYED_AT = 1_800_000_000; // HexTestBase deploys at this time
+    uint64 internal constant DEPLOYED_AT = 1_800_000_000; // PdaiTestBase deploys at this time
 
     address internal sommi = makeAddr("sommi");
     address internal claimant = makeAddr("claimant");
@@ -30,14 +30,14 @@ contract ReservedTest is HexTestBase {
     }
 
     function _state(string memory label) internal view returns (IPermissionedRegistry.State memory) {
-        return hub.core.hexRegistry.getState(_labelId(label));
+        return deployed.pdaiRegistry.getState(_labelId(label));
     }
 
     /// @dev What the admin sends to hand over a held name: no subregistry, the default resolver,
     ///      a buyer's roles, and expiry 0 to keep the reservation's expiry.
     function _handOver(string memory label, address to) internal {
         vm.prank(admin);
-        hub.core.hexRegistry.register(label, to, IRegistry(address(0)), address(0), REGISTRATION_ROLE_BITMAP, 0);
+        deployed.pdaiRegistry.register(label, to, IRegistry(address(0)), address(0), REGISTRATION_ROLE_BITMAP, 0);
     }
 
     // ------------------------------------------------------------------------------------------
@@ -49,27 +49,20 @@ contract ReservedTest is HexTestBase {
         assertEq(uint8(s.status), uint8(IPermissionedRegistry.Status.REGISTERED));
         assertEq(s.latestOwner, sommi);
         assertEq(s.expiry, DEPLOYED_AT + RESERVATION_PERIOD);
-        assertEq(_resolveEthAddr(hub.core, "yourfriendsommi.hex"), sommi);
-        assertEq(_resolveAddr(hub.core, "yourfriendsommi.hex", hub.core.ownerResolver.COIN_TYPE_PULSECHAIN()), sommi);
+        assertEq(_resolveEthAddr("yourfriendsommi.pdai"), sommi);
+        assertEq(_resolveAddr("yourfriendsommi.pdai", deployed.ownerResolver.COIN_TYPE_PULSECHAIN()), sommi);
     }
 
     function test_given_ownerHasABuyersRights() public {
         uint256 tokenId = _state("yourfriendsommi").tokenId;
         vm.prank(sommi);
-        hub.core.hexRegistry.setResolver(tokenId, address(0xBEEF));
-        assertEq(hub.core.hexRegistry.getResolver("yourfriendsommi"), address(0xBEEF));
+        deployed.pdaiRegistry.setResolver(tokenId, address(0xBEEF));
+        assertEq(deployed.pdaiRegistry.getResolver("yourfriendsommi"), address(0xBEEF));
 
         tokenId = _state("yourfriendsommi").tokenId;
         vm.prank(sommi);
-        hub.core.hexRegistry.safeTransferFrom(sommi, bob, tokenId, 1, "");
-        assertEq(hub.core.hexRegistry.findOwner("yourfriendsommi"), bob);
-    }
-
-    function test_given_isCopiedToEthereum() public {
-        hub.mirrorSync.sync("yourfriendsommi");
-        _relayToEthereum();
-        assertEq(mirror.core.hexRegistry.findOwner("yourfriendsommi"), sommi);
-        assertEq(_resolveEthAddr(mirror.core, "yourfriendsommi.hex"), sommi);
+        deployed.pdaiRegistry.safeTransferFrom(sommi, bob, tokenId, 1, "");
+        assertEq(deployed.pdaiRegistry.findOwner("yourfriendsommi"), bob);
     }
 
     // ------------------------------------------------------------------------------------------
@@ -78,23 +71,17 @@ contract ReservedTest is HexTestBase {
 
     function test_held_cannotBeBought() public {
         assertEq(uint8(_state("pulsechain").status), uint8(IPermissionedRegistry.Status.RESERVED));
-        assertFalse(hub.registrar.isAvailable("pulsechain"));
+        assertFalse(deployed.registrar.isAvailable("pulsechain"));
 
-        HexOrderFiller.Reveal memory r = _reveal("pulsechain", alice, ONE_YEAR);
+        AnyTokenCheckout.Registration memory r = _registration("pulsechain", alice, ONE_YEAR);
         _commit(r);
         vm.prank(alice);
         vm.expectRevert(abi.encodeWithSelector(IETHRegistrar.NameNotAvailable.selector, "pulsechain"));
-        hub.registrar.register(r.label, r.owner, r.secret, r.subregistry, r.resolver, r.duration, plsUsdc, r.referrer);
+        deployed.registrar.register(r.label, r.owner, r.secret, r.subregistry, r.resolver, r.duration, plsUsdc, r.referrer);
     }
 
     function test_held_resolvesToNobody() public view {
-        assertEq(_resolveEthAddr(hub.core, "pulsechain.hex"), address(0));
-    }
-
-    function test_held_hasNoEthereumCopy() public {
-        hub.mirrorSync.sync("pulsechain");
-        _relayToEthereum();
-        assertEq(mirror.core.hexRegistry.findOwner("pulsechain"), address(0));
+        assertEq(_resolveEthAddr("pulsechain.pdai"), address(0));
     }
 
     function test_held_adminHandsItToItsOwner() public {
@@ -104,15 +91,13 @@ contract ReservedTest is HexTestBase {
         assertEq(uint8(s.status), uint8(IPermissionedRegistry.Status.REGISTERED));
         assertEq(s.latestOwner, claimant);
         assertEq(s.expiry, DEPLOYED_AT + RESERVATION_PERIOD, "keeps the reservation's expiry");
-        assertEq(_resolveEthAddr(hub.core, "pulsechain.hex"), claimant);
+        assertEq(_resolveEthAddr("pulsechain.pdai"), claimant);
 
-        // The new owner has a buyer's rights, so can move it on, and the copy follows to Ethereum.
+        // The new owner has a buyer's rights, so can move it on.
         vm.prank(claimant);
-        hub.core.hexRegistry.safeTransferFrom(claimant, bob, s.tokenId, 1, "");
-        hub.mirrorSync.sync("pulsechain");
-        _relayToEthereum();
-        assertEq(hub.core.hexRegistry.findOwner("pulsechain"), bob);
-        assertEq(mirror.core.hexRegistry.findOwner("pulsechain"), bob);
+        deployed.pdaiRegistry.safeTransferFrom(claimant, bob, s.tokenId, 1, "");
+        assertEq(deployed.pdaiRegistry.findOwner("pulsechain"), bob);
+        assertEq(_resolveEthAddr("pulsechain.pdai"), bob);
     }
 
     function test_held_onlyTheAdminCanHandItOver() public {
@@ -125,22 +110,22 @@ contract ReservedTest is HexTestBase {
                 alice
             )
         );
-        hub.core.hexRegistry
+        deployed.pdaiRegistry
             .register("pulsechain", alice, IRegistry(address(0)), address(0), REGISTRATION_ROLE_BITMAP, 0);
     }
 
     function test_held_handOverCannotTakeAnOwnedName() public {
         vm.prank(admin);
         vm.expectRevert(abi.encodeWithSignature("LabelAlreadyRegistered(string)", "yourfriendsommi"));
-        hub.core.hexRegistry
+        deployed.pdaiRegistry
             .register("yourfriendsommi", admin, IRegistry(address(0)), address(0), REGISTRATION_ROLE_BITMAP, 0);
     }
 
     function test_held_goesOnSaleIfNeverClaimed() public {
         vm.warp(DEPLOYED_AT + RESERVATION_PERIOD + GRACE_PERIOD + PREMIUM_PERIOD + 1);
-        assertTrue(hub.registrar.isAvailable("pulsechain"));
+        assertTrue(deployed.registrar.isAvailable("pulsechain"));
         _registerDirect("pulsechain", alice, ONE_YEAR);
-        assertEq(hub.core.hexRegistry.findOwner("pulsechain"), alice);
+        assertEq(deployed.pdaiRegistry.findOwner("pulsechain"), alice);
     }
 
     // ------------------------------------------------------------------------------------------
@@ -148,8 +133,8 @@ contract ReservedTest is HexTestBase {
     // ------------------------------------------------------------------------------------------
 
     function test_deployerKeepsNoRolesAfterReserving() public view {
-        assertEq(hub.core.hexRegistry.roles(ROOT, address(this)), 0);
-        assertEq(hub.core.rootRegistry.roles(ROOT, address(this)), 0);
+        assertEq(deployed.pdaiRegistry.roles(ROOT, address(this)), 0);
+        assertEq(deployed.rootRegistry.roles(ROOT, address(this)), 0);
     }
 
     function test_readmeGivesTheRightRolesNumber() public pure {
