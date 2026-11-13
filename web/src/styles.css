@@ -691,9 +691,12 @@ img {
     0 4px 14px rgb(0 0 0 / 40%);
 }
 
-/* A step softer than the name, so the name stands out. */
+/* In the brand's gradient, as ".pdai" is in the headline. */
 .pill__tld {
-  color: var(--muted);
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .avatar {
