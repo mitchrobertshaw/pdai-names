@@ -12,15 +12,18 @@ export interface FeaturedName {
   person?: string; // who it belongs to, for people
   x?: string; // their X handle, without @
   picture?: string; // a picture saved as src/assets/avatars/<picture>.jpg, for someone without an X picture
+  /** The colour of the .pdai after their name: the main colour in their profile picture, lightened
+   *  only as far as it takes to read on the navy (featured.test.ts checks). */
+  tone?: string;
 }
 
 export const featuredNames: FeaturedName[] = [
-  { label: "pdaiconference", person: "pDAI Conference", x: "pDAI_Conference" },
-  { label: "libertyswap", person: "LibertySwap", x: "LibertySwapFi" },
-  { label: "nineironcapital", person: "NineIronCapital", x: "NineIronCapital" },
-  { label: "yourfriendsommi", person: "Your Friend Sommi", x: "yourfriendSOMMI" },
-  { label: "coexisteven", person: "Coexisteven", x: "Coexisteven" },
-  { label: "zkxwallet", person: "ZKX Wallet", x: "zkxwallet" },
-  { label: "bluntfullstop", person: "bluntfullstop", x: "bluntfullstop" },
-  { label: "cryptogirl", person: "Cryptogirl", x: "cryptogirrrl" },
+  { label: "pdaiconference", person: "pDAI Conference", x: "pDAI_Conference", tone: "#b94bfb" },
+  { label: "libertyswap", person: "LibertySwap", x: "LibertySwapFi", tone: "#e77529" },
+  { label: "nineironcapital", person: "NineIronCapital", x: "NineIronCapital", tone: "#af750a" },
+  { label: "yourfriendsommi", person: "Your Friend Sommi", x: "yourfriendSOMMI", tone: "#33f70f" },
+  { label: "coexisteven", person: "Coexisteven", x: "Coexisteven", tone: "#e64b2f" },
+  { label: "zkxwallet", person: "ZKX Wallet", x: "zkxwallet", tone: "#437de9" },
+  { label: "bluntfullstop", person: "bluntfullstop", x: "bluntfullstop", tone: "#f84a0b" },
+  { label: "cryptogirl", person: "Cryptogirl", x: "cryptogirrrl", tone: "#d743ad" },
 ];

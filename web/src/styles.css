@@ -691,12 +691,18 @@ img {
     0 4px 14px rgb(0 0 0 / 40%);
 }
 
-/* In the brand's gradient, as ".pdai" is in the headline. */
+/* In the main colour of the person's profile picture (src/data/featured.ts), or, for a name without
+   one, the brand's gradient, as ".pdai" is in the headline. */
 .pill__tld {
   background: var(--grad-text);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.pill--toned .pill__tld {
+  background: none;
+  color: var(--tld);
 }
 
 .avatar {
