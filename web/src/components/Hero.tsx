@@ -18,8 +18,7 @@ export function Hero() {
           Your <span className="grad-text">.pdai</span> name on PulseChain
         </h1>
         <p className="lede">
-          Swap your 0x… for yourname.pdai: one short name for your wallet, bought and kept on PulseChain. Pay with pDAI,
-          PLS, HEX and more.
+          Swap your 0x… for yourname.pdai, one short name for your wallet, bought and kept on PulseChain.
         </p>
         <NameSearch />
         <LiveStrip />
