@@ -28,15 +28,16 @@ wallets show draw it too (`src/PdaiNameCard.sol`). A test checks all of them use
 | | |
 | --- | --- |
 | The gradient: the mark, words in colour (like ".pdai" in headlines), lines | `#00EAFF` → `#E619E6` → `#FF0000` (cyan, magenta, red) |
-| Magenta: the buttons, links, focus, what's selected, ".pdai" beside the floating names | `#E619E6` |
-| Section labels | `#F28CF2` (a tint of the magenta) |
+| The accent: the buttons (with navy words), links, focus, what's selected | `#FFFFFF` |
+| Section labels | `#C9C5E8` (a soft white) |
 | Navy: the site, the name cards, the app icon | `#08071A` (page), `#121131` (cards) |
 | The wordmark, and words on the navy | `#FFFFFF` |
 
 There is one gradient, three of pDAI's colours, and it's the same wherever it appears. Across the mark it
 runs from the bottom left (cyan) towards the top right (red), set a little to the right of the
 mark's middle so more of the cyan and blue shows: from (10.3, 49.1) to (66.3, 4.9) on the 64-unit grid.
-Across lines and words it runs left to right. Buttons are solid magenta. Each of its colours stands out on the navy by
+Across lines and words it runs left to right. Buttons are white, with navy words: the accent is
+white, so pDAI's colours appear only in the gradient and never compete with it. Each of its colours stands out on the navy by
 at least 5 to 1.
 
 ## Using it
