@@ -115,15 +115,21 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
   ask Claude to). Every person shown must also be in
   [`../script/reserved-names.csv`](../script/reserved-names.csv), so nobody can buy their name
   first; the tests check both. A name and photo on the homepage reads as that person backing pDAI
-  Names, so it's worth asking them first. On wide screens all eight drift around the words
-  ([`FloatingNames.tsx`](src/components/FloatingNames.tsx)): drag one and it springs back to its
-  place when let go; click one and it hops and settles. On phones everyone scrolls past in a row,
-  and a tap makes a name hop.
-- **The background** at the top of the page is deep navy, lit softly in the brand's colours, cyan
+  Names, so it's worth asking them first. On wide screens they float around the words in a new,
+  random arrangement on every visit ([`FloatingNames.tsx`](src/components/FloatingNames.tsx) and
+  [`src/lib/scatter.ts`](src/lib/scatter.ts)): the page measures where the badge, headline,
+  paragraph and search are, and each name takes a random open spot, as far as it can from the
+  others, never over the words or under the search (where its results and the live line appear).
+  They may go up to 200px past the content width, to sit beside the headline, and are drawn a
+  little smaller on a small screen if that's what it takes to fit everyone. Drag one and it springs
+  back to its place when let go; click one and it hops and settles. On phones everyone scrolls past
+  in a row, and a tap makes a name hop.
+- **The background** at the top of the page is deep navy, lit softly in the brand's colours: cyan
   low on the left, magenta in the middle and red high on the right, as the gradient runs across the
-  mark, and drifting slowly (`.hero::before` in [`src/styles.css`](src/styles.css), coloured by the
-  `--glow-` variables). Dai's two lines run along its bottom edge as a fine rule. It stays still for
-  visitors who turn off motion.
+  mark, drifting slowly (`.hero::before` in [`src/styles.css`](src/styles.css), coloured by the
+  `--glow-` variables). A faint wash of the gradient sits just under the navigation, and a faint
+  magenta glow low on the right, before the fold (`.hero`'s own background). Dai's two lines run
+  along its bottom edge as a fine rule. It stays still for visitors who turn off motion.
 - **The `.pdai` on each floating name** is in the main colour of that person's profile picture:
   `tone` in [`src/data/featured.ts`](src/data/featured.ts), lightened only as far as it takes to
   read on the navy (the tests check). Someone added without a `tone` gets the brand's gradient.

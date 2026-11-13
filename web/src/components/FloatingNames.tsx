@@ -1,26 +1,28 @@
-import { type CSSProperties, type PointerEvent, useRef } from "react";
+import { type CSSProperties, type PointerEvent, useLayoutEffect, useRef, useState } from "react";
 
 import { type FeaturedName, featuredNames } from "../data/featured";
+import { type Box, scatterToFit, seeded } from "../lib/scatter";
 import { Avatar } from "./Avatar";
 
-/**
- * Where the names float on wide screens, inside the content width like ENS's: `x` is the distance
- * from that side, as a percentage of the content width; `y` is the distance from the middle of the
- * hero in pixels, chosen to sit beside the badge, above the words and beside the search, never
- * beside the wide headline. The first eight people float here; everyone scrolls past on phones.
- */
-const SLOTS: { side: "left" | "right"; x: number; y: number; scale: number }[] = [
-  { side: "left", x: 7, y: -325, scale: 0.96 },
-  { side: "right", x: 6, y: -312, scale: 1 },
-  { side: "left", x: 0, y: -232, scale: 1.04 },
-  { side: "right", x: 0, y: -240, scale: 1 },
-  { side: "left", x: 1, y: 112, scale: 1 },
-  { side: "right", x: 1, y: 100, scale: 1.04 },
-  // Top middle, between the first two and above the badge, one each side.
-  { side: "left", x: 33, y: -318, scale: 0.92 },
-  { side: "right", x: 31, y: -306, scale: 0.92 },
-  // None lower down: the search and the live line below it have the bottom to themselves.
-];
+/** Room kept clear around the words at the top of the page, in pixels. */
+const CLEAR = 22;
+
+/** How far above the badge and below the search the names may float, so they stay around the
+ *  words even on a tall screen. */
+const ABOVE = 200;
+const BELOW = 140;
+
+/** The words at the top of the page, which no floating name may cover: the badge and the search as
+ *  boxes, the headline and the paragraph line by line, so the space beside a short line is free. */
+const BOXES = ".hero__content .eyebrow, .hero__content .search, .hero__content .live";
+const LINES = ".hero__content h1, .hero__content .lede";
+
+/** Each line of text in `element`, as boxes on the screen. */
+function lines(element: Element): DOMRect[] {
+  const range = document.createRange();
+  range.selectNodeContents(element);
+  return [...range.getClientRects()];
+}
 
 function Pill({ name }: { name: FeaturedName }) {
   // The .pdai takes the main colour of the person's profile picture.
@@ -88,7 +90,7 @@ function hop(element: HTMLElement, pointerX: number, pointerY: number): Animatio
  * One floating name on wide screens. It drifts on its own (styles.css); pick it up and it follows
  * the pointer, let go and it springs back to its place. A click without a drag makes it hop.
  */
-function Floater({ name, style }: { name: FeaturedName; style: CSSProperties }) {
+function Floater({ name, style, placed }: { name: FeaturedName; style: CSSProperties; placed: boolean }) {
   const held = useRef<{ id: number; startX: number; startY: number; fromX: number; fromY: number; x: number; y: number } | null>(null);
   const motion = useRef<Animation | null>(null);
 
@@ -131,7 +133,7 @@ function Floater({ name, style }: { name: FeaturedName; style: CSSProperties }) 
 
   return (
     <span
-      className="floater"
+      className={placed ? "floater is-placed" : "floater"}
       style={style}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
@@ -143,26 +145,79 @@ function Floater({ name, style }: { name: FeaturedName; style: CSSProperties }) 
   );
 }
 
+/**
+ * On wide screens: the names float in the open space around the words, somewhere new on every
+ * visit (src/lib/scatter.ts). The page is measured, so they never cover the words at any size.
+ */
+function Scatter() {
+  const layer = useRef<HTMLDivElement>(null);
+  const seed = useRef(Math.floor(Math.random() * 2 ** 32));
+  const [places, setPlaces] = useState<({ x: number; y: number; scale: number } | null)[]>([]);
+
+  useLayoutEffect(() => {
+    const box = layer.current;
+    if (!box) return;
+    let frame = 0;
+    const place = () => {
+      const area = box.getBoundingClientRect();
+      const hero = box.closest(".hero");
+      if (!hero || area.width === 0) return; // hidden on narrow screens
+      const local = (r: DOMRect): Box => ({ x: r.left - area.left - CLEAR, y: r.top - area.top - CLEAR, w: r.width + 2 * CLEAR, h: r.height + 2 * CLEAR });
+      const keepOut = [
+        ...[...hero.querySelectorAll(BOXES)].map((element) => local(element.getBoundingClientRect())),
+        ...[...hero.querySelectorAll(LINES)].flatMap((element) => lines(element).map(local)),
+      ];
+      // Under the search, down to the bottom: its results and the live line appear there.
+      const search = hero.querySelector(".hero__content .search");
+      if (search) {
+        const r = local(search.getBoundingClientRect());
+        keepOut.push({ x: r.x, y: r.y, w: r.w, h: area.height - r.y });
+      }
+      // The band they float in: from a little above the badge to a little below the search.
+      const badge = hero.querySelector(".hero__content .eyebrow")?.getBoundingClientRect();
+      const field = hero.querySelector(".hero__content .search")?.getBoundingClientRect();
+      const top = badge ? Math.max(0, badge.top - area.top - ABOVE) : 0;
+      const bottom = field ? Math.min(area.height, field.bottom - area.top + BELOW) : area.height;
+      const band = keepOut.map((k) => ({ ...k, y: k.y - top }));
+      const random = seeded(seed.current);
+      const floaters = [...box.querySelectorAll<HTMLElement>(".floater")];
+      const scales = floaters.map(() => 0.92 + random() * 0.12);
+      const sizes = floaters.map((element, i) => ({ w: element.offsetWidth * scales[i], h: element.offsetHeight * scales[i] }));
+      const { boxes, shrink } = scatterToFit({ w: area.width, h: bottom - top }, band, sizes, random);
+      setPlaces(boxes.map((b, i) => (b ? { x: b.x, y: b.y + top, scale: scales[i] * shrink } : null)));
+    };
+    const later = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(place);
+    };
+    place();
+    window.addEventListener("resize", later);
+    void document.fonts?.ready.then(later); // the words take their final size once the fonts load
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", later);
+    };
+  }, []);
+
+  return (
+    <div className="floating floating--scatter" aria-hidden="true" ref={layer}>
+      {featuredNames.map((name, i) => {
+        const at = places[i];
+        const style = {
+          ...(at ? { left: `${at.x}px`, top: `${at.y}px`, "--scale": at.scale } : {}),
+          // Each drifts at its own pace, so they never move together.
+          "--duration": `${8 + (i % 3) * 1.7 + (i % 2) * 0.9}s`,
+          "--delay": `${-i * 1.4}s`,
+        } as CSSProperties;
+        return <Floater key={name.label} name={name} style={style} placed={!!at} />;
+      })}
+    </div>
+  );
+}
+
 /** The featured names: around the words on wide screens, a slowly scrolling row on narrow ones. */
 export function FloatingNames({ variant }: { variant: "scatter" | "marquee" }) {
-  if (variant === "scatter") {
-    return (
-      <div className="floating floating--scatter" aria-hidden="true">
-        {featuredNames.slice(0, SLOTS.length).map((name, i) => {
-          const slot = SLOTS[i];
-          const style = {
-            [slot.side]: `${slot.x}%`,
-            "--y": `${slot.y}px`,
-            "--scale": slot.scale,
-            // Each drifts at its own pace, so they never move together.
-            "--duration": `${8 + (i % 3) * 1.7 + (i % 2) * 0.9}s`,
-            "--delay": `${-i * 1.4}s`,
-          } as CSSProperties;
-          return <Floater key={name.label} name={name} style={style} />;
-        })}
-      </div>
-    );
-  }
+  if (variant === "scatter") return <Scatter />;
   return (
     <div className="floating floating--marquee" aria-hidden="true">
       <div className="marquee">

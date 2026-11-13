@@ -321,7 +321,14 @@ img {
   overflow: hidden;
   padding: 40px 0 28px;
   text-align: center;
-  background: var(--bg);
+  background:
+    /* A faint wash of the gradient just under the navigation… */
+    radial-gradient(34% 150px at 20% 0%, rgb(0 234 255 / 8%), transparent 100%),
+    radial-gradient(40% 170px at 50% 0%, rgb(230 25 230 / 9%), transparent 100%),
+    radial-gradient(34% 150px at 80% 0%, rgb(255 0 60 / 7%), transparent 100%),
+    /* …and a soft glow low on the right, before the fold. */
+    radial-gradient(38% 46% at 96% 100%, rgb(230 25 230 / 12%), transparent 72%),
+    var(--bg);
 }
 
 .hero::before {
@@ -723,31 +730,19 @@ img {
   text-shadow: 0 1px 1px rgb(0 0 0 / 18%);
 }
 
-/* On wide screens the names float around the words, inside the content width, like ENS's. */
+/* On wide screens the names float around the words: across the content width and up to 200px past
+   it on each side (never off the screen), so they can sit beside the headline. */
 .floating--scatter {
   display: none;
   position: absolute;
   top: 0;
   bottom: 0;
-  left: max(16px, calc(50% - 560px));
-  right: max(16px, calc(50% - 560px));
+  left: max(16px, calc(50% - 760px));
+  right: max(16px, calc(50% - 760px));
   /* Above the words, so every name can be grabbed. The names never cover any text, and the layer
      itself lets clicks through everywhere else. */
   z-index: 3;
   pointer-events: none;
-}
-
-/* On shorter laptop screens the names close in towards the middle, so none hides under the nav. */
-@media (max-height: 820px) {
-  .floating--scatter {
-    --squeeze: 0.87;
-  }
-}
-
-@media (max-height: 700px) {
-  .floating--scatter {
-    --squeeze: 0.8;
-  }
 }
 
 /* Held while dragging, so the name passes over everything. */
@@ -755,17 +750,27 @@ img {
   z-index: 4;
 }
 
-/* Its place; a drag moves it with `transform`, and it springs back (FloatingNames.tsx). */
+/* Its place, worked out when the page loads (FloatingNames.tsx): hidden until then. A drag moves it
+   with `transform`, and it springs back. */
 .floater {
   position: absolute;
-  top: calc(50% + var(--content-shift) + var(--y) * var(--squeeze, 1));
-  translate: 0 -50%;
-  scale: var(--scale);
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  scale: var(--scale, 1);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease;
   pointer-events: auto;
   cursor: grab;
   touch-action: none;
   -webkit-user-select: none;
   user-select: none;
+}
+
+.floater.is-placed {
+  opacity: 1;
+  visibility: visible;
 }
 
 .floater.is-held {
