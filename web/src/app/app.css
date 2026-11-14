@@ -39,7 +39,7 @@ body {
   margin: 0;
   padding: 10px 16px;
   border-bottom: 1px solid var(--border);
-  background: linear-gradient(90deg, rgb(0 234 255 / 12%), rgb(230 25 230 / 16%), rgb(255 0 0 / 12%));
+  background: linear-gradient(90deg, rgb(0 234 255 / 12%), rgb(0 128 255 / 14%), rgb(128 0 255 / 16%), rgb(230 25 230 / 16%), rgb(255 0 0 / 12%));
   color: var(--text);
   font-size: 14px;
   text-align: center;

@@ -1,42 +1,44 @@
 import { useId } from "react";
 
 /**
- * The pDAI Name Service mark, "Open D": Dai's letter with its upright taken away. Its round bowl,
- * and Dai's two lines running through it and out both sides. Three shapes that overlap, in one
- * path, so it scales cleanly. The on-chain name cards draw the same path (src/PdaiNameCard.sol).
+ * The pDAI Name Service mark, "Echo": Dai's D with its upright taken away, and Dai's two lines
+ * joined into a loop inside it, like a lookup that goes in and comes back with the answer. Two
+ * shapes in one path, so it scales cleanly. The on-chain name cards draw the same path
+ * (src/PdaiNameCard.sol).
  *
- * Drawn on a 64-unit grid: the bowl's centre line is a half circle of radius 19.1 round (30.636, 32),
- * with straight ends running back to x = 18.818; the lines run from x = 7 to 57, 5.886 above and
- * below the middle. Everything is 6 thick with round ends. The lines sit closer to each other than
- * to the bowl (gaps of 5.77 between them, 7.21 either side) so all three gaps look the same.
+ * Drawn on a 64-unit grid and centred on (32, 32). The bowl's centre line is a half circle of radius
+ * 19.1 round (34.268, 32), with straight ends running back to x = 22.45. The loop's is a half circle
+ * of radius 5.886 round the same point, with Dai's two lines running back to x = 10.632.
+ * Everything is 6 thick with round ends. The two lines sit 5.77 apart, and the loop keeps 7.21 from
+ * the bowl all the way round, so the gaps look even.
  */
 export const MARK_PATH =
-  "M18.818 9.9H30.636A22.1 22.1 0 0 1 30.636 54.1H18.818A3 3 0 0 1 18.818 48.1H30.636A16.1 16.1 0 0 0 30.636 15.9H18.818A3 3 0 0 1 18.818 9.9ZM7 23.114H57A3 3 0 0 1 57 29.114H7A3 3 0 0 1 7 23.114ZM7 34.886H57A3 3 0 0 1 57 40.886H7A3 3 0 0 1 7 34.886Z";
+  "M22.45 9.9H34.268A22.1 22.1 0 0 1 34.268 54.1H22.45A3 3 0 0 1 22.45 48.1H34.268A16.1 16.1 0 0 0 34.268 15.9H22.45A3 3 0 0 1 22.45 9.9ZM10.632 23.114H34.268A8.886 8.886 0 0 1 34.268 40.886H10.632A3 3 0 0 1 10.632 34.886H34.268A2.886 2.886 0 0 0 34.268 29.114H10.632A3 3 0 0 1 10.632 23.114Z";
 
 /** The mark's box on the 64-unit grid, cropped tight. */
-export const MARK_VIEWBOX = "4 9.9 56 44.2";
-const RATIO = 56 / 44.2; // width / height
+export const MARK_VIEWBOX = "7.632 9.9 48.736 44.2";
+const RATIO = 48.736 / 44.2; // width / height
 
 /**
- * The brand's gradient, three of pDAI's colours: cyan, magenta and red. Each stands out on the navy
- * by at least 5 to 1. The same three colours run left to right on the buttons and words in colour
- * (--rainbow in styles.css).
+ * pDAI's own gradient, the token's five colours: cyan, blue, purple, magenta and red. The same
+ * colours run left to right on words in colour and on lines (--rainbow in styles.css).
  */
 export const MARK_STOPS: ReadonlyArray<readonly [string, string]> = [
   ["0", "#00EAFF"],
-  ["0.5", "#E619E6"],
-  ["1", "#FF0000"],
+  ["0.2525", "#0080FF"],
+  ["0.4974", "#8000FF"],
+  ["0.7499", "#E619E6"],
+  ["0.9991", "#FF0000"],
 ];
 
 /**
- * Across the mark the gradient runs from its bottom left (cyan) towards its top right (red), set a
- * little to the right of the mark's middle so more of the cyan and blue shows: the magenta falls in
- * the bowl, and the red only at its top right.
+ * Across the mark the gradient runs at the token's own angle, from the top right (cyan) to the
+ * bottom left (red). It spans the 56 by 44.2 box round the mark the way the token's spans its coin.
  */
-export const MARK_GRADIENT = { x1: 10.3, y1: 49.1, x2: 66.3, y2: 4.9 } as const;
+export const MARK_GRADIENT = { x1: 46.69, y1: 10.13, x2: 17.25, y2: 53.88 } as const;
 
 /**
- * The mark in the brand's gradient, `height` pixels tall. Beside the wordmark it's 1.55 times the
+ * The mark in pDAI's gradient, `height` pixels tall. Beside the wordmark it's 1.55 times the
  * wordmark's font size. Decorative: "pDAI Name Service" is always written beside it or nearby.
  */
 export function Logo({ height = 24 }: { height?: number }) {

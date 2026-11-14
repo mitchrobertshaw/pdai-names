@@ -124,10 +124,9 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
   little smaller on a small screen if that's what it takes to fit everyone. Drag one and it springs
   back to its place when let go; click one and it hops and settles. On phones everyone scrolls past
   in a row, and a tap makes a name hop.
-- **The background** at the top of the page is deep navy, lit softly in the brand's colours: cyan
-  low on the left, magenta in the middle and red high on the right, as the gradient runs across the
-  mark, drifting slowly (`.hero::before` in [`src/styles.css`](src/styles.css), coloured by the
-  `--glow-` variables). A faint wash of the gradient sits just under the navigation, and a faint
+- **The background** at the top of the page is deep navy, lit softly in pDAI's colours: cyan
+  low on the left, magenta in the middle and red high on the right, drifting slowly (`.hero::before` in [`src/styles.css`](src/styles.css), coloured by the
+  `--glow-` variables). A faint wash of cyan, purple and red sits just under the navigation, and a faint
   magenta glow low on the right, before the fold (`.hero`'s own background). Dai's two lines run
   along its bottom edge as a fine rule. It stays still for visitors who turn off motion.
 - **The `.pdai` on each floating name** is in the main colour of that person's profile picture:
@@ -144,7 +143,7 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
   reads at most about once a minute and keeps its place in Netlify Blobs, which needs no setting
   up. For a copy of the site on the testnet, set `VITE_NETWORK=testnet` in Netlify's environment
   variables.
-- **The mark**, "Open D", is in [`src/components/Logo.tsx`](src/components/Logo.tsx), and the
+- **The mark**, "Echo", is in [`src/components/Logo.tsx`](src/components/Logo.tsx), and the
   lockup, the mark with "pDAI Name Service" in white beside it, in
   [`Brand.tsx`](src/components/Brand.tsx). The browser and phone icons made from it are in
   [`public`](public), and every version of it, with how to use it, is in [`../brand`](../brand).
@@ -152,7 +151,8 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
   every copy is the same shape.
 - **The colours**: one dark theme, deep navy, with white as the accent (`--accent`): white buttons
   with navy words, white links, focus rings and selected options. pDAI's colours appear only in the
-  brand's gradient (cyan, magenta and red): on the mark (from its bottom left to its top right), on
+  brand's gradient, pDAI's own five colours (cyan, blue, purple, magenta and red): on the mark (at
+  the token's angle, from its top right to its bottom left), on
   `.pdai` in headings, and in the soft light behind the page. Section labels are a soft white.
   They're the variables at the top of [`src/styles.css`](src/styles.css), and the mark's are in
   [`Logo.tsx`](src/components/Logo.tsx).

@@ -23,16 +23,17 @@ interface IHasLabelStore {
 contract PdaiNameCard is IRegistryURIRenderer {
     using Strings for uint256;
 
-    /// @dev The pDAI Name Service mark ("Open D"), as in web/src/components/Logo.tsx: Dai's letter
-    ///      with its upright taken away, its two lines running through the bowl and out both sides.
-    ///      Its box is 56 by 44.2, from (4, 9.9).
+    /// @dev The pDAI Name Service mark ("Echo"), as in web/src/components/Logo.tsx: Dai's D with its
+    ///      upright taken away, and Dai's two lines joined into a loop inside it. Its box is 48.736 by
+    ///      44.2, from (7.632, 9.9).
     string internal constant MARK_PATH =
-        "M18.818 9.9H30.636A22.1 22.1 0 0 1 30.636 54.1H18.818A3 3 0 0 1 18.818 48.1H30.636A16.1 16.1 0 0 0 30.636 15.9H18.818A3 3 0 0 1 18.818 9.9ZM7 23.114H57A3 3 0 0 1 57 29.114H7A3 3 0 0 1 7 23.114ZM7 34.886H57A3 3 0 0 1 57 40.886H7A3 3 0 0 1 7 34.886Z";
+        "M22.45 9.9H34.268A22.1 22.1 0 0 1 34.268 54.1H22.45A3 3 0 0 1 22.45 48.1H34.268A16.1 16.1 0 0 0 34.268 15.9H22.45A3 3 0 0 1 22.45 9.9ZM10.632 23.114H34.268A8.886 8.886 0 0 1 34.268 40.886H10.632A3 3 0 0 1 10.632 34.886H34.268A2.886 2.886 0 0 0 34.268 29.114H10.632A3 3 0 0 1 10.632 23.114Z";
 
-    /// @dev The brand's gradient, three of pDAI's colours (cyan, magenta and red), as gradient stops:
-    ///      the mark on a live card, from its bottom left towards its top right, as on the website.
+    /// @dev pDAI's own gradient, the token's five colours (cyan, blue, purple, magenta and red), as
+    ///      gradient stops: the mark on a live card, from its top right to its bottom left at the
+    ///      token's angle, as on the website.
     string internal constant RAINBOW =
-        '<stop offset="0" stop-color="#00EAFF"/><stop offset="0.5" stop-color="#E619E6"/><stop offset="1" stop-color="#FF0000"/>';
+        '<stop offset="0" stop-color="#00EAFF"/><stop offset="0.2525" stop-color="#0080FF"/><stop offset="0.4974" stop-color="#8000FF"/><stop offset="0.7499" stop-color="#E619E6"/><stop offset="0.9991" stop-color="#FF0000"/>';
 
     /// @dev The words on every card: white, easy to read on the navy of a live card and on the grey
     ///      of an expired one.
@@ -124,13 +125,13 @@ contract PdaiNameCard is IRegistryURIRenderer {
             '<svg xmlns="http://www.w3.org/2000/svg" width="270" height="270" viewBox="0 0 270 270"><defs>',
             '<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#100E2C"/>',
             '<stop offset="0.55" stop-color="#08071A"/><stop offset="1" stop-color="#1F0B2C"/></linearGradient>',
-            '<linearGradient id="p" gradientUnits="userSpaceOnUse" x1="10.3" y1="49.1" x2="66.3" y2="4.9">',
+            '<linearGradient id="p" gradientUnits="userSpaceOnUse" x1="46.69" y1="10.13" x2="17.25" y2="53.88">',
             RAINBOW,
             "</linearGradient></defs>",
             expired
                 ? string.concat('<rect width="270" height="270" fill="', EXPIRED_GREY, '"/>')
                 : '<rect width="270" height="270" fill="url(#g)"/>',
-            '<path transform="translate(24 24) scale(0.72) translate(-4 -9.9)" fill="',
+            '<path transform="translate(24 24) scale(0.72) translate(-7.632 -9.9)" fill="',
             art,
             '" d="',
             MARK_PATH,

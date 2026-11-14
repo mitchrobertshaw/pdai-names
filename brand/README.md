@@ -1,8 +1,8 @@
 # pDAI Name Service brand
 
-The mark is **Open D**: Dai's letter with its upright taken away. What's left is its round bowl, and
-Dai's two lines running through it and out both sides, in pDAI's own colours. Beside it, the
-wordmark reads **pDAI Name Service**, in white.
+The mark is **Echo**: Dai's D with its upright taken away, and Dai's two lines joined into a loop
+inside it, like a lookup that goes in and comes back with the answer. It's drawn in pDAI's own
+gradient. Beside it, the wordmark reads **pDAI Name Service**, in white.
 
 Every file is a single filled shape (no strokes), so it scales cleanly from a 16px favicon to a
 billboard, in a browser or in any design tool.
@@ -16,7 +16,7 @@ billboard, in a browser or in any design tool.
 | `pdains-mark-white.svg` | One colour, on dark backgrounds or photos. |
 | `pdains-mark-black.svg` | One colour, navy, on light backgrounds. |
 | `pdains-app-icon.svg` / `-1024.png` | App icon: the mark in colour on navy. The website's phone icons and favicon are this. |
-| `pdains-app-icon-bright.svg` / `-1024.png` | App icon: the white mark on the gradient, like the token. |
+| `pdains-app-icon-bright.svg` / `-1024.png` | App icon: the white mark on the gradient, like the token's coin. |
 | `pdains-mark-1024.png` | The mark in colour as a picture, transparent background. |
 
 The website's own icons (favicon, phone home-screen icons) are in `web/public`, the mark itself is
@@ -27,18 +27,19 @@ wallets show draw it too (`src/PdaiNameCard.sol`). A test checks all of them use
 
 | | |
 | --- | --- |
-| The gradient: the mark, words in colour (like ".pdai" in headlines), lines | `#00EAFF` → `#E619E6` → `#FF0000` (cyan, magenta, red) |
+| The gradient: the mark, words in colour (like ".pdai" in headlines), lines | `#00EAFF` → `#0080FF` → `#8000FF` → `#E619E6` → `#FF0000` (cyan, blue, purple, magenta, red), pDAI's own |
 | The accent: the buttons (with navy words), links, focus, what's selected | `#FFFFFF` |
 | Section labels | `#C9C5E8` (a soft white) |
 | Navy: the site, the name cards, the app icon | `#08071A` (page), `#121131` (cards) |
 | The wordmark, and words on the navy | `#FFFFFF` |
 
-There is one gradient, three of pDAI's colours, and it's the same wherever it appears. Across the mark it
-runs from the bottom left (cyan) towards the top right (red), set a little to the right of the
-mark's middle so more of the cyan and blue shows: from (10.3, 49.1) to (66.3, 4.9) on the 64-unit grid.
-Across lines and words it runs left to right. Buttons are white, with navy words: the accent is
-white, so pDAI's colours appear only in the gradient and never compete with it. Each of its colours stands out on the navy by
-at least 5 to 1.
+There is one gradient, the pDAI token's own five colours with its stops (0, 25%, 50%, 75% and
+100%), and it's the same wherever it appears. Across the mark it runs at the token's angle, from the
+top right (cyan) to the bottom left (red), spanning the 56 by 44.2 box round the mark the way the
+token's spans its coin: from (46.69, 10.13) to (17.25, 53.88) on the 64-unit grid. Across lines and
+words it runs left to right. Buttons are white, with navy words: the accent is white, so pDAI's
+colours appear only in the gradient and never compete with it. Purple is its darkest colour, at
+3.2 to 1 on the navy, so the gradient is kept for large words, lines and the mark.
 
 ## Using it
 

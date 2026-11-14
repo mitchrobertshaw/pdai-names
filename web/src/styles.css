@@ -21,10 +21,11 @@
   --warn-soft: rgb(255 179 92 / 14%);
   --bad: #ff6b8b;
   --bad-soft: rgb(255 107 139 / 15%);
-  /* The brand's gradient, pDAI's cyan, magenta and red: the mark, words in colour like ".pdai" in
-     the headline, and lines and edges. Across a line or a word it runs left to right; across the
-     mark, from its bottom left to its top right. */
-  --rainbow: linear-gradient(90deg, #00eaff, #e619e6, #f00);
+  /* The brand's gradient, pDAI's own: the token's five colours, cyan, blue, purple, magenta and
+     red. It colours the mark, words like ".pdai" in the headline, and lines and edges. Across a line
+     or a word it runs left to right. Across the mark and the small badges it runs at the token's
+     own angle, from the top right (cyan) to the bottom left (red). */
+  --rainbow: linear-gradient(90deg, #00eaff, #0080ff, #8000ff, #e619e6, #f00);
   /* Section labels: a soft white, a step back from the headings. */
   --label: #c9c5e8;
   /* Words in colour, like ".pdai" in the headline: the brand's gradient, left to right. */
@@ -306,8 +307,8 @@ img {
 
 /* ---------- Hero ---------- */
 
-/* The top of the page fills the screen below the nav: deep navy, lit by pDAI's rainbow from the top
-   right (cyan) to the bottom left (magenta), as the mark is coloured. */
+/* The top of the page fills the screen below the nav: deep navy, lit softly in pDAI's colours, cyan
+   on the left through purple to red on the right, the way words in colour run. */
 .hero {
   --nav-height: 64px;
   --content-shift: 0px;
@@ -324,7 +325,7 @@ img {
   background:
     /* A faint wash of the gradient just under the navigation… */
     radial-gradient(34% 150px at 20% 0%, rgb(0 234 255 / 8%), transparent 100%),
-    radial-gradient(40% 170px at 50% 0%, rgb(230 25 230 / 9%), transparent 100%),
+    radial-gradient(40% 170px at 50% 0%, rgb(128 0 255 / 10%), transparent 100%),
     radial-gradient(34% 150px at 80% 0%, rgb(255 0 60 / 7%), transparent 100%),
     /* …and a soft glow low on the right, before the fold. */
     radial-gradient(38% 46% at 96% 100%, rgb(230 25 230 / 12%), transparent 72%),
@@ -393,7 +394,7 @@ img {
   border-radius: 999px;
   background:
     linear-gradient(var(--surface), var(--surface)) padding-box,
-    linear-gradient(90deg, rgb(0 234 255 / 55%), rgb(230 25 230 / 50%), rgb(255 0 0 / 50%)) border-box;
+    linear-gradient(90deg, rgb(0 234 255 / 55%), rgb(0 128 255 / 55%), rgb(128 0 255 / 55%), rgb(230 25 230 / 50%), rgb(255 0 0 / 50%)) border-box;
   box-shadow: var(--shadow-sm);
   color: var(--muted);
   font-size: 15px;
@@ -454,7 +455,7 @@ img {
   border-radius: 999px;
   background:
     linear-gradient(rgb(18 17 49 / 92%), rgb(18 17 49 / 92%)) padding-box,
-    linear-gradient(90deg, rgb(0 234 255 / 45%), rgb(230 25 230 / 40%), rgb(255 0 0 / 40%)) border-box;
+    linear-gradient(90deg, rgb(0 234 255 / 45%), rgb(0 128 255 / 45%), rgb(128 0 255 / 45%), rgb(230 25 230 / 40%), rgb(255 0 0 / 40%)) border-box;
   box-shadow:
     var(--shadow-md),
     0 0 0 6px rgb(255 255 255 / 5%);
@@ -1363,7 +1364,7 @@ img {
   height: 44px;
   border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 14px;
-  background: linear-gradient(45deg, rgb(0 234 255 / 22%), rgb(230 25 230 / 26%), rgb(255 0 0 / 20%));
+  background: linear-gradient(208deg, rgb(0 234 255 / 22%), rgb(0 128 255 / 24%), rgb(128 0 255 / 26%), rgb(230 25 230 / 26%), rgb(255 0 0 / 20%));
   color: #fff;
 }
 
@@ -1732,7 +1733,7 @@ img {
   margin-bottom: 18px;
   border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 50%;
-  background: linear-gradient(45deg, rgb(0 234 255 / 22%), rgb(230 25 230 / 30%), rgb(255 0 0 / 22%));
+  background: linear-gradient(208deg, rgb(0 234 255 / 22%), rgb(0 128 255 / 26%), rgb(128 0 255 / 30%), rgb(230 25 230 / 30%), rgb(255 0 0 / 22%));
   color: #fff;
   font-family: var(--font-display);
   font-size: 20px;
@@ -1889,9 +1890,11 @@ img {
   background: linear-gradient(
     115deg,
     transparent 25%,
-    rgb(0 234 255 / 20%) 40%,
-    rgb(230 25 230 / 22%) 50%,
-    rgb(255 0 0 / 16%) 60%,
+    rgb(0 234 255 / 20%) 37%,
+    rgb(0 128 255 / 20%) 43.5%,
+    rgb(128 0 255 / 22%) 50%,
+    rgb(230 25 230 / 22%) 56.5%,
+    rgb(255 0 0 / 16%) 63%,
     transparent 75%
   );
   background-position: var(--mx, 25%) var(--my, 15%);
