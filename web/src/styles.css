@@ -561,11 +561,9 @@ img {
   font-weight: 750;
 }
 
+/* The name in the live line is plain white, so it reads at a glance. */
 .live__item .live__name {
-  background: var(--grad-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: #fff;
 }
 
 .live__item--latest {
