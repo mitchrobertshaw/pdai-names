@@ -14,7 +14,7 @@ The first line appears on bar 1, the second on bar 2, as in the cut now. The voi
 | C | You were here at $0.0000018. / You're still here. | You were here at the bottom. You're still here. |
 | D | Peg believers, / this one's for you. | Peg believers. This one's for you. |
 
-- **A** is in the film since 16 November 2026.
+- **A** is in the film as of 16 November 2026.
 - **B** is the peg believers' own idea, in *The pDAI Mystery*'s words ("Each one a copy of a dollar").
 - **C**'s number is pDAI's low on 7 June 2023, from the film's price series.
 - None of them says pDAI will reach $1. This is an ad for names, so it stays out of price predictions.
