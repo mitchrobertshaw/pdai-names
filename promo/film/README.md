@@ -6,12 +6,12 @@
 It follows [the storyboard](../STORYBOARD.md), changed as asked on 16 Nov 2026: square, a quicker logo, and the
 montage's bar 9 left as it is in the film.
 
-**Next:** a new opening for pDAI and peg believers and a voiceover. The options and the timed script are in
-[`VO_SCRIPT.md`](VO_SCRIPT.md); the cut is re-timed once the take arrives.
+**Next:** a voiceover. The opening is now option A of [`VO_SCRIPT.md`](VO_SCRIPT.md), for pDAI and peg believers,
+and the timed script is there too; the voice goes in once the take arrives.
 
 | Bars | Time | What |
 |---|---|---|
-| 1–2 | 0:00.0 – 0:05.1 | "Pulse believers," / "you were here for all of it." |
+| 1–2 | 0:00.0 – 0:05.1 | "pDAI believers," / "you held through all of it." |
 | 3–10 | 0:05.1 – 0:25.3 | S0's montage: the same 15 shots, beats and screen treatment, re-rendered for a square frame on 4:3 screens |
 | 11 | 0:25.3 – 0:27.8 | S0's strobe on Heart's diamond video, flickering with the empty tunnel from the GIF and landing on it |
 | 12–13 | 0:27.8 – 0:32.9 | The logo, one step a beat: the drop on the PulseChain Train, the side view, the freeze, the trace ("the train", "the tunnel"), the snap to the grid, the tunnel turning 90°, the train sliding in, the gradient and the echo ring, the name |

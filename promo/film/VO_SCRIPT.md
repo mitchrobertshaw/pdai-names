@@ -9,22 +9,23 @@ The first line appears on bar 1, the second on bar 2, as in the cut now. The voi
 
 | | On screen | Voiceover |
 |---|---|---|
-| A | pDAI believers, / you held through all of it. | pDAI believers. You held through all of it. |
-| **B, recommended** | Every pDAI is a copy of a dollar. / You never forgot. | Every pDAI is a copy of a dollar. You never forgot. |
+| **A, chosen** | pDAI believers, / you held through all of it. | pDAI believers. You held through all of it. |
+| B | Every pDAI is a copy of a dollar. / You never forgot. | Every pDAI is a copy of a dollar. You never forgot. |
 | C | You were here at $0.0000018. / You're still here. | You were here at the bottom. You're still here. |
 | D | Peg believers, / this one's for you. | Peg believers. This one's for you. |
 
+- **A** is in the film since 16 November 2026.
 - **B** is the peg believers' own idea, in *The pDAI Mystery*'s words ("Each one a copy of a dollar").
 - **C**'s number is pDAI's low on 7 June 2023, from the film's price series.
 - None of them says pDAI will reach $1. This is an ad for names, so it stays out of price predictions.
 
 ## The voiceover
 
-It works with any of the four openings; line 1 below is B's.
+Line 1 is opening A.
 
 | # | In | Out by | Line | Type it into the voice generator as |
 |---|---|---|---|---|
-| 1 | 0:00.3, bar 1 | 0:04.4 | Every pDAI is a copy of a dollar. You never forgot. | Every pDie is a copy of a dollar. You never forgot. |
+| 1 | 0:00.3, bar 1 | 0:04.4 | pDAI believers. You held through all of it. | pDie believers. You held through all of it. |
 | 2 | 0:10.2, bar 5 | 0:14.6 | Through the copy, the crash, and every rumour since, | Through the copy, the crash, and every rumour since, |
 | 3 | 0:15.3, bar 7 | 0:17.6 | you kept the faith. | you kept the faith. |
 | 4 | 0:25.6, bar 11 | 0:27.5 | Next stop… | Next stop... |

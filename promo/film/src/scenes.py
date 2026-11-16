@@ -104,8 +104,8 @@ html, body {{ width: 1080px; height: 1080px; overflow: hidden; background: #0807
 <div class="aurora" id="aurora"></div>
 
 <section class="scene" id="sOpen">
-  <div class="c h" id="o1" style="top:392px;font-size:106px">Pulse believers,</div>
-  <div class="c soft" id="o2" style="top:540px;font-size:60px;font-weight:500">you were here for all of it.</div>
+  <div class="c h" id="o1" style="top:392px;font-size:106px">pDAI believers,</div>
+  <div class="c soft" id="o2" style="top:540px;font-size:60px;font-weight:500">you held through all of it.</div>
 </section>
 
 <section class="scene" id="sDrop">
