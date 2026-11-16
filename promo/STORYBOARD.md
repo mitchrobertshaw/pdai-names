@@ -202,7 +202,7 @@ live name. Nothing on screen says audited or secure, since the README still list
 4. **The Đ beat in shot 09.** Keep or drop; it costs no time.
 5. **A credit on the montage.** A small "From The pDAI Mystery" tag marks it as an excerpt from the film, so the
    people in it don't read as endorsing pDAI Names. Recommended if the film is public or about to be.
-6. **The end card's link.** The README lists the domain under "Not done yet". Confirm `pdai.domains` is live.
+6. **The end card's link.** Confirmed live on 16 Nov 2026: `pdai.domains`.
 7. **Example names.** `yourname.pdai` and `believer.pdai`, or any others.
 
 ## How it gets made

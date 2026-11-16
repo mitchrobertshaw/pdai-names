@@ -6,6 +6,9 @@
 It follows [the storyboard](../STORYBOARD.md), changed as asked on 16 Nov 2026: square, a quicker logo, and the
 montage's bar 9 left as it is in the film.
 
+**Next:** a new opening for pDAI and peg believers and a voiceover. The options and the timed script are in
+[`VO_SCRIPT.md`](VO_SCRIPT.md); the cut is re-timed once the take arrives.
+
 | Bars | Time | What |
 |---|---|---|
 | 1–2 | 0:00.0 – 0:05.1 | "Pulse believers," / "you were here for all of it." |
