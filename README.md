@@ -8,13 +8,37 @@ one chain: the same contracts and app as `.hex` names, without the copy on Ether
 contracts and the bot that kept it. A `.pdai` name lives on PulseChain and resolves to its owner's
 address there from the moment it is registered.
 
-> **Status:** unaudited and not deployed. ENSv2 itself has been audited, but the small patch that
+> **Status:** live on PulseChain since 16 November 2026 ([addresses](#on-pulsechain)), and
+> unaudited. ENSv2 itself has been audited, but the small patch that
 > runs it on PulseChain and the contracts in `src/` have not. Don't put real money through them
 > until someone other than their author has reviewed them.
 
 > **`.pdai` names never end in `.eth`.** `alice.pdai` and `alice.pdai.eth` are different names.
 > Nobody had registered `pdai.eth` on 11 November 2026; whoever does will decide where
 > `alice.pdai.eth` points. When sending to someone's `.pdai` name, type it exactly as `name.pdai`.
+
+## On PulseChain
+
+Deployed on 16 November 2026, from block 28070212. Every payment for a name goes to
+`0x102785E63DCD7C2ba1146E96da7fE429155602C6`, fixed for good. The price rules are locked for good,
+and the deployer kept no roles. Look any of them up on [scan.pulsechain.com](https://scan.pulsechain.com).
+
+| Contract | Address |
+| --- | --- |
+| `.pdai` registry, where names live | `0xb672f77087cfC0AE2dDe0379aa48005e7CaE2896` |
+| Registrar, which sells and renews names | `0x40b5dD0c08aFFbC773ee7A5d32009361B70E54Bd` |
+| Checkout, to pay with PLS or any token | `0x8A4193Da32FF48602e159BdE6697EC69F33A5377` |
+| UniversalResolver, where wallets look names up | `0x394363Dfbb7A2FFE2C8b0B70DB53157653E0be8A` |
+| Root registry | `0x11Fd421D2433f414E266fDF62F5A324Aae46b890` |
+| Default resolver | `0xc05E337A0FAC56C58E392362e3b534F75B7dc037` |
+| Price oracle | `0xd91CAcb78ed838ff1cc608940C13D76d9Dc5539B` |
+| Name rules (63 characters, 5 years) | `0xa333FFC92C14688D8b951A69EBC6ab8BA8355727` |
+| Resolver factory | `0x613C99C063fbba8f31ac469A7D90a2530739B61C` |
+| Resolver implementation | `0x17C7aD85aB781eD81ca9201676Ce5D8e83A22030` |
+| Label store | `0x6403AdE64C93E17AfED6a5900EDE670DDb7c5488` |
+| Name cards | `0x25CAC1Dc9A37AB355B1963F3A1b74d191768f171` |
+
+Names are priced in USDC bridged from Ethereum, `0x15D38573d2feeb82e7ad5187aB8c1D52810B1f07`.
 
 ## Is `.pdai` free?
 
