@@ -28,7 +28,17 @@ export interface Deployment {
 }
 
 export const DEPLOYMENTS: Record<Network, Deployment | null> = {
-  mainnet: null,
+  mainnet: {
+    launchDate: "2026-11-16", // launch day: referrers earn 10% for the 58 days from it
+    pulsechain: {
+      rpc: "https://rpc.pulsechain.com",
+      registry: "0xb672f77087cfC0AE2dDe0379aa48005e7CaE2896", // PDAI_REGISTRY
+      registrar: "0x40b5dD0c08aFFbC773ee7A5d32009361B70E54Bd", // REGISTRAR
+      checkout: "0x8A4193Da32FF48602e159BdE6697EC69F33A5377", // CHECKOUT
+      usdc: "0x15D38573d2feeb82e7ad5187aB8c1D52810B1f07", // USDC bridged from Ethereum (USDC)
+      startBlock: 28070212, // START_BLOCK
+    },
+  },
   testnet: {
     launchDate: "2026-11-15", // the day .pdai was deployed on the testnet: the referral offer counts from it
     pulsechain: {
