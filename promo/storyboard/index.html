@@ -1,0 +1,530 @@
+<title>pDAI Names Promo Storyboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout: a production sheet. A ruler of the song's 20 bars runs across the top and every shot hangs from it;
+   each shot is a row with its frame on the left and its cue sheet on the right. Single dark theme on purpose:
+   the brand puts its white wordmark on navy only. */
+:root {
+  --ink: #08071A;
+  --deck: #0D0C24;
+  --card: #121131;
+  --rule: #262451;
+  --text: #F5F3FF;
+  --muted: #ACA8D2;
+  --label: #C9C5E8;
+  --note: #FFC94A;
+  --lore: #5E5A7E;
+  --c1: #00EAFF; --c2: #0080FF; --c3: #8000FF; --c4: #E619E6; --c5: #FF0000;
+  --grad: linear-gradient(90deg, var(--c1), var(--c2) 25%, var(--c3) 50%, var(--c4) 75%, var(--c5));
+  --display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --measure: 66ch;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--ink); }
+body {
+  margin: 0; background: var(--ink); color: var(--text); font: 400 16px/1.6 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 48px 96px; display: grid; gap: 72px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(1.5rem, 3.2vw, 2.1rem); line-height: 1.15; }
+h3 { font-size: 1.25rem; line-height: 1.2; }
+p { margin: 0; max-width: var(--measure); }
+a { color: var(--text); text-decoration-color: var(--muted); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--c1); outline-offset: 3px; border-radius: 4px; }
+.grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.eyebrow { font: 600 12px/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+section { display: grid; gap: 24px; min-width: 0; }
+.sec-head { display: grid; gap: 10px; }
+
+/* hero */
+.hero { display: grid; gap: 22px; }
+.hero h1 { font-size: clamp(2.3rem, 7vw, 4.8rem); line-height: 1.02; }
+.lede { font-size: clamp(1.05rem, 1.6vw, 1.2rem); color: var(--label); }
+.specs { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 4px 0 0; list-style: none; }
+.specs li { font: 500 13px/1 var(--mono); color: var(--label); border: 1px solid var(--rule); border-radius: 999px; padding: 9px 12px; }
+
+/* the bar ruler */
+.ruler { position: relative; padding-top: 30px; }
+.lanes { position: relative; height: 54px; border-radius: 10px; overflow: hidden; background: var(--deck); border: 1px solid var(--rule); }
+.lane { position: absolute; top: 0; bottom: 0; display: flex; align-items: center; padding: 0 10px; text-decoration: none;
+  font: 600 13px/1.1 var(--display); color: var(--text); border-right: 1px solid var(--ink); white-space: nowrap; overflow: hidden; }
+.lane:hover { filter: brightness(1.15); }
+.lane.open { background: #1A1940; }
+.lane.lore { background: var(--lore); }
+.lane.reveal { background: var(--grad); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+.lane.product { background: #23225A; }
+.lane.end { background: #F5F3FF; color: var(--ink); }
+.bars { position: relative; height: 26px; }
+.bars span { position: absolute; top: 0; transform: translateX(-50%); font: 500 10px/1 var(--mono); color: var(--muted); padding-top: 8px; }
+.bars span::before { content: ""; position: absolute; left: 50%; top: 0; height: 6px; border-left: 1px solid var(--muted); }
+.drop { position: absolute; top: 0; bottom: 26px; border-left: 2px solid var(--note); }
+.drop b { position: absolute; top: 2px; left: 6px; font: 600 11px/1 var(--mono); color: var(--note); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.secs { display: flex; justify-content: space-between; font: 500 11px/1 var(--mono); color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0; margin: 0; list-style: none; font-size: 14px; color: var(--label); }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+/* idea + references */
+.two { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+.two > * { min-width: 0; display: grid; gap: 14px; }
+.refs { display: grid; gap: 12px; padding: 0; margin: 0; list-style: none; }
+.refs li { border-left: 2px solid var(--rule); padding-left: 14px; color: var(--label); font-size: 15px; }
+.refs a { font: 500 12px/1.4 var(--mono); color: var(--muted); }
+
+/* the motion sketch */
+.stage { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid var(--rule); background: var(--ink); }
+.stage svg { display: block; width: 100%; height: auto; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.controls button { font: 600 14px/1 var(--body); color: var(--ink); background: var(--text); border: 0; border-radius: 999px; padding: 11px 18px; cursor: pointer; }
+.controls button.ghost { background: transparent; color: var(--text); border: 1px solid var(--rule); }
+.controls input[type=range] { flex: 1 1 220px; min-width: 0; accent-color: var(--c4); }
+.controls output { font: 500 13px/1 var(--mono); color: var(--label); min-width: 15ch; }
+.howto { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; padding: 0; margin: 0; list-style: none; }
+.howto li { display: grid; gap: 6px; align-content: start; color: var(--label); font-size: 15px; }
+.howto b { font: 600 15px/1.3 var(--display); color: var(--text); }
+
+/* shots */
+.shots { display: grid; gap: 40px; }
+.shot { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 28px; align-items: start; scroll-margin-top: 24px; }
+.shot figure { margin: 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--rule); background: var(--deck); aspect-ratio: 16 / 9; max-width: 100%; }
+.shot figure img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cue { display: grid; gap: 14px; min-width: 0; }
+.cue header { display: grid; gap: 6px; }
+.cue .when { font: 500 13px/1.3 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.cue .num { font: 600 13px/1 var(--mono); color: var(--note); letter-spacing: .08em; }
+.cue dl { margin: 0; display: grid; gap: 12px; }
+.cue dt { font: 600 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.cue dd { margin: 0; color: var(--label); font-size: 15px; }
+.cue dd q { color: var(--text); quotes: "“" "”" "‘" "’"; }
+.tag { display: inline-block; font: 600 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); background: var(--note); border-radius: 4px; padding: 4px 6px; vertical-align: 1px; }
+
+/* copy deck */
+.deck { display: grid; gap: 0; border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
+.deck div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); gap: 16px; padding: 14px 18px; border-top: 1px solid var(--rule); align-items: baseline; }
+.deck div:first-child { border-top: 0; }
+.deck span { font: 500 12px/1.3 var(--mono); color: var(--muted); }
+.deck p { font: 500 1.05rem/1.4 var(--display); color: var(--text); max-width: none; }
+
+/* decisions */
+.asks { display: grid; gap: 14px; padding: 0; margin: 0; list-style: none; counter-reset: ask; }
+.asks li { counter-increment: ask; display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: 4px 12px; padding: 18px; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; }
+.asks li::before { content: counter(ask); grid-row: span 2; font: 600 1.3rem/1 var(--display); color: var(--note); }
+.asks b { font: 600 1.02rem/1.35 var(--display); color: var(--text); }
+.asks p { color: var(--label); font-size: 15px; }
+.rec { color: var(--text); }
+.notes { display: grid; gap: 8px; padding-left: 1.1rem; margin: 0; color: var(--label); font-size: 15px; }
+footer { color: var(--muted); font-size: 13px; }
+
+@media (max-width: 860px) {
+  .two, .shot { grid-template-columns: minmax(0, 1fr); }
+  .howto { grid-template-columns: minmax(0, 1fr); }
+  .lane { font-size: 11px; padding: 0 6px; }
+  .lane .long { display: none; }
+}
+@media (max-width: 520px) {
+  .lane { font-size: 10px; padding: 0 4px; letter-spacing: -.01em; }
+  .bars span:nth-child(even) { display: none; }
+  .lane.open, .lane.end { color: transparent; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">pDAI Name Service · launch film · storyboard v1</p>
+    <h1>Next stop: yourname<span class="grad">.pdai</span></h1>
+    <p class="lede">A 51-second launch film for Pulse believers, cut to Skeler’s remix of “Clubbed to Death”. The song’s intro carries the montage from the first scene of <i>The pDAI Mystery</i>. On the drop, Richard Heart’s PulseChain Train comes back, stops at the tunnel, and its outline becomes the pDAI Names mark. Then the name, the price and the link.</p>
+    <ul class="specs" aria-label="Format">
+      <li>≈ 51 s</li><li>1920 × 1080 · 30 fps</li><li>95 bpm · 20 bars</li><li>On-screen text, no voice-over</li>
+    </ul>
+  </header>
+
+  <section aria-labelledby="ruler-h">
+    <div class="sec-head">
+      <p class="eyebrow">The cut against the song</p>
+      <h2 id="ruler-h">Every shot lands on the music’s bars</h2>
+    </div>
+    <div class="ruler">
+      <div class="lanes">
+      <a class="lane open" href="#shot-01" style="left:0.000%;width:9.996%"><span>Open</span></a>
+      <a class="lane lore" href="#shot-02" style="left:9.996%;width:44.495%"><span>The montage<span class="long"> from S0</span></span></a>
+      <a class="lane reveal" href="#shot-04" style="left:54.491%;width:19.775%"><span>Train → mark</span></a>
+      <a class="lane product" href="#shot-10" style="left:74.267%;width:19.775%"><span>The product</span></a>
+      <a class="lane end" href="#shot-14" style="left:94.042%;width:5.958%"><span>End</span></a>
+      </div>
+      <div class="bars" aria-hidden="true">
+      <span style="left:0.109%">1</span>
+      <span style="left:5.053%">2</span>
+      <span style="left:9.996%">3</span>
+      <span style="left:14.940%">4</span>
+      <span style="left:19.884%">5</span>
+      <span style="left:24.828%">6</span>
+      <span style="left:29.772%">7</span>
+      <span style="left:34.716%">8</span>
+      <span style="left:39.660%">9</span>
+      <span style="left:44.603%">10</span>
+      <span style="left:49.547%">11</span>
+      <span style="left:54.491%">12</span>
+      <span style="left:59.435%">13</span>
+      <span style="left:64.379%">14</span>
+      <span style="left:69.323%">15</span>
+      <span style="left:74.267%">16</span>
+      <span style="left:79.211%">17</span>
+      <span style="left:84.154%">18</span>
+      <span style="left:89.098%">19</span>
+      <span style="left:94.042%">20</span>
+      </div>
+      <div class="drop" style="left:54.491%"><b>drop · 0:27.8</b></div>
+      <div class="secs" style="position:relative;height:14px" aria-hidden="true">
+      <span style="position:absolute;left:0.000%;transform:translateX(0)">0:00</span>
+      <span style="position:absolute;left:19.569%;transform:translateX(-50%)">0:10</span>
+      <span style="position:absolute;left:39.139%;transform:translateX(-50%)">0:20</span>
+      <span style="position:absolute;left:58.708%;transform:translateX(-50%)">0:30</span>
+      <span style="position:absolute;left:78.278%;transform:translateX(-50%)">0:40</span>
+      <span style="position:absolute;left:97.847%;transform:translateX(-50%)">0:50</span>
+      </div>
+    </div>
+    <ul class="legend">
+      <li><i style="background:#1A1940"></i>Open, bars 1–2</li>
+      <li><i style="background:var(--lore)"></i>The montage from S0, bars 3–11</li>
+      <li><i style="background:var(--grad)"></i>The train becomes the mark, bars 12–15</li>
+      <li><i style="background:#23225A"></i>The product, bars 16–19</li>
+      <li><i style="background:#F5F3FF"></i>Lockup, bar 20 and its echo</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="mark-h">
+    <div class="sec-head">
+      <p class="eyebrow">Shots 04–09 · bars 12–15 · motion sketch</p>
+      <h2 id="mark-h">How the mark forms</h2>
+      <p>The loop is the train: its roof, its rounded nose and its floor. The bowl is the tunnel’s arch, turned 90° to face it. The brand calls the mark Echo, because a name goes into the tunnel and its address comes back.</p>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 1920 1080" role="img" aria-label="Motion sketch. The PulseChain Train charges the tunnel and freezes; its outline and the tunnel's arch are traced, snap to the brand's grid, the train slides into the tunnel and becomes the pDAI Names mark, and the name appears.">
+<defs>
+<linearGradient id="gTrace" gradientUnits="userSpaceOnUse" x1="0" y1="300" x2="900" y2="900"><stop offset="0" stop-color="#00EAFF"/><stop offset="0.2525" stop-color="#0080FF"/><stop offset="0.4974" stop-color="#8000FF"/><stop offset="0.7499" stop-color="#E619E6"/><stop offset="0.9991" stop-color="#FF0000"/></linearGradient>
+<linearGradient id="gMark" gradientUnits="userSpaceOnUse" x1="1158.3" y1="244.8" x2="760.9" y2="835.4"><stop offset="0" stop-color="#00EAFF"/><stop offset="0.2525" stop-color="#0080FF"/><stop offset="0.4974" stop-color="#8000FF"/><stop offset="0.7499" stop-color="#E619E6"/><stop offset="0.9991" stop-color="#FF0000"/></linearGradient>
+<linearGradient id="gRing" gradientUnits="userSpaceOnUse" x1="1450" y1="80" x2="530" y2="1000"><stop offset="0" stop-color="#00EAFF"/><stop offset="0.2525" stop-color="#0080FF"/><stop offset="0.4974" stop-color="#8000FF"/><stop offset="0.7499" stop-color="#E619E6"/><stop offset="0.9991" stop-color="#FF0000"/></linearGradient>
+<linearGradient id="gWipe" gradientUnits="userSpaceOnUse" x1="1158.3" y1="244.8" x2="760.9" y2="835.4"><stop id="wipeA" offset="0" stop-color="#fff"/><stop id="wipeB" offset="0" stop-color="#000"/></linearGradient>
+<mask id="wipe" maskUnits="userSpaceOnUse" x="-400" y="-400" width="2720" height="1880"><rect x="-400" y="-400" width="2720" height="1880" fill="url(#gWipe)"/></mask>
+</defs>
+<rect width="1920" height="1080" fill="#08071A"/>
+<image id="i34" href="anim/a_34.jpg" x="0" y="0" width="1920" height="1080" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="s1" href="anim/a_s1.jpg" x="0" y="0" width="1920" height="1080" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="s2" href="anim/a_s2.jpg" x="0" y="0" width="1920" height="1080" preserveAspectRatio="xMidYMid slice" opacity="0"/><image id="s3" href="anim/a_s3.jpg" x="0" y="0" width="1920" height="1080" preserveAspectRatio="xMidYMid slice" opacity="0"/>
+<rect id="flash" width="1920" height="1080" fill="#fff" opacity="0"/>
+<rect id="dim" width="1920" height="1080" fill="#08071A" opacity="0"/>
+<g id="grid" opacity="0" stroke="rgba(255,255,255,.10)" stroke-width="1.2" fill="none"><path d="M528.0 108V972.0M528 108.0H1392.0"/><path d="M582.0 108V972.0M528 162.0H1392.0"/><path d="M636.0 108V972.0M528 216.0H1392.0"/><path d="M690.0 108V972.0M528 270.0H1392.0"/><path d="M744.0 108V972.0M528 324.0H1392.0"/><path d="M798.0 108V972.0M528 378.0H1392.0"/><path d="M852.0 108V972.0M528 432.0H1392.0"/><path d="M906.0 108V972.0M528 486.0H1392.0"/><path d="M960.0 108V972.0M528 540.0H1392.0"/><path d="M1014.0 108V972.0M528 594.0H1392.0"/><path d="M1068.0 108V972.0M528 648.0H1392.0"/><path d="M1122.0 108V972.0M528 702.0H1392.0"/><path d="M1176.0 108V972.0M528 756.0H1392.0"/><path d="M1230.0 108V972.0M528 810.0H1392.0"/><path d="M1284.0 108V972.0M528 864.0H1392.0"/><path d="M1338.0 108V972.0M528 918.0H1392.0"/><path d="M1392.0 108V972.0M528 972.0H1392.0"/></g>
+<g id="ticks" opacity="0" stroke="rgba(255,255,255,.5)" stroke-width="2" fill="none"><path d="M44 72V44H72"/><path d="M1848 44H1876V72"/><path d="M44 1008V1036H72"/><path d="M1848 1036H1876V1008"/></g>
+<g id="markG">
+<path id="dai" d="M518.427684,535.302853 L708.419584,535.302853 C712.469625,535.302853 714.382144,535.302853 714.674647,529.9928 C716.227162,510.665107 716.227162,491.224912 714.674647,471.874719 C714.674647,468.117181 712.807128,466.564666 708.734587,466.564666 L330.618306,466.564666 C325.938259,466.564666 324.678247,468.117181 324.678247,472.504725 L324.678247,528.125281 C324.678247,535.302853 324.678247,535.302853 332.170822,535.302853 L518.427684,535.302853 L518.427684,535.302853 Z M693.456935,401.561516 C693.99694,400.144001 693.99694,398.591486 693.456935,397.196472 C690.284403,390.288903 686.526865,383.696337 682.161822,377.508775 C675.591756,366.933669 667.851679,357.191072 659.03159,348.438484 C654.869049,343.150932 650.054001,338.403384 644.653947,334.375844 C617.608676,311.358114 585.455855,295.067951 550.895509,286.877869 C533.457835,282.96283 515.637656,281.095311 497.772478,281.252813 L329.9658,281.252813 C325.285753,281.252813 324.655747,283.120331 324.655747,287.192872 L324.655747,398.118981 C324.655747,402.799028 324.655747,404.059041 330.595806,404.059041 L691.206912,404.059041 C691.206912,404.059041 694.334443,403.429034 694.96445,401.561516 L693.434434,401.561516 L693.456935,401.561516 Z M693.456935,600.306003 C688.146881,599.720997 682.791828,599.720997 677.481775,600.306003 L330.933309,600.306003 C326.253263,600.306003 324.678247,600.306003 324.678247,606.561066 L324.678247,715.01215 C324.678247,720.0072 324.678247,721.267213 330.933309,721.267213 L490.932409,721.267213 C498.582486,721.852219 506.232562,721.312213 513.725137,719.714697 C536.945369,718.04968 559.783098,713.00963 581.563316,704.707047 C589.483395,701.96202 597.133471,698.384484 604.356044,694.086941 L606.538565,694.086941 C644.04644,674.579246 674.511745,643.933939 693.726937,606.313563 C693.726937,606.313563 695.909459,601.588516 693.456935,600.351004 L693.456935,600.306003 Z M261.880119,777.495275 L261.880119,775.627756 L261.880119,702.817028 L261.880119,678.134281 L261.880119,604.693547 C261.880119,600.621006 261.880119,600.0135 256.885069,600.0135 L189.069391,600.0135 C185.311853,600.0135 183.759338,600.0135 183.759338,595.01845 L183.759338,535.640356 L256.255063,535.640356 C260.305103,535.640356 261.880119,535.640356 261.880119,530.330303 L261.880119,471.582216 C261.880119,467.824678 261.880119,466.902169 256.885069,466.902169 L189.069391,466.902169 C185.311853,466.902169 183.759338,466.902169 183.759338,461.907119 L183.759338,406.916569 C183.759338,403.474035 183.759338,402.551526 188.754388,402.551526 L255.940059,402.551526 C260.620106,402.551526 261.880119,402.551526 261.880119,396.611466 L261.880119,228.174782 C261.880119,223.179732 261.880119,221.919719 268.135181,221.919719 L502.497525,221.919719 C519.507695,222.594726 536.405364,224.462245 553.123031,227.544775 C587.570876,233.912339 620.668707,246.219962 650.931509,263.792638 C671.00171,275.605256 689.474395,289.870399 705.922059,306.295563 C718.297183,319.143191 729.457295,333.04833 739.357394,347.853479 C749.189992,362.861129 757.357574,378.903789 763.770138,395.666457 C764.557646,400.0315 768.742687,402.97903 773.107731,402.236522 L829.04329,402.236522 C836.220862,402.236522 836.220862,402.236522 836.535865,409.121591 L836.535865,460.377104 C836.535865,465.372154 834.668347,466.632166 829.650797,466.632166 L786.517865,466.632166 C782.152822,466.632166 780.892809,466.632166 781.207812,472.257223 C782.917829,491.292413 782.917829,510.395104 781.207812,529.430294 C781.207812,534.740347 781.207812,535.370354 787.170372,535.370354 L836.513365,535.370354 C838.695887,538.182882 836.513365,540.99541 836.513365,543.830438 C836.828368,547.452975 836.828368,551.120511 836.513365,554.743047 L836.513365,592.565926 C836.513365,597.875979 834.96085,599.450995 830.258303,599.450995 L771.195212,599.450995 C767.077671,598.663487 763.072631,601.296013 762.127621,605.391054 C748.064981,641.95392 725.564756,674.736747 696.494465,701.01701 C685.874359,710.579606 674.714247,719.579696 663.059131,727.882279 C650.549005,735.082351 638.376384,742.574926 625.551256,748.514985 C601.948519,759.135091 577.198272,766.96517 551.795518,771.937719 C527.675277,776.257763 503.217532,778.215282 478.669787,777.877779 L261.790118,777.877779 L261.790118,777.562776 L261.880119,777.495275 Z" transform="translate(990.6 540.0) scale(1.07325) translate(-505 -500)" fill="#fff" opacity="0"/>
+<circle id="echo1" cx="990.6" cy="540.0" r="351" fill="none" stroke="url(#gRing)" stroke-width="3" opacity="0"/>
+<circle id="echo2" cx="990.6" cy="540.0" r="351" fill="none" stroke="url(#gRing)" stroke-width="2" opacity="0"/>
+<path id="archA" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="#fff" opacity="0"/>
+<path id="trainA" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="url(#gTrace)" opacity="0"/>
+<path id="archB" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="url(#gMark)" mask="url(#wipe)"/>
+<path id="trainB" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="url(#gMark)" mask="url(#wipe)"/>
+</g>
+<text id="lblTrain" x="933" y="673" font-family="Inter, sans-serif" font-size="42" fill="#fff" opacity="0">the train</text>
+<text id="lblTunnel" x="1328" y="233" font-family="Inter, sans-serif" font-size="42" fill="#fff" opacity="0">the tunnel</text>
+<text id="lbl90" x="1292" y="418" font-family="Inter, sans-serif" font-size="44" fill="#C9C5E8" opacity="0">90°</text>
+<text id="word" x="960" y="935" text-anchor="middle" font-family="Space Grotesk, Inter, sans-serif" font-size="92" fill="#fff" opacity="0"><tspan font-weight="700">pDAI</tspan><tspan font-weight="500"> Name Service</tspan></text>
+</svg>
+    </div>
+    <div class="controls">
+      <button id="play" type="button">Pause</button>
+      <button id="replay" class="ghost" type="button">Replay</button>
+      <input id="scrub" type="range" min="0" max="11.37" step="0.01" value="0" aria-label="Scrub through bars 12 to 15">
+      <output id="readout" for="scrub">bar 12 · beat 1</output>
+    </div>
+    <ul class="howto">
+      <li><b>Traced from the real GIF</b>The lines follow the cartoon’s actual outlines, pulled from the frame where the nose meets the tunnel.</li>
+      <li><b>Snapped to the brand’s grid</b>Then they become the exact mark: 6 units thick, round ends, even gaps of 7.21 and 5.77.</li>
+      <li><b>Also Dai’s Đ</b>With its upright taken away and its two lines joined into a loop. That is the optional beat in shot 09.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="idea-h">
+    <div class="two">
+      <div>
+        <p class="eyebrow">Why it is built this way</p>
+        <h2 id="idea-h">The lore builds to the drop, and the drop is the brand</h2>
+        <p>Believers know every face and meme in the montage, so it plays as it does in the film, wordless, for 22 seconds. Its last flash before the drop is the empty tunnel. When the music lands, the train arrives, and the film turns from grainy footage into the clean navy and gradient of the product.</p>
+        <p>After the mark forms, each bar carries one idea: the name, how to pay, that it is yours, where to get it.</p>
+      </div>
+      <div>
+        <p class="eyebrow">What I took from your references</p>
+        <ul class="refs">
+          <li>The aurora glow along the bottom, glass UI cards, one word in colour per line.<br><a href="https://x.com/motionstashco/status/2120983506230681641">motionstashco · launch film, 48 s</a></li>
+          <li>A drawn line that turns into the logo.<br><a href="https://x.com/motionstashco/status/2117585135142920583">motionstashco · 3D launch video, 26 s</a></li>
+          <li>One idea per beat, from problem to call to action, without a pause.<br><a href="https://x.com/motionstashco/status/2119179392362352978">motionstashco · launch video, 44 s</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="shots-h">
+    <div class="sec-head">
+      <p class="eyebrow">Shot by shot</p>
+      <h2 id="shots-h">Fourteen shots</h2>
+      <p>Amber text and dashed arrows in the frames are direction notes and never appear on screen. Times are from the track’s first note.</p>
+    </div>
+    <div class="shots">
+      <article class="shot" id="shot-01">
+        <figure><img src="panels/p01.jpg" alt="Navy frame with the words Pulse believers, you were here for all of it." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 01</span><h3>Open</h3><span class="when">bars 1–2 · 0:00.0 – 0:05.1</span></header>
+          <dl><div><dt>On screen</dt><dd><q>Pulse believers,</q> then <q>you were here for all of it.</q></dd></div><div><dt>Picture</dt><dd>Navy. The pDAI gradient glows low along the bottom and breathes with the music. Line one lands on bar 1, line two on bar 2. On the last beat the type pushes toward the camera into the first montage shot.</dd></div><div><dt>Sound</dt><dd>The track from its first note. Nothing else.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-02">
+        <figure><img src="panels/p02.jpg" alt="Sheet of the sixteen montage beats from S0, one swapped for the pDAI Conference art." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 02</span><h3>The montage <span class="tag">one beat changed</span></h3><span class="when">bars 3–10 · 0:05.1 – 0:25.3</span></header>
+          <dl><div><dt>On screen</dt><dd>Nothing added.</dd></div><div><dt>Picture</dt><dd>S0’s montage, frame for frame: 15 shots on angled screens with an RGB pixel grid. One change. Bar 9, beat 1 was a third-party post naming a person as the exploiter, with his photo; here it is the pDAI Conference art in the same screen treatment. The PulseChain Train flashes past on bar 9, beat 4, one bar before it comes back.</dd></div><div><dt>Sound</dt><dd>The track, bars 3–10, exactly as in the film.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-03">
+        <figure><img src="panels/p03.jpg" alt="Split frame: Heart's diamond video on the left, the empty tunnel from the GIF on the right." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 03</span><h3>The breath <span class="tag">new</span></h3><span class="when">bar 11 · 0:25.3 – 0:27.8</span></header>
+          <dl><div><dt>On screen</dt><dd>Nothing.</dd></div><div><dt>Picture</dt><dd>S0’s strobe on Heart’s diamond video now flickers with the empty tunnel from the GIF, two frames each, and lands on the tunnel. The tunnel waits for the drop.</dd></div><div><dt>Sound</dt><dd>The track’s near-silent bar.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-04">
+        <figure><img src="panels/p04.jpg" alt="The PulseChain Train GIF, three-quarter view, the train charging toward the tunnel." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 04</span><h3>The drop</h3><span class="when">bar 12 · beats 1–2 · 0:27.8 – 0:29.1</span></header>
+          <dl><div><dt>On screen</dt><dd>The GIF’s own <q>PulseChain Train</q> title.</dd></div><div><dt>Picture</dt><dd>A two-frame white flash, then the GIF at full speed: the train charging the tunnel, seen three-quarter on.</dd></div><div><dt>Sound</dt><dd>The drop. A whoosh with the train.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-05">
+        <figure><img src="panels/p05.jpg" alt="Side view, mirrored: the train's nose just short of the tunnel mouth." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 05</span><h3>Freeze</h3><span class="when">bar 12 · beats 3–4 · 0:29.1 – 0:30.4</span></header>
+          <dl><div><dt>On screen</dt><dd>Nothing.</dd></div><div><dt>Picture</dt><dd>Cut to the side view, mirrored so the train runs left to right, title cropped out. The nose closes on the tunnel and the frame freezes on beat 4. Hairline corner ticks fade in.</dd></div><div><dt>Sound</dt><dd>A shutter click on the freeze.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-06">
+        <figure><img src="panels/p06.jpg" alt="The frozen frame, dimmed, with a gradient line along the train and a white line around the tunnel arch." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 06</span><h3>Trace</h3><span class="when">bar 13 · 0:30.4 – 0:32.9</span></header>
+          <dl><div><dt>On screen</dt><dd><q>the train</q>, <q>the tunnel</q></dd></div><div><dt>Picture</dt><dd>A line in pDAI’s gradient traces the train’s roof, nose and floor (beats 1–2). A white line traces the tunnel’s arch (beats 3–4). The cartoon sinks into the navy.</dd></div><div><dt>Sound</dt><dd>A soft shimmer under each line.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-07">
+        <figure><img src="panels/p07.jpg" alt="On a grid: the train straightened into a loop, the arch rotating 90 degrees into the bowl." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 07</span><h3>Construction</h3><span class="when">bar 14 · beats 1–2 · 0:32.9 – 0:34.2</span></header>
+          <dl><div><dt>On screen</dt><dd><q>r 19.1</q>, <q>90°</q></dd></div><div><dt>Picture</dt><dd>The 64-unit grid fades in. The train’s line straightens into the loop. The arch swings 90° to face it and opens out into the bowl.</dd></div><div><dt>Sound</dt><dd>Grid ticks.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-08">
+        <figure><img src="panels/p08.jpg" alt="The finished mark half filled with the gradient, with dimension marks on the even gaps." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 08</span><h3>Lock</h3><span class="when">bar 14 · beats 3–4 · 0:34.2 – 0:35.4</span></header>
+          <dl><div><dt>On screen</dt><dd><q>7.21</q>, <q>5.77</q>, <q>7.21</q></dd></div><div><dt>Picture</dt><dd>The train glides into the tunnel and locks. The lines swell to full weight with round ends, the even gaps are measured, and the gradient floods in from cyan to red.</dd></div><div><dt>Sound</dt><dd>A click on beat 3, a swell into beat 4.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-09">
+        <figure><img src="panels/p09.jpg" alt="The mark with echo rings, the pDAI coin's D ghosted behind it, and the name pDAI Name Service." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 09</span><h3>Echo <span class="tag">optional beat</span></h3><span class="when">bar 15 · 0:35.4 – 0:38.0</span></header>
+          <dl><div><dt>On screen</dt><dd><q>pDAI Name Service</q></dd></div><div><dt>Picture</dt><dd>An echo ring pulses out of the tunnel. Optional: the pDAI coin’s Đ ghosts in behind the mark, its upright drops away, and its two lines are the train. The name sets on beat 4.</dd></div><div><dt>Sound</dt><dd>A ping with a long echo.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-10">
+        <figure><img src="panels/p10.jpg" alt="Next stop: a struck-through wallet address above yourname.pdai." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 10</span><h3>Next stop</h3><span class="when">bar 16 · 0:38.0 – 0:40.5</span></header>
+          <dl><div><dt>On screen</dt><dd><q>Next stop</q>, <q>0x7a3F9e21…b04Ec91E</q>, <q>yourname.pdai</q></dd></div><div><dt>Picture</dt><dd>A wallet address decodes letter by letter into the name, and .pdai resolves in the gradient.</dd></div><div><dt>Sound</dt><dd>Hex ticks as it decodes.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-11">
+        <figure><img src="panels/p11.jpg" alt="Pay with pDAI, PLS or HEX, beside a checkout card for yourname.pdai, 5 years for $20." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 11</span><h3>Pay</h3><span class="when">bar 17 · 0:40.5 – 0:43.0</span></header>
+          <dl><div><dt>On screen</dt><dd><q>Pay with pDAI, PLS or HEX.</q> <q>From $10 a year. Five years for the price of two.</q></dd></div><div><dt>Picture</dt><dd>A glass checkout card for yourname.pdai, 5 years, $20. pDAI, PLS, HEX and PLSX coins drop in on the beats while the token picker flicks through them.</dd></div><div><dt>Sound</dt><dd>A coin clink per beat.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-12">
+        <figure><img src="panels/p12.jpg" alt="Yours, on PulseChain. Nobody can take it. Not even us. Beside the believer.pdai name card." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 12</span><h3>Yours</h3><span class="when">bar 18 · 0:43.0 – 0:45.5</span></header>
+          <dl><div><dt>On screen</dt><dd><q>Yours, on PulseChain.</q> <q>Nobody can take it. Not even us.</q></dd></div><div><dt>Picture</dt><dd>The name’s card flips in. It is the same SVG the PdaiNameCard contract draws on-chain. A sheen sweeps across it.</dd></div><div><dt>Sound</dt><dd>A card whoosh.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-13">
+        <figure><img src="panels/p13.jpg" alt="Find yours, with the search bar and the site's featured names floating around it." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 13</span><h3>Find yours</h3><span class="when">bar 19 · 0:45.5 – 0:48.1</span></header>
+          <dl><div><dt>On screen</dt><dd><q>Find yours.</q> In the search: <q>believer.pdai</q></dd></div><div><dt>Picture</dt><dd>The site’s featured names drift in around the search bar, each reserved for its owner, and a name types itself.</dd></div><div><dt>Sound</dt><dd>Key taps.</dd></div></dl>
+        </div>
+      </article>
+      <article class="shot" id="shot-14">
+        <figure><img src="panels/p14.jpg" alt="The pDAI Name Service lockup with pdai.domains below it." width="1600" height="900" decoding="async"></figure>
+        <div class="cue">
+          <header><span class="num">SHOT 14</span><h3>Lockup</h3><span class="when">bar 20 + tail · 0:48.1 – 0:51.1</span></header>
+          <dl><div><dt>On screen</dt><dd><q>pDAI Name Service</q>, <q>Your .pdai name on PulseChain</q>, <q>pdai.domains</q>, <q>Live now on PulseChain · Built on ENSv2</q></dd></div><div><dt>Picture</dt><dd>The lockup on navy with faint echo rings. Hold, then black.</dd></div><div><dt>Sound</dt><dd>The downbeat of bar 20, then the music cuts to a delay tail that echoes out over about three seconds.</dd></div></dl>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="copy-h">
+    <div class="sec-head">
+      <p class="eyebrow">For sign-off</p>
+      <h2 id="copy-h">Every word on screen</h2>
+    </div>
+    <div class="deck">
+      <div><span>SHOT 01</span><p>Pulse believers, / you were here for all of it.</p></div>
+      <div><span>SHOT 06</span><p>the train · the tunnel</p></div>
+      <div><span>SHOT 07–08</span><p>r 19.1 · 90° · 7.21 · 5.77 · 7.21</p></div>
+      <div><span>SHOT 09</span><p>pDAI Name Service</p></div>
+      <div><span>SHOT 10</span><p>Next stop · yourname.pdai</p></div>
+      <div><span>SHOT 11</span><p>Pay with pDAI, PLS or HEX. / From $10 a year. Five years for the price of two.</p></div>
+      <div><span>SHOT 12</span><p>Yours, on PulseChain. / Nobody can take it. Not even us.</p></div>
+      <div><span>SHOT 13</span><p>Find yours. / believer.pdai</p></div>
+      <div><span>SHOT 14</span><p>pDAI Name Service / Your .pdai name on PulseChain / pdai.domains / Live now on PulseChain · Built on ENSv2</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="ask-h">
+    <div class="sec-head">
+      <p class="eyebrow">Before I render</p>
+      <h2 id="ask-h">What I need from you</h2>
+    </div>
+    <ol class="asks">
+      <li><b>The track file</b><p>The repo has the song only inside <span class="mono">S0_Somebody.mp4</span>. Up to the drop that mix is music only, so the intro can come from it, but after the drop the music sits under Heart’s voice. I need the MP3 or WAV you bought, the one the film’s build reads as <span class="mono">S0_MUSIC</span>. It was bought for the film, so please check the licence also covers a promo for pDAI Names.</p></li>
+      <li><b>Swap one montage beat</b><p>Bar 9, beat 1 is a third-party post that names a person as the exploiter, with his photo. The film shows it under a “Claim” stamp. In an ad it would have no stamp and would read as the ad accusing him. <span class="rec">I recommend the swap, to the pDAI Conference art (shot 02).</span></p></li>
+      <li><b>The strobe in bar 11</b><p>As boarded, S0’s strobe on Heart’s diamond video flickers with the empty tunnel and lands on it, so the drop has something to answer. The other option is to keep S0’s strobe untouched.</p></li>
+      <li><b>The Đ beat in shot 09</b><p>It shows the mark’s second origin, Dai’s D with its upright taken away. It costs no extra time. Keep it or drop it.</p></li>
+      <li><b>Credit the montage</b><p>A small “From The pDAI Mystery” tag on the montage marks it as an excerpt from the film. It keeps the people in it from reading as endorsing pDAI Names. <span class="rec">I recommend it if the film is public or about to be.</span></p></li>
+      <li><b>The link on the end card</b><p>The README still lists the domain under “Not done yet”. Please confirm <span class="mono">pdai.domains</span> is live before I render shot 14.</p></li>
+      <li><b>The example names</b><p><span class="mono">yourname.pdai</span> in shots 10 and 11, <span class="mono">believer.pdai</span> in 12 and 13. Any name you prefer works.</p></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="make-h">
+    <div class="sec-head">
+      <p class="eyebrow">Production</p>
+      <h2 id="make-h">How it gets made</h2>
+    </div>
+    <ul class="notes">
+      <li>The montage is re-rendered with S0’s own <span class="mono">ext_montage.py</span>, with the one swap and the new bar 11, so everything else matches the film frame for frame.</li>
+      <li>Shots 04–14 are HTML and SVG scenes rendered frame by frame at 30 fps with Playwright, the way S0 was built. The mark is drawn from the same path the site and the on-chain name cards use.</li>
+      <li>Sound is the track plus a few synthesized effects (whoosh, click, ping, ticks), mixed to about −16 LUFS like the film.</li>
+      <li>The master is 1920 × 1080 H.264 with AAC. Vertical and square cuts can follow once this one is approved.</li>
+    </ul>
+  </section>
+
+  <footer>Storyboard v1 · 16 Nov 2026 · frames rendered from the real assets in pdai-names and pdai-research</footer>
+</div>
+
+<script>
+(() => {
+  const B = 60 / 95, DUR = 18 * B;
+  const U = 13.5, OX = 528, OY = 108, CX = OX + 34.268 * U, CY = OY + 32 * U;
+  const TRAIN = [[9.6,127.2],[28.8,127.2],[48.0,127.2],[67.2,127.2],[86.4,127.2],[105.6,127.2],[124.8,127.2],[144.0,127.2],[163.2,127.2],[182.4,127.2],[201.6,127.2],[220.8,127.2],[240.0,127.2],[259.2,127.2],[278.4,128.6],[297.4,130.6],[316.6,132.5],[335.3,136.1],[353.8,141.8],[372.0,148.1],[390.0,154.1],[407.8,161.5],[425.0,169.9],[442.3,178.3],[459.6,186.7],[476.2,196.6],[492.7,206.2],[509.3,215.8],[525.8,225.4],[542.4,235.0],[559.2,244.6],[575.8,254.4],[592.3,264.0],[608.9,273.6],[625.4,283.2],[642.2,292.8],[658.8,302.4],[675.4,312.2],[691.2,322.8],[706.3,334.8],[721.4,346.8],[736.1,359.0],[750.5,371.8],[764.2,385.0],[777.8,398.6],[791.5,412.3],[805.0,425.8],[818.6,439.4],[830.4,454.6],[841.2,470.4],[851.8,486.5],[861.1,503.0],[869.8,520.3],[878.4,537.4],[885.8,555.1],[890.4,573.8],[892.8,592.8],[892.8,612.0],[887.8,630.2],[877.9,646.6],[865.4,661.0],[851.3,674.2],[834.2,682.8],[815.8,687.1],[796.6,688.6],[777.6,689.5],[758.4,690.5],[739.2,691.4],[720.0,692.4],[700.8,693.1],[681.6,694.1],[662.4,695.0],[643.2,696.0],[624.0,696.2],[604.8,696.7],[585.6,697.0],[566.4,697.4],[547.2,697.7],[528.0,697.9],[508.8,698.4],[489.6,698.6],[470.4,699.1],[451.2,699.4],[432.0,699.6],[412.8,700.1],[393.6,700.3],[374.4,700.8],[355.2,701.0],[336.0,701.3],[316.8,701.8],[297.6,702.0],[278.4,702.5],[259.2,702.7],[240.2,703.0],[221.0,703.0],[201.8,702.7],[182.6,702.5],[163.4,702.2],[144.2,702.0],[125.0,701.5],[105.8,701.3],[86.6,701.0],[77.0,700.8]], ARCH = [[1261.0,706.1],[1254.7,689.8],[1248.5,673.4],[1242.2,657.1],[1239.1,639.4],[1232.9,623.0],[1229.8,605.3],[1226.6,587.5],[1223.5,569.8],[1220.4,552.0],[1220.4,532.8],[1217.3,515.0],[1217.3,495.8],[1217.3,476.6],[1217.3,460.3],[1217.3,441.1],[1220.4,423.4],[1223.5,405.6],[1226.6,387.8],[1229.8,370.1],[1234.6,353.0],[1242.2,337.7],[1251.6,322.8],[1260.2,307.4],[1270.8,293.3],[1282.8,279.6],[1298.4,272.6],[1309.4,272.6],[1327.7,275.3],[1344.2,282.5],[1361.0,288.7],[1375.7,301.2],[1388.4,314.4],[1401.1,327.8],[1409.8,343.0],[1417.0,358.8],[1424.9,374.4],[1429.4,391.4],[1435.7,407.8],[1438.8,425.5],[1441.9,443.3],[1441.9,462.5],[1441.9,481.7],[1441.9,500.9],[1445.0,518.6],[1442.2,536.4],[1441.9,555.6],[1438.8,573.4],[1435.7,591.1],[1435.7,610.3],[1429.4,626.6],[1424.6,643.7],[1420.1,660.7],[1413.6,676.8],[1405.0,691.9],[1398.2,708.0],[1398.2,708.0]], N = 160;
+  const $ = (id) => document.getElementById(id);
+  const clamp = (t) => Math.max(0, Math.min(1, t));
+  const seg = (t, a, b) => clamp((t - a) / (b - a));
+  const io = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const back = (t) => { const c = 1.6; return t <= 0 ? 0 : t >= 1 ? 1 : 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+  function resample(p, n) {
+    const L = [0];
+    for (let i = 1; i < p.length; i++) L.push(L[i - 1] + Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]));
+    const out = []; let j = 0;
+    for (let k = 0; k < n; k++) {
+      const s = L[L.length - 1] * k / (n - 1);
+      while (j < L.length - 2 && L[j + 1] < s) j++;
+      const f = (s - L[j]) / ((L[j + 1] - L[j]) || 1);
+      out.push([p[j][0] + (p[j + 1][0] - p[j][0]) * f, p[j][1] + (p[j + 1][1] - p[j][1]) * f]);
+    }
+    return out;
+  }
+  const line = (a, b, k) => Array.from({ length: k + 1 }, (_, i) => [a[0] + (b[0] - a[0]) * i / k, a[1] + (b[1] - a[1]) * i / k]);
+  const arc = (r, k) => Array.from({ length: k + 1 }, (_, i) => { const a = -Math.PI / 2 + Math.PI * i / k; return [34.268 + r * Math.cos(a), 32 + r * Math.sin(a)]; });
+  const hook = (r, y0, y1, x) => [...line([x, y0], [34.268, y0], 40), ...arc(r, 90).slice(1), ...line([34.268, y1], [x, y1], 40).slice(1)];
+  const px = ([u, v]) => [OX + u * U, OY + v * U];
+  const BOWL = resample(hook(19.1, 12.9, 51.1, 22.45).map(px), N);
+  const LOOP = resample(hook(5.886, 26.114, 37.886, 10.632).map(px), N);
+  const TR = resample(TRAIN, N), AR = resample(ARCH, N);
+  const rot = (p, deg) => { const a = deg * Math.PI / 180, c = Math.cos(a), s = Math.sin(a); return p.map(([x, y]) => [CX + (x - CX) * c - (y - CY) * s, CY + (x - CX) * s + (y - CY) * c]); };
+  const shift = (p, du) => p.map(([x, y]) => [x + du * U, y]);
+  const mix = (a, b, k) => a.map((q, i) => [q[0] + (b[i][0] - q[0]) * k, q[1] + (b[i][1] - q[1]) * k]);
+  const D = (p) => "M" + p.map((q) => q[0].toFixed(1) + " " + q[1].toFixed(1)).join("L");
+  const E = (id) => $(id);
+  const op = (el, v) => el.setAttribute("opacity", v.toFixed(3));
+  const tA = E("trainA"), tB = E("trainB"), aA = E("archA"), aB = E("archB");
+  tA.setAttribute("d", D(TRAIN)); aA.setAttribute("d", D(ARCH));
+  const LT = tA.getTotalLength(), LA = aA.getTotalLength();
+  const stopA = E("wipeA"), stopB = E("wipeB");
+
+  function render(t) {
+    op(E("i34"), t < 2 * B ? 1 : 0);
+    E("i34").setAttribute("transform", `translate(960 540) scale(${1 + .05 * seg(t, 0, 2 * B)}) translate(-960 -540)`);
+    op(E("s1"), t >= 2 * B && t < 2.67 * B ? 1 : 0);
+    op(E("s2"), t >= 2.67 * B && t < 3.33 * B ? 1 : 0);
+    op(E("s3"), t >= 3.33 * B ? 1 : 0);
+    op(E("flash"), t < .12 ? 1 - t / .12 : 0);
+    op(E("dim"), t < 4 * B ? 0 : .55 * seg(t, 4 * B, 4.5 * B) + .45 * seg(t, 7 * B, 8 * B));
+    op(E("ticks"), seg(t, 4 * B, 4.6 * B));
+    op(E("grid"), .9 * seg(t, 8 * B, 9 * B) * (1 - seg(t, 11.6 * B, 12.6 * B)));
+    op(E("lblTrain"), seg(t, 5.6 * B, 6 * B) * (1 - seg(t, 8 * B, 8.5 * B)));
+    op(E("lblTunnel"), seg(t, 7.6 * B, 8 * B) * (1 - seg(t, 8 * B, 8.5 * B)));
+    op(E("lbl90"), seg(t, 9 * B, 9.3 * B) * (1 - seg(t, 10.2 * B, 10.6 * B)));
+    let tp, ap;
+    if (t < 8 * B) {
+      tp = TRAIN; ap = ARCH;
+      tA.setAttribute("stroke-dasharray", LT); tA.setAttribute("stroke-dashoffset", (LT * (1 - io(seg(t, 4 * B, 6 * B)))).toFixed(1));
+      aA.setAttribute("stroke-dasharray", LA); aA.setAttribute("stroke-dashoffset", (LA * (1 - io(seg(t, 6 * B, 8 * B)))).toFixed(1));
+      op(tA, t < 4 * B ? 0 : 1); op(aA, t < 6 * B ? 0 : 1);
+    } else {
+      const m = io(seg(t, 8 * B, 9.2 * B)), r = io(seg(t, 9 * B, 10 * B)), sl = back(seg(t, 10 * B, 11 * B));
+      tp = shift(mix(TR, shift(LOOP, -30), m), 30 * sl);
+      ap = mix(AR, rot(BOWL, -90 + 90 * r), m);
+      tA.removeAttribute("stroke-dasharray"); aA.removeAttribute("stroke-dasharray");
+      op(tA, 1 - seg(t, 12 * B, 12.2 * B)); op(aA, 1 - seg(t, 12 * B, 12.2 * B));
+    }
+    const dt = D(tp), da = D(ap);
+    tA.setAttribute("d", dt); tB.setAttribute("d", dt); aA.setAttribute("d", da); aB.setAttribute("d", da);
+    const w = 7 + (6 * U - 7) * io(seg(t, 11 * B, 11.8 * B));
+    [tA, tB, aA, aB].forEach((el) => el.setAttribute("stroke-width", w.toFixed(2)));
+    op(tB, t >= 11 * B ? 1 : 0); op(aB, t >= 11 * B ? 1 : 0);
+    const p = -.15 + 1.35 * seg(t, 11 * B, 12 * B);
+    stopA.setAttribute("offset", Math.max(0, p).toFixed(3)); stopB.setAttribute("offset", Math.max(0, p + .1).toFixed(3));
+    const k1 = seg(t, 12 * B, 14 * B), k2 = seg(t, 12.8 * B, 14.8 * B);
+    E("echo1").setAttribute("r", (26 * U + 16 * U * k1).toFixed(1)); op(E("echo1"), t < 12 * B ? 0 : .8 * (1 - k1));
+    E("echo2").setAttribute("r", (26 * U + 16 * U * k2).toFixed(1)); op(E("echo2"), t < 12.8 * B ? 0 : .6 * (1 - k2));
+    op(E("dai"), .17 * seg(t, 13 * B, 13.8 * B) * (1 - seg(t, 15 * B, 15.6 * B)));
+    const g = io(seg(t, 15 * B, 16 * B));
+    E("markG").setAttribute("transform", `translate(${CX} ${CY - 72 * g}) scale(${1 - .2 * g}) translate(${-CX} ${-CY})`);
+    op(E("word"), seg(t, 15.2 * B, 16 * B));
+    const bar = 12 + Math.floor(t / (4 * B)), beat = 1 + Math.floor((t % (4 * B)) / B);
+    E("readout").value = t >= 16 * B ? "hold" : `bar ${bar} · beat ${beat}`;
+  }
+
+  const scrub = E("scrub"), play = E("play");
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let t = reduce ? 16 * B : 0, playing = !reduce, last = null;
+  const set = (v) => { t = v; scrub.value = t.toFixed(2); render(t); };
+  const label = () => { play.textContent = playing ? "Pause" : "Play"; };
+  function frame(now) {
+    if (playing) { if (last !== null) { t += (now - last) / 1000; if (t > DUR) t = 0; } last = now; set(t); }
+    else last = null;
+    requestAnimationFrame(frame);
+  }
+  play.addEventListener("click", () => { playing = !playing; label(); });
+  E("replay").addEventListener("click", () => { set(0); playing = true; label(); });
+  scrub.addEventListener("input", () => { playing = false; label(); set(parseFloat(scrub.value)); });
+  label(); set(t); requestAnimationFrame(frame);
+})();
+</script>

@@ -1,0 +1,361 @@
+<title>pDAI Names Promo Storyboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout: a production sheet. A ruler of the song's 20 bars runs across the top and every shot hangs from it;
+   each shot is a row with its frame on the left and its cue sheet on the right. Single dark theme on purpose:
+   the brand puts its white wordmark on navy only. */
+:root {
+  --ink: #08071A;
+  --deck: #0D0C24;
+  --card: #121131;
+  --rule: #262451;
+  --text: #F5F3FF;
+  --muted: #ACA8D2;
+  --label: #C9C5E8;
+  --note: #FFC94A;
+  --lore: #5E5A7E;
+  --c1: #00EAFF; --c2: #0080FF; --c3: #8000FF; --c4: #E619E6; --c5: #FF0000;
+  --grad: linear-gradient(90deg, var(--c1), var(--c2) 25%, var(--c3) 50%, var(--c4) 75%, var(--c5));
+  --display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --measure: 66ch;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--ink); }
+body {
+  margin: 0; background: var(--ink); color: var(--text); font: 400 16px/1.6 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 48px 96px; display: grid; gap: 72px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(1.5rem, 3.2vw, 2.1rem); line-height: 1.15; }
+h3 { font-size: 1.25rem; line-height: 1.2; }
+p { margin: 0; max-width: var(--measure); }
+a { color: var(--text); text-decoration-color: var(--muted); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--c1); outline-offset: 3px; border-radius: 4px; }
+.grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.eyebrow { font: 600 12px/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+section { display: grid; gap: 24px; min-width: 0; }
+.sec-head { display: grid; gap: 10px; }
+
+/* hero */
+.hero { display: grid; gap: 22px; }
+.hero h1 { font-size: clamp(2.3rem, 7vw, 4.8rem); line-height: 1.02; }
+.lede { font-size: clamp(1.05rem, 1.6vw, 1.2rem); color: var(--label); }
+.specs { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 4px 0 0; list-style: none; }
+.specs li { font: 500 13px/1 var(--mono); color: var(--label); border: 1px solid var(--rule); border-radius: 999px; padding: 9px 12px; }
+
+/* the bar ruler */
+.ruler { position: relative; padding-top: 30px; }
+.lanes { position: relative; height: 54px; border-radius: 10px; overflow: hidden; background: var(--deck); border: 1px solid var(--rule); }
+.lane { position: absolute; top: 0; bottom: 0; display: flex; align-items: center; padding: 0 10px; text-decoration: none;
+  font: 600 13px/1.1 var(--display); color: var(--text); border-right: 1px solid var(--ink); white-space: nowrap; overflow: hidden; }
+.lane:hover { filter: brightness(1.15); }
+.lane.open { background: #1A1940; }
+.lane.lore { background: var(--lore); }
+.lane.reveal { background: var(--grad); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+.lane.product { background: #23225A; }
+.lane.end { background: #F5F3FF; color: var(--ink); }
+.bars { position: relative; height: 26px; }
+.bars span { position: absolute; top: 0; transform: translateX(-50%); font: 500 10px/1 var(--mono); color: var(--muted); padding-top: 8px; }
+.bars span::before { content: ""; position: absolute; left: 50%; top: 0; height: 6px; border-left: 1px solid var(--muted); }
+.drop { position: absolute; top: 0; bottom: 26px; border-left: 2px solid var(--note); }
+.drop b { position: absolute; top: 2px; left: 6px; font: 600 11px/1 var(--mono); color: var(--note); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.secs { display: flex; justify-content: space-between; font: 500 11px/1 var(--mono); color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0; margin: 0; list-style: none; font-size: 14px; color: var(--label); }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+/* idea + references */
+.two { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+.two > * { min-width: 0; display: grid; gap: 14px; }
+.refs { display: grid; gap: 12px; padding: 0; margin: 0; list-style: none; }
+.refs li { border-left: 2px solid var(--rule); padding-left: 14px; color: var(--label); font-size: 15px; }
+.refs a { font: 500 12px/1.4 var(--mono); color: var(--muted); }
+
+/* the motion sketch */
+.stage { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid var(--rule); background: var(--ink); }
+.stage svg { display: block; width: 100%; height: auto; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.controls button { font: 600 14px/1 var(--body); color: var(--ink); background: var(--text); border: 0; border-radius: 999px; padding: 11px 18px; cursor: pointer; }
+.controls button.ghost { background: transparent; color: var(--text); border: 1px solid var(--rule); }
+.controls input[type=range] { flex: 1 1 220px; min-width: 0; accent-color: var(--c4); }
+.controls output { font: 500 13px/1 var(--mono); color: var(--label); min-width: 15ch; }
+.howto { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; padding: 0; margin: 0; list-style: none; }
+.howto li { display: grid; gap: 6px; align-content: start; color: var(--label); font-size: 15px; }
+.howto b { font: 600 15px/1.3 var(--display); color: var(--text); }
+
+/* shots */
+.shots { display: grid; gap: 40px; }
+.shot { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 28px; align-items: start; scroll-margin-top: 24px; }
+.shot figure { margin: 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--rule); background: var(--deck); aspect-ratio: 16 / 9; max-width: 100%; }
+.shot figure img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cue { display: grid; gap: 14px; min-width: 0; }
+.cue header { display: grid; gap: 6px; }
+.cue .when { font: 500 13px/1.3 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.cue .num { font: 600 13px/1 var(--mono); color: var(--note); letter-spacing: .08em; }
+.cue dl { margin: 0; display: grid; gap: 12px; }
+.cue dt { font: 600 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.cue dd { margin: 0; color: var(--label); font-size: 15px; }
+.cue dd q { color: var(--text); quotes: "“" "”" "‘" "’"; }
+.tag { display: inline-block; font: 600 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); background: var(--note); border-radius: 4px; padding: 4px 6px; vertical-align: 1px; }
+
+/* copy deck */
+.deck { display: grid; gap: 0; border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
+.deck div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); gap: 16px; padding: 14px 18px; border-top: 1px solid var(--rule); align-items: baseline; }
+.deck div:first-child { border-top: 0; }
+.deck span { font: 500 12px/1.3 var(--mono); color: var(--muted); }
+.deck p { font: 500 1.05rem/1.4 var(--display); color: var(--text); max-width: none; }
+
+/* decisions */
+.asks { display: grid; gap: 14px; padding: 0; margin: 0; list-style: none; counter-reset: ask; }
+.asks li { counter-increment: ask; display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: 4px 12px; padding: 18px; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; }
+.asks li::before { content: counter(ask); grid-row: span 2; font: 600 1.3rem/1 var(--display); color: var(--note); }
+.asks b { font: 600 1.02rem/1.35 var(--display); color: var(--text); }
+.asks p { color: var(--label); font-size: 15px; }
+.rec { color: var(--text); }
+.notes { display: grid; gap: 8px; padding-left: 1.1rem; margin: 0; color: var(--label); font-size: 15px; }
+footer { color: var(--muted); font-size: 13px; }
+
+@media (max-width: 860px) {
+  .two, .shot { grid-template-columns: minmax(0, 1fr); }
+  .howto { grid-template-columns: minmax(0, 1fr); }
+  .lane { font-size: 11px; padding: 0 6px; }
+  .lane .long { display: none; }
+}
+@media (max-width: 520px) {
+  .lane { font-size: 10px; padding: 0 4px; letter-spacing: -.01em; }
+  .bars span:nth-child(even) { display: none; }
+  .lane.open, .lane.end { color: transparent; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">pDAI Name Service · launch film · storyboard v1</p>
+    <h1>Next stop: yourname<span class="grad">.pdai</span></h1>
+    <p class="lede">A 51-second launch film for Pulse believers, cut to Skeler’s remix of “Clubbed to Death”. The song’s intro carries the montage from the first scene of <i>The pDAI Mystery</i>. On the drop, Richard Heart’s PulseChain Train comes back, stops at the tunnel, and its outline becomes the pDAI Names mark. Then the name, the price and the link.</p>
+    <ul class="specs" aria-label="Format">
+      <li>≈ 51 s</li><li>1920 × 1080 · 30 fps</li><li>95 bpm · 20 bars</li><li>On-screen text, no voice-over</li>
+    </ul>
+  </header>
+
+  <section aria-labelledby="ruler-h">
+    <div class="sec-head">
+      <p class="eyebrow">The cut against the song</p>
+      <h2 id="ruler-h">Every shot lands on the music’s bars</h2>
+    </div>
+    <div class="ruler">
+      __RULER__
+    </div>
+    <ul class="legend">
+      <li><i style="background:#1A1940"></i>Open, bars 1–2</li>
+      <li><i style="background:var(--lore)"></i>The montage from S0, bars 3–11</li>
+      <li><i style="background:var(--grad)"></i>The train becomes the mark, bars 12–15</li>
+      <li><i style="background:#23225A"></i>The product, bars 16–19</li>
+      <li><i style="background:#F5F3FF"></i>Lockup, bar 20 and its echo</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="mark-h">
+    <div class="sec-head">
+      <p class="eyebrow">Shots 04–09 · bars 12–15 · motion sketch</p>
+      <h2 id="mark-h">How the mark forms</h2>
+      <p>The loop is the train: its roof, its rounded nose and its floor. The bowl is the tunnel’s arch, turned 90° to face it. The brand calls the mark Echo, because a name goes into the tunnel and its address comes back.</p>
+    </div>
+    <div class="stage">
+      __STAGE__
+    </div>
+    <div class="controls">
+      <button id="play" type="button">Pause</button>
+      <button id="replay" class="ghost" type="button">Replay</button>
+      <input id="scrub" type="range" min="0" max="__DUR__" step="0.01" value="0" aria-label="Scrub through bars 12 to 15">
+      <output id="readout" for="scrub">bar 12 · beat 1</output>
+    </div>
+    <ul class="howto">
+      <li><b>Traced from the real GIF</b>The lines follow the cartoon’s actual outlines, pulled from the frame where the nose meets the tunnel.</li>
+      <li><b>Snapped to the brand’s grid</b>Then they become the exact mark: 6 units thick, round ends, even gaps of 7.21 and 5.77.</li>
+      <li><b>Also Dai’s Đ</b>With its upright taken away and its two lines joined into a loop. That is the optional beat in shot 09.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="idea-h">
+    <div class="two">
+      <div>
+        <p class="eyebrow">Why it is built this way</p>
+        <h2 id="idea-h">The lore builds to the drop, and the drop is the brand</h2>
+        <p>Believers know every face and meme in the montage, so it plays as it does in the film, wordless, for 22 seconds. Its last flash before the drop is the empty tunnel. When the music lands, the train arrives, and the film turns from grainy footage into the clean navy and gradient of the product.</p>
+        <p>After the mark forms, each bar carries one idea: the name, how to pay, that it is yours, where to get it.</p>
+      </div>
+      <div>
+        <p class="eyebrow">What I took from your references</p>
+        <ul class="refs">
+          <li>The aurora glow along the bottom, glass UI cards, one word in colour per line.<br><a href="https://x.com/motionstashco/status/2120983506230681641">motionstashco · launch film, 48 s</a></li>
+          <li>A drawn line that turns into the logo.<br><a href="https://x.com/motionstashco/status/2117585135142920583">motionstashco · 3D launch video, 26 s</a></li>
+          <li>One idea per beat, from problem to call to action, without a pause.<br><a href="https://x.com/motionstashco/status/2119179392362352978">motionstashco · launch video, 44 s</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="shots-h">
+    <div class="sec-head">
+      <p class="eyebrow">Shot by shot</p>
+      <h2 id="shots-h">Fourteen shots</h2>
+      <p>Amber text and dashed arrows in the frames are direction notes and never appear on screen. Times are from the track’s first note.</p>
+    </div>
+    <div class="shots">
+      __SHOTS__
+    </div>
+  </section>
+
+  <section aria-labelledby="copy-h">
+    <div class="sec-head">
+      <p class="eyebrow">For sign-off</p>
+      <h2 id="copy-h">Every word on screen</h2>
+    </div>
+    <div class="deck">
+      __DECK__
+    </div>
+  </section>
+
+  <section aria-labelledby="ask-h">
+    <div class="sec-head">
+      <p class="eyebrow">Before I render</p>
+      <h2 id="ask-h">What I need from you</h2>
+    </div>
+    <ol class="asks">
+      <li><b>The track file</b><p>The repo has the song only inside <span class="mono">S0_Somebody.mp4</span>. Up to the drop that mix is music only, so the intro can come from it, but after the drop the music sits under Heart’s voice. I need the MP3 or WAV you bought, the one the film’s build reads as <span class="mono">S0_MUSIC</span>. It was bought for the film, so please check the licence also covers a promo for pDAI Names.</p></li>
+      <li><b>Swap one montage beat</b><p>Bar 9, beat 1 is a third-party post that names a person as the exploiter, with his photo. The film shows it under a “Claim” stamp. In an ad it would have no stamp and would read as the ad accusing him. <span class="rec">I recommend the swap, to the pDAI Conference art (shot 02).</span></p></li>
+      <li><b>The strobe in bar 11</b><p>As boarded, S0’s strobe on Heart’s diamond video flickers with the empty tunnel and lands on it, so the drop has something to answer. The other option is to keep S0’s strobe untouched.</p></li>
+      <li><b>The Đ beat in shot 09</b><p>It shows the mark’s second origin, Dai’s D with its upright taken away. It costs no extra time. Keep it or drop it.</p></li>
+      <li><b>Credit the montage</b><p>A small “From The pDAI Mystery” tag on the montage marks it as an excerpt from the film. It keeps the people in it from reading as endorsing pDAI Names. <span class="rec">I recommend it if the film is public or about to be.</span></p></li>
+      <li><b>The link on the end card</b><p>The README still lists the domain under “Not done yet”. Please confirm <span class="mono">pdai.domains</span> is live before I render shot 14.</p></li>
+      <li><b>The example names</b><p><span class="mono">yourname.pdai</span> in shots 10 and 11, <span class="mono">believer.pdai</span> in 12 and 13. Any name you prefer works.</p></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="make-h">
+    <div class="sec-head">
+      <p class="eyebrow">Production</p>
+      <h2 id="make-h">How it gets made</h2>
+    </div>
+    <ul class="notes">
+      <li>The montage is re-rendered with S0’s own <span class="mono">ext_montage.py</span>, with the one swap and the new bar 11, so everything else matches the film frame for frame.</li>
+      <li>Shots 04–14 are HTML and SVG scenes rendered frame by frame at 30 fps with Playwright, the way S0 was built. The mark is drawn from the same path the site and the on-chain name cards use.</li>
+      <li>Sound is the track plus a few synthesized effects (whoosh, click, ping, ticks), mixed to about −16 LUFS like the film.</li>
+      <li>The master is 1920 × 1080 H.264 with AAC. Vertical and square cuts can follow once this one is approved.</li>
+    </ul>
+  </section>
+
+  <footer>Storyboard v1 · 16 Nov 2026 · frames rendered from the real assets in pdai-names and pdai-research</footer>
+</div>
+
+<script>
+(() => {
+  const B = 60 / 95, DUR = 18 * B;
+  const U = 13.5, OX = 528, OY = 108, CX = OX + 34.268 * U, CY = OY + 32 * U;
+  const TRAIN = __TRAIN__, ARCH = __ARCH__, N = 160;
+  const $ = (id) => document.getElementById(id);
+  const clamp = (t) => Math.max(0, Math.min(1, t));
+  const seg = (t, a, b) => clamp((t - a) / (b - a));
+  const io = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const back = (t) => { const c = 1.6; return t <= 0 ? 0 : t >= 1 ? 1 : 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+  function resample(p, n) {
+    const L = [0];
+    for (let i = 1; i < p.length; i++) L.push(L[i - 1] + Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]));
+    const out = []; let j = 0;
+    for (let k = 0; k < n; k++) {
+      const s = L[L.length - 1] * k / (n - 1);
+      while (j < L.length - 2 && L[j + 1] < s) j++;
+      const f = (s - L[j]) / ((L[j + 1] - L[j]) || 1);
+      out.push([p[j][0] + (p[j + 1][0] - p[j][0]) * f, p[j][1] + (p[j + 1][1] - p[j][1]) * f]);
+    }
+    return out;
+  }
+  const line = (a, b, k) => Array.from({ length: k + 1 }, (_, i) => [a[0] + (b[0] - a[0]) * i / k, a[1] + (b[1] - a[1]) * i / k]);
+  const arc = (r, k) => Array.from({ length: k + 1 }, (_, i) => { const a = -Math.PI / 2 + Math.PI * i / k; return [34.268 + r * Math.cos(a), 32 + r * Math.sin(a)]; });
+  const hook = (r, y0, y1, x) => [...line([x, y0], [34.268, y0], 40), ...arc(r, 90).slice(1), ...line([34.268, y1], [x, y1], 40).slice(1)];
+  const px = ([u, v]) => [OX + u * U, OY + v * U];
+  const BOWL = resample(hook(19.1, 12.9, 51.1, 22.45).map(px), N);
+  const LOOP = resample(hook(5.886, 26.114, 37.886, 10.632).map(px), N);
+  const TR = resample(TRAIN, N), AR = resample(ARCH, N);
+  const rot = (p, deg) => { const a = deg * Math.PI / 180, c = Math.cos(a), s = Math.sin(a); return p.map(([x, y]) => [CX + (x - CX) * c - (y - CY) * s, CY + (x - CX) * s + (y - CY) * c]); };
+  const shift = (p, du) => p.map(([x, y]) => [x + du * U, y]);
+  const mix = (a, b, k) => a.map((q, i) => [q[0] + (b[i][0] - q[0]) * k, q[1] + (b[i][1] - q[1]) * k]);
+  const D = (p) => "M" + p.map((q) => q[0].toFixed(1) + " " + q[1].toFixed(1)).join("L");
+  const E = (id) => $(id);
+  const op = (el, v) => el.setAttribute("opacity", v.toFixed(3));
+  const tA = E("trainA"), tB = E("trainB"), aA = E("archA"), aB = E("archB");
+  tA.setAttribute("d", D(TRAIN)); aA.setAttribute("d", D(ARCH));
+  const LT = tA.getTotalLength(), LA = aA.getTotalLength();
+  const stopA = E("wipeA"), stopB = E("wipeB");
+
+  function render(t) {
+    op(E("i34"), t < 2 * B ? 1 : 0);
+    E("i34").setAttribute("transform", `translate(960 540) scale(${1 + .05 * seg(t, 0, 2 * B)}) translate(-960 -540)`);
+    op(E("s1"), t >= 2 * B && t < 2.67 * B ? 1 : 0);
+    op(E("s2"), t >= 2.67 * B && t < 3.33 * B ? 1 : 0);
+    op(E("s3"), t >= 3.33 * B ? 1 : 0);
+    op(E("flash"), t < .12 ? 1 - t / .12 : 0);
+    op(E("dim"), t < 4 * B ? 0 : .55 * seg(t, 4 * B, 4.5 * B) + .45 * seg(t, 7 * B, 8 * B));
+    op(E("ticks"), seg(t, 4 * B, 4.6 * B));
+    op(E("grid"), .9 * seg(t, 8 * B, 9 * B) * (1 - seg(t, 11.6 * B, 12.6 * B)));
+    op(E("lblTrain"), seg(t, 5.6 * B, 6 * B) * (1 - seg(t, 8 * B, 8.5 * B)));
+    op(E("lblTunnel"), seg(t, 7.6 * B, 8 * B) * (1 - seg(t, 8 * B, 8.5 * B)));
+    op(E("lbl90"), seg(t, 9 * B, 9.3 * B) * (1 - seg(t, 10.2 * B, 10.6 * B)));
+    let tp, ap;
+    if (t < 8 * B) {
+      tp = TRAIN; ap = ARCH;
+      tA.setAttribute("stroke-dasharray", LT); tA.setAttribute("stroke-dashoffset", (LT * (1 - io(seg(t, 4 * B, 6 * B)))).toFixed(1));
+      aA.setAttribute("stroke-dasharray", LA); aA.setAttribute("stroke-dashoffset", (LA * (1 - io(seg(t, 6 * B, 8 * B)))).toFixed(1));
+      op(tA, t < 4 * B ? 0 : 1); op(aA, t < 6 * B ? 0 : 1);
+    } else {
+      const m = io(seg(t, 8 * B, 9.2 * B)), r = io(seg(t, 9 * B, 10 * B)), sl = back(seg(t, 10 * B, 11 * B));
+      tp = shift(mix(TR, shift(LOOP, -30), m), 30 * sl);
+      ap = mix(AR, rot(BOWL, -90 + 90 * r), m);
+      tA.removeAttribute("stroke-dasharray"); aA.removeAttribute("stroke-dasharray");
+      op(tA, 1 - seg(t, 12 * B, 12.2 * B)); op(aA, 1 - seg(t, 12 * B, 12.2 * B));
+    }
+    const dt = D(tp), da = D(ap);
+    tA.setAttribute("d", dt); tB.setAttribute("d", dt); aA.setAttribute("d", da); aB.setAttribute("d", da);
+    const w = 7 + (6 * U - 7) * io(seg(t, 11 * B, 11.8 * B));
+    [tA, tB, aA, aB].forEach((el) => el.setAttribute("stroke-width", w.toFixed(2)));
+    op(tB, t >= 11 * B ? 1 : 0); op(aB, t >= 11 * B ? 1 : 0);
+    const p = -.15 + 1.35 * seg(t, 11 * B, 12 * B);
+    stopA.setAttribute("offset", Math.max(0, p).toFixed(3)); stopB.setAttribute("offset", Math.max(0, p + .1).toFixed(3));
+    const k1 = seg(t, 12 * B, 14 * B), k2 = seg(t, 12.8 * B, 14.8 * B);
+    E("echo1").setAttribute("r", (26 * U + 16 * U * k1).toFixed(1)); op(E("echo1"), t < 12 * B ? 0 : .8 * (1 - k1));
+    E("echo2").setAttribute("r", (26 * U + 16 * U * k2).toFixed(1)); op(E("echo2"), t < 12.8 * B ? 0 : .6 * (1 - k2));
+    op(E("dai"), .17 * seg(t, 13 * B, 13.8 * B) * (1 - seg(t, 15 * B, 15.6 * B)));
+    const g = io(seg(t, 15 * B, 16 * B));
+    E("markG").setAttribute("transform", `translate(${CX} ${CY - 72 * g}) scale(${1 - .2 * g}) translate(${-CX} ${-CY})`);
+    op(E("word"), seg(t, 15.2 * B, 16 * B));
+    const bar = 12 + Math.floor(t / (4 * B)), beat = 1 + Math.floor((t % (4 * B)) / B);
+    E("readout").value = t >= 16 * B ? "hold" : `bar ${bar} · beat ${beat}`;
+  }
+
+  const scrub = E("scrub"), play = E("play");
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let t = reduce ? 16 * B : 0, playing = !reduce, last = null;
+  const set = (v) => { t = v; scrub.value = t.toFixed(2); render(t); };
+  const label = () => { play.textContent = playing ? "Pause" : "Play"; };
+  function frame(now) {
+    if (playing) { if (last !== null) { t += (now - last) / 1000; if (t > DUR) t = 0; } last = now; set(t); }
+    else last = null;
+    requestAnimationFrame(frame);
+  }
+  play.addEventListener("click", () => { playing = !playing; label(); });
+  E("replay").addEventListener("click", () => { set(0); playing = true; label(); });
+  scrub.addEventListener("input", () => { playing = false; label(); set(parseFloat(scrub.value)); });
+  label(); set(t); requestAnimationFrame(frame);
+})();
+</script>
