@@ -1,7 +1,11 @@
 # pDAI Names launch film: storyboard v1
 
-*16 November 2026. For review before anything is rendered. The same storyboard as a page, with a motion sketch of
-the logo forming: [`storyboard/index.html`](storyboard/index.html).*
+*16 November 2026. The same storyboard as a page, with a motion sketch of the logo forming:
+[`storyboard/index.html`](storyboard/index.html).*
+
+> **The film is built: [`film/`](film/README.md).** It differs from this storyboard as asked after review: it is square
+> (1080 × 1080), the logo forms in two bars instead of four (no Đ beat), the montage's bar 9 stays as it is in the film,
+> and the freed bars go to "Swap your 0x… for a name." and a price beat of their own.
 
 A 51-second film for Pulse believers, cut to Skeler's remix of "Clubbed to Death", the music of the first scene of
 *The pDAI Mystery* (S0 "Somebody", on `consolidated-research` in pdai-research). The song's intro carries S0's
