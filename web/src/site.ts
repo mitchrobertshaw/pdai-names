@@ -2,6 +2,9 @@
 
 import { captureReferral } from "./lib/referral";
 
+/** The project's account on X. */
+export const X_URL = "https://x.com/pdaidomains";
+
 /** Which deployment this build shows (src/deployment.ts): set VITE_NETWORK=testnet for a testnet copy. */
 export const NETWORK: "mainnet" | "testnet" = import.meta.env.VITE_NETWORK === "testnet" ? "testnet" : "mainnet";
 

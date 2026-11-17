@@ -1,5 +1,6 @@
-import { appUrl } from "../site";
+import { appUrl, X_URL } from "../site";
 import { Brand } from "./Brand";
+import { XIcon } from "./icons";
 
 export function Nav() {
   return (
@@ -13,6 +14,9 @@ export function Nav() {
           <a href="#faq">FAQ</a>
         </nav>
         <div className="nav__actions">
+          <a className="nav__social" href={X_URL} target="_blank" rel="noopener noreferrer" aria-label="pDAI Name Service on X" title="pDAI Name Service on X">
+            <XIcon />
+          </a>
           <a className="button button--primary button--small" href={appUrl()}>
             Launch app
           </a>

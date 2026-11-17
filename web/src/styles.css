@@ -285,6 +285,61 @@ img {
   margin-left: auto;
 }
 
+/* The project's X account: a small round button beside Launch app, on every screen size. */
+.nav__social {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--muted);
+  transition:
+    color 0.15s,
+    background-color 0.15s;
+}
+
+.nav__social:hover {
+  background: var(--accent-soft);
+  color: #fff;
+}
+
+/* Phones: the lockup, the X button and Launch app share one row, so the gaps tighten, and on the
+   narrower phones the lockup is drawn a little smaller. The very narrowest have no room for the X
+   button beside the other two. */
+@media (max-width: 719px) {
+  .nav__inner {
+    gap: 14px;
+  }
+
+  .nav__actions {
+    gap: 4px;
+  }
+
+  .nav__social {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@media (max-width: 429px) {
+  .nav .brand {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 379px) {
+  .nav .brand {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 349px) {
+  .nav__social {
+    display: none;
+  }
+}
+
 .nav__status {
   padding: 7px 14px;
   border-radius: 999px;
