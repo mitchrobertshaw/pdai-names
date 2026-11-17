@@ -5,7 +5,7 @@ import { MAX_YEARS, PRICES, priceFor, YEARLY_PRICE } from "../lib/names";
 import { appUrl } from "../site";
 import { AddPulseChain } from "./AddPulseChain";
 import { ChainLogo } from "./ChainLogo";
-import { ArrowIcon, BoltIcon, CheckIcon, ClockIcon, CoinsIcon, CrossIcon } from "./icons";
+import { ArrowIcon, CheckIcon, CrossIcon } from "./icons";
 
 const PRICE = `$${YEARLY_PRICE}`;
 
@@ -16,79 +16,6 @@ function SectionHeading({ kicker, title, children }: { kicker: string; title: Re
       <h2>{title}</h2>
       {children ? <p className="section__intro">{children}</p> : null}
     </div>
-  );
-}
-
-function Resolves() {
-  return (
-    <p className="resolves">
-      <span className="resolves__name">
-        you<span className="grad-text">.pdai</span>
-      </span>
-      <span className="resolves__arrow" aria-hidden="true">
-        →
-      </span>
-      <span className="resolves__address">0x7a3F…91c2</span>
-    </p>
-  );
-}
-
-const PERKS: { icon: ReactNode; title: string; text: string }[] = [
-  {
-    icon: <ClockIcon />,
-    title: "Yours in a couple of minutes",
-    text: "Reserve it, wait a minute so nobody can grab it first, then pay. It points to your wallet straight away.",
-  },
-  {
-    icon: <BoltIcon />,
-    title: "Fees of a fraction of a cent",
-    text: "Buying, renewing or sending a name costs next to nothing in network fees on top of its price, paid in PLS.",
-  },
-  {
-    icon: <CoinsIcon />,
-    title: "Paid for in pDAI, if you like",
-    text: "Or in PLS, HEX and more. Whatever you pay with is swapped into dollars at checkout, so the price stays put.",
-  },
-];
-
-export function MadeForPulseChain() {
-  return (
-    <section className="section" id="pulsechain" aria-labelledby="pulsechain-title">
-      <div className="container">
-        <SectionHeading kicker="Made for PulseChain" title={<span id="pulsechain-title">One chain, one name, no waiting</span>}>
-          Your .pdai name lives on PulseChain, where it&rsquo;s bought, renewed and managed. Every change shows up
-          straight away. From {PRICE} a year.
-        </SectionHeading>
-        <div className="pulse">
-          <article className="card chain chain--pulsechain">
-            <div className="chain__top">
-              <ChainLogo chain="pulsechain" size={48} />
-              <p className="chain__badge">Where your name lives</p>
-            </div>
-            <h3>PulseChain</h3>
-            <p>
-              Buy, renew and manage your name here, and sell it on PulseChain NFT marketplaces. It points to your wallet
-              from the moment it&rsquo;s yours.
-            </p>
-            <Resolves />
-            <AddPulseChain />
-          </article>
-          <ul className="perks">
-            {PERKS.map((perk) => (
-              <li className="card perk" key={perk.title}>
-                <span className="perk__icon" aria-hidden="true">
-                  {perk.icon}
-                </span>
-                <span>
-                  <h3>{perk.title}</h3>
-                  <p>{perk.text}</p>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -204,11 +131,11 @@ const STEPS = [
   },
   {
     title: "Pay on PulseChain",
-    text: "With pDAI, PLS, HEX, PLSX, eHEX, WETH, USDC, USDT or DAI. Money on another chain? LibertySwap brings it over in minutes.",
+    text: "Reserve it and wait a minute, so nobody can grab it first. Then pay with pDAI, PLS, HEX, PLSX, eHEX, WETH, USDC, USDT or DAI, with network fees of a fraction of a cent.",
   },
   {
     title: "Share it",
-    text: "Give people yourname.pdai instead of your address. It points to your wallet.",
+    text: "It’s yours in a couple of minutes, and points to your wallet straight away. Give people yourname.pdai instead of your address.",
   },
 ];
 
@@ -216,7 +143,9 @@ export function HowItWorks() {
   return (
     <section className="section section--tint" id="how" aria-labelledby="how-title">
       <div className="container">
-        <SectionHeading kicker="How it works" title={<span id="how-title">Three steps to yourname.pdai</span>} />
+        <SectionHeading kicker="How it works" title={<span id="how-title">Three steps to yourname.pdai</span>}>
+          Your .pdai name lives on PulseChain, where it&rsquo;s bought, renewed and managed.
+        </SectionHeading>
         <ol className="steps">
           {STEPS.map((step, i) => (
             <li className="card step" key={step.title}>
@@ -226,6 +155,10 @@ export function HowItWorks() {
             </li>
           ))}
         </ol>
+        <p className="how__extra">
+          New to PulseChain? <AddPulseChain />
+          <span>Money on another chain? LibertySwap brings it over in minutes.</span>
+        </p>
       </div>
     </section>
   );

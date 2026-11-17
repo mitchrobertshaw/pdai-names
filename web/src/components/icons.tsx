@@ -72,23 +72,3 @@ export const ArrowIcon = () => (
   </Icon>
 );
 
-export const ClockIcon = () => (
-  <Icon>
-    <circle cx="12" cy="12" r="9" />
-    <path d="M12 7v5l3 2" />
-  </Icon>
-);
-
-export const BoltIcon = () => (
-  <Icon>
-    <path d="M13 2 4 14h7l-1 8 9-12h-7z" />
-  </Icon>
-);
-
-export const CoinsIcon = () => (
-  <Icon>
-    <ellipse cx="12" cy="6.5" rx="7" ry="3" />
-    <path d="M5 6.5v5c0 1.66 3.13 3 7 3s7-1.34 7-3v-5" />
-    <path d="M5 11.5v5c0 1.66 3.13 3 7 3s7-1.34 7-3v-5" />
-  </Icon>
-);
