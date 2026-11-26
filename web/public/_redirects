@@ -1,6 +1,10 @@
 # Netlify: the app lives at app.pdai.domains (add that domain to this Netlify site), where every
 # page is the app's one page. On preview links it's under /app instead.
 
+# The site's Netlify address shows the same pages: send visitors and search engines to pdai.domains,
+# so that only pdai.domains is indexed.
+https://pdai-names.netlify.app/*  https://pdai.domains/:splat  301!
+
 # The site's functions answer on every domain.
 https://app.pdai.domains/api/*  /api/:splat  200
 

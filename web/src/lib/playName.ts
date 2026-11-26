@@ -32,6 +32,8 @@ export function usePlayName(): string {
       return () => listeners.delete(listener);
     },
     () => current,
+    // When the page is rendered ahead of time (src/prerender.tsx), nobody has typed a name yet.
+    () => DEFAULT_PLAY_NAME,
   );
 }
 

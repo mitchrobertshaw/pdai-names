@@ -156,6 +156,12 @@ Every push to `main` then redeploys the site, and every pull request gets its ow
   `.pdai` in headings, and in the soft light behind the page. Section labels are a soft white.
   They're the variables at the top of [`src/styles.css`](src/styles.css), and the mark's are in
   [`Logo.tsx`](src/components/Logo.tsx).
+- **Search engines** read the homepage without running any JavaScript: `npm run build` renders it to
+  HTML from the same components ([`src/prerender.tsx`](src/prerender.tsx)), writes that into
+  `dist/index.html`, and adds `robots.txt` and `sitemap.xml`
+  ([`scripts/prerender.mjs`](scripts/prerender.mjs)). In the browser the page renders over it as
+  usual. Each page names its canonical address, pdai-names.netlify.app sends visitors to
+  pdai.domains, and a testnet copy (`VITE_NETWORK=testnet`) is marked `noindex`.
 - **The pDAI token** in "Pay with pDAI" is the token's own logo, in
   [`src/assets/tokens`](src/assets/tokens).
 - **PulseChain's logo** is in [`src/assets/chains`](src/assets/chains): the PLS mark from PulseX's
